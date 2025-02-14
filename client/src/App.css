@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ql-tooltip.ql-hidden {
+  display: none;
+}
+
+.quill .ql-editor {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  font-size: 14px;
+}
+
+/* h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+} */
+
+body.light {
+  background-color: white;
+  color: black;
+}
+
+body.dark {
+  background-color: #020818;
+  color: white;
+}
