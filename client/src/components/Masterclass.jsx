@@ -14,6 +14,10 @@ const MasterClass = () => {
   const BASE_URL = import.meta.env.VITE_API_URL;
   const [isLoading, setIsLoading] = useState(true);
 
+  const CoursesImage = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${
+    import.meta.env.VITE_AWS_REGION
+  }.amazonaws.com/`;
+
   useEffect(() => {
     const fetchMasterclass = async () => {
       try {
@@ -81,7 +85,7 @@ const MasterClass = () => {
                       <CardBody className="flex flex-col items-center gap-6 p-4 md:flex-row">
                         <div className="overflow-hidden rounded-md">
                           <img
-                            src={`${BASE_URL}${masterclass.imageUrl}`}
+                            src={`${CoursesImage}${masterclass.imageUrl}`}
                             alt={`${masterclass.title}`}
                             className="h-[250px] w-[350px] rounded-lg object-cover"
                           />
@@ -161,7 +165,7 @@ const MasterClass = () => {
                               <div className="relative ml-4">
                                 {masterclass.instructor?.imageUrl ? (
                                   <img
-                                    src={`${BASE_URL}${masterclass.instructor?.imageUrl}`}
+                                    src={`${CoursesImage}${masterclass.instructor?.imageUrl}`}
                                     alt={masterclass.instructor?.name}
                                     className="h-14 w-14 rounded-full object-cover"
                                   />

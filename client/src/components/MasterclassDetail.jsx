@@ -31,6 +31,10 @@ const MasterclassDetail = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
+  const CoursesImage = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${
+    import.meta.env.VITE_AWS_REGION
+  }.amazonaws.com/`;
+
   useEffect(() => {
     const fetchMasterclassDetails = async () => {
       try {
@@ -107,7 +111,9 @@ const MasterclassDetail = () => {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <div className="overflow-hidden rounded-md border p-2">
               <img
-                src={masterclass.image || `${BASE_URL}${masterclass.imageUrl}`}
+                src={
+                  masterclass.image || `${CoursesImage}${masterclass.imageUrl}`
+                }
                 alt={masterclass.title}
                 className="h-[200px] w-full object-cover md:h-[400px]"
               />
@@ -178,11 +184,11 @@ const MasterclassDetail = () => {
               {/* Bouton d'inscription */}
               {hasPurchasedMasterclass ? (
                 new Date() < new Date(masterclass.startDate) ? (
-                  <div className="rounded-lg bg-green-500/10 p-4 text-center">
+                  <div className="rounded-lg bg-green-500/10 p-0.5 text-center">
                     <p className="text-lg font-bold text-green-700">
                       Félicitations ! 🎉
                     </p>
-                    <p className="mt-2 text-gray-700">
+                    <p className="text-gray-700">
                       Vous êtes déjà inscrit(e) à cette masterclass. <br />{" "}
                       Rendez-vous le{" "}
                       <span className="font-semibold text-green-700">
@@ -243,7 +249,7 @@ const MasterclassDetail = () => {
               </Typography>
               <div className="grid grid-cols-[auto,1fr] items-center gap-4">
                 <img
-                  src={`${BASE_URL}${masterclass.instructor?.imageUrl}`}
+                  src={`${CoursesImage}${masterclass.instructor?.imageUrl}`}
                   alt={masterclass.instructor?.name}
                   className="h-16 w-16 rounded-full object-cover"
                 />

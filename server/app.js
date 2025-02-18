@@ -33,6 +33,9 @@ app.use(
     })
 );
 
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
+
 app.post("/api/payment/webhook", express.raw({ type: "application/json" }), async (req, res) => {
     const signature = req.headers["stripe-signature"];
     let event;
@@ -82,21 +85,21 @@ app.use(express.urlencoded({ extended: true }));
 // const secretKey = crypto.randomBytes(32).toString("hex");
 // console.log(secretKey);
 
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET_KEY,
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            maxAge: 1000 * 60 * 60 * 24,
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "prod",
-            sameSite: "none",
-        },
-    })
-);
+// app.use(
+//     session({
+//         secret: process.env.SESSION_SECRET_KEY,
+//         resave: false,
+//         saveUninitialized: false,
+//         cookie: {
+//             maxAge: 1000 * 60 * 60 * 24,
+//             httpOnly: true,
+//             // secure: process.env.NODE_ENV === "prod",
+//             // sameSite: "none",
+//         },
+//     })
+// );
 
-app.set("trust proxy", 1);
+// app.set("trust proxy", 1);
 
 // Synchroniser les modèles avec la base de données
 sequelize

@@ -1,13 +1,13 @@
 import express from "express";
 import { getCourses, createCourse, getCourseBySlug, getCourseById, updateCourse, deleteCourse, togglePublishCourse, getUserSubscribedCourses, getCourseByUserId } from "../controllers/course.js";
-import upload from "../middlewares/multer-config.js";
 import { checkAuth } from "../middlewares/auth.js";
+import fileUpload from "express-fileupload";
 
 const router = express.Router();
 
 router.get("/", getCourses);
 
-router.post("/create", upload.single("image"), createCourse);
+router.post("/create", fileUpload(), createCourse);
 
 router.get("/my-courses", checkAuth, getUserSubscribedCourses);
 
@@ -17,7 +17,7 @@ router.get("/get-course-by-id/:id", getCourseById);
 
 router.put("/:id/publish", togglePublishCourse);
 
-router.put("/update/:id", upload.single("image"), updateCourse);
+router.put("/update/:id", fileUpload(), updateCourse);
 
 router.get("/slug/:slug", getCourseBySlug);
 

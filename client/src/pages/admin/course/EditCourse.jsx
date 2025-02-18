@@ -12,6 +12,10 @@ import Modal from "@/widgets/utils/Modal";
 const editCourse = () => {
   const BASE_URL = import.meta.env.VITE_API_URL;
 
+  const CoursesImage = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${
+    import.meta.env.VITE_AWS_REGION
+  }.amazonaws.com/`;
+
   const { id } = useParams();
 
   const [error, setError] = useState(null);
@@ -28,9 +32,24 @@ const editCourse = () => {
 
   const navigate = useNavigate();
 
-  const handleImageChange = (e) => {
-    setFile(e.target.files[0]);
-    setImageUrl(URL.createObjectURL(e.target.files[0]));
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+
+    const toBase64 = (file) =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = (error) => reject(error);
+      });
+
+    const base64 = await toBase64(file);
+    setImageUrl(URL.createObjectURL(file)); // Pour l'aperçu
+    setInputs((prevState) => ({
+      ...prevState,
+      file: base64,
+    }));
   };
 
   useEffect(() => {
@@ -74,9 +93,12 @@ const editCourse = () => {
           categoryId,
         });
 
-        setImageUrl(imageUrl ? `${BASE_URL}${imageUrl}` : null);
+        setImageUrl(`${CoursesImage}${imageUrl}`);
         setVideoUrl(videoUrl ? `${videoUrl}` : null);
       } catch (error) {
+        if (error.response?.status === 404) {
+          navigate("/administrator/courses");
+        }
         setError("Erreur lors de la récupération du cours :", error);
       }
     };
@@ -93,6 +115,7 @@ const editCourse = () => {
     chapters: [],
     isPublished: false,
     categoryId: null,
+    file: null,
   });
 
   const handleChange = (e) => {
@@ -102,42 +125,21 @@ const editCourse = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation des champs
-    if (
-      !inputs.title ||
-      !inputs.slug ||
-      !inputs.description ||
-      !inputs.price ||
-      !inputs.videoUrl ||
-      !inputs.categoryId
-    ) {
-      setError("Tous les champs sont obligatoires");
-      return;
-    }
-
     // Validation du prix
     if (isNaN(parseFloat(inputs.price)) || parseFloat(inputs.price) <= 0) {
       setError("Le prix doit être un nombre valide et supérieur à 0");
       return;
     }
 
-    const formData = new FormData();
-    if (file) {
-      formData.append("image", file);
-    }
-    formData.append("title", inputs.title);
-    formData.append("slug", inputs.slug);
-    formData.append("description", inputs.description);
-    formData.append("price", inputs.price);
-    formData.append("videoUrl", inputs.videoUrl);
-    formData.append("categoryId", inputs.categoryId);
-
     try {
       setLoading(true);
-      await axios.put(`${BASE_URL}/api/course/update/${id}`, formData);
+      await axios.put(`${BASE_URL}/api/course/update/${id}`, inputs, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       setLoading(false);
       navigate("/administrator/courses");
-      window.location.reload();
     } catch (error) {
       setError(error.response?.data?.error || "Une erreur est survenue");
       setLoading(false);
@@ -175,7 +177,7 @@ const editCourse = () => {
     } else if (courseToDelete) {
       try {
         await axios.delete(`${BASE_URL}/api/course/delete/${courseToDelete}`);
-        window.location.reload();
+        navigate("/administrator/courses");
       } catch (error) {
         console.error("Error deleting course:", error);
       } finally {

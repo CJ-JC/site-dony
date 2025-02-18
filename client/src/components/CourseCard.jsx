@@ -15,7 +15,9 @@ const CourseCard = ({
   discountedPrice,
   category,
 }) => {
-  const BASE_URL = import.meta.env.VITE_API_URL;
+  const CoursesImage = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${
+    import.meta.env.VITE_AWS_REGION
+  }.amazonaws.com/`;
 
   const [color, setColor] = useState("#FF6C02");
   const [hasPurchasedCourse, setHasPurchasedCourse] = useState(false);
@@ -97,7 +99,7 @@ const CourseCard = ({
         <article className="pt-30 relative isolate mx-auto flex h-72 max-w-sm flex-col justify-end overflow-hidden rounded-2xl border px-4 pb-4 transition duration-500 ease-in-out hover:scale-105 dark:border-white/30">
           <img
             alt={title}
-            src={`${BASE_URL}${imageUrl}`}
+            src={`${CoursesImage}${imageUrl}`}
             className="absolute inset-0 h-full w-full object-cover"
           />
           {progress === 100 && (
