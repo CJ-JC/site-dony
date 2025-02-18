@@ -19,6 +19,10 @@ export default function Instructors() {
   const [selectedInstructor, setSelectedInstructor] = useState(null);
   const BASE_URL = import.meta.env.VITE_API_URL;
 
+  const CoursesImage = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${
+    import.meta.env.VITE_AWS_REGION
+  }.amazonaws.com/`;
+
   const fetchInstructors = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/api/instructor`);
@@ -114,14 +118,12 @@ export default function Instructors() {
               <td className="p-4">
                 {instructor?.imageUrl ? (
                   <img
-                    src={`${BASE_URL}${instructor?.imageUrl}`}
+                    src={`${CoursesImage}${instructor?.imageUrl}`}
                     alt={instructor?.name}
                     className="h-14 w-14 rounded-full object-cover"
                   />
                 ) : (
-                  <div className="rounded-full bg-gray-400">
-                    <User2 className="h-14 w-14 p-2" />
-                  </div>
+                  <User2 className="h-14 w-14 rounded-full bg-gray-400 p-2" />
                 )}
               </td>
               <td className="p-4 py-5">

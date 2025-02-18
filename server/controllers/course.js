@@ -6,6 +6,10 @@ import { Category } from "../models/Category.js";
 import { Purchase } from "../models/Purchase.js";
 import { UserProgress } from "../models/UserProgress.js";
 import Attachments from "../models/Attachments.js";
+import { putObject } from "../util/putObject.js";
+import { deleteObject } from "../util/deleteObject.js";
+import "../config/dotenv.js";
+import { getObject } from "../util/getObject.js";
 
 export const getCourses = async (req, res) => {
     try {
@@ -261,10 +265,10 @@ export const getUserSubscribedCourses = async (req, res) => {
 
 export const createCourse = async (req, res) => {
     try {
-        const { title, slug, description, price, videoUrl, categoryId } = req.body;
-        const imagePath = req.file ? `/uploads/images/${req.file.filename}` : null;
+        const { title, slug, description, price, videoUrl, categoryId, file } = req.body;
 
-        if (!title || !price || !description || !videoUrl || !imagePath || !categoryId) {
+        // Validation des champs obligatoires
+        if (!title || !price || !description || !videoUrl || !file || !categoryId) {
             return res.status(400).json({ error: "Tous les champs sont requis." });
         }
 
@@ -277,15 +281,23 @@ export const createCourse = async (req, res) => {
         // Vérifiez les doublons
         const existingCourse = await Course.findOne({ where: { title } });
         if (existingCourse) {
-            fs.unlinkSync(`public${imagePath}`);
             return res.status(400).json({ error: "Un cours avec ce nom existe déjà." });
         }
 
-        // Créez le cours
+        // Upload de l'image sur S3
+        const fileBuffer = Buffer.from(file, "base64");
+        const fileName = `images/${Date.now()}-${slug}.jpg`;
+        const uploadResult = await putObject(fileBuffer, fileName);
+
+        if (!uploadResult) {
+            return res.status(500).json({ error: "Erreur lors de l'upload de l'image." });
+        }
+
+        // Enregistrer le Key dans la base de données
         const newCourse = await Course.create({
-            imageUrl: imagePath,
+            imageUrl: uploadResult.key,
             title,
-            slug,
+            slug: slug.toLowerCase(),
             description,
             price: parseFloat(price),
             videoUrl,
@@ -294,6 +306,7 @@ export const createCourse = async (req, res) => {
 
         res.status(201).json({ message: "Cours créé avec succès", result: newCourse });
     } catch (error) {
+        // Suppression de l'image sur S3 en cas d'erreur
         if (error.name === "SequelizeUniqueConstraintError") {
             const details = error.errors.map((e) => e.message);
             return res.status(400).json({ error: `Erreur de validation : ${details.join(", ")}` });
@@ -306,13 +319,10 @@ export const createCourse = async (req, res) => {
 export const updateCourse = async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, slug, description, price, videoUrl, categoryId } = req.body;
+        const { title, slug, description, price, videoUrl, categoryId, file } = req.body;
 
         // Vérification des champs obligatoires
         if (!title || !slug || !description || !price || !videoUrl || !categoryId) {
-            if (req.file) {
-                fs.unlinkSync(`public/uploads/images/${req.file.filename}`);
-            }
             return res.status(400).json({ error: "Tous les champs sont obligatoires" });
         }
 
@@ -324,27 +334,39 @@ export const updateCourse = async (req, res) => {
 
         const course = await Course.findByPk(id);
         if (!course) {
-            if (req.file) {
-                fs.unlinkSync(`public/uploads/images/${req.file.filename}`);
-            }
             return res.status(404).json({ error: "Cours non trouvé" });
         }
 
         // Vérification si le prix est un nombre valide
         if (isNaN(parseFloat(price))) {
-            if (req.file) {
-                fs.unlinkSync(`public/uploads/images/${req.file.filename}`);
-            }
             return res.status(400).json({ error: "Le prix doit être un nombre valide" });
         }
 
         let imagePath = course.imageUrl;
-        if (req.file) {
-            imagePath = `/uploads/images/${req.file.filename}`;
-            // Supprime l'ancienne image si elle existe
-            if (course.imageUrl && fs.existsSync(`public${course.imageUrl}`)) {
-                fs.unlinkSync(`public${course.imageUrl}`);
+
+        // Vérifiez d'abord s'il y a une ancienne image à supprimer
+        if (imagePath && file) {
+            // Supprimez l'ancienne image sur S3
+            const deleteResult = await deleteObject(imagePath);
+
+            if (deleteResult.status !== 204) {
+                return res.status(500).json({ error: "Erreur lors de la suppression de l'ancienne image." });
             }
+        }
+
+        // Upload de la nouvelle image si elle est présente dans la requête
+        if (file) {
+            const fileBuffer = Buffer.from(file, "base64");
+            const fileName = `images/${Date.now()}-${id}.jpg`;
+
+            // Upload de l'image sur S3
+            const uploadResult = await putObject(fileBuffer, fileName);
+
+            if (!uploadResult) {
+                return res.status(500).json({ error: "Erreur lors de l'upload de l'image." });
+            }
+
+            imagePath = uploadResult.key;
         }
 
         const [rowsUpdated, updatedCourses] = await Course.update(
@@ -371,11 +393,8 @@ export const updateCourse = async (req, res) => {
         // Retourner le premier cours mis à jour
         res.status(200).json({ message: "Cours mis à jour avec succès", result: updatedCourses[0] });
     } catch (error) {
-        // Si une erreur survient et qu'une image a été uploadée, on la supprime
-        if (req.file) {
-            fs.unlinkSync(`public/uploads/images/${req.file.filename}`);
-        }
-        res.status(500).json({ error: `Erreur lors de la mise à jour du cours : ${error.message}` });
+        console.error("Erreur lors de la mise à jour du cours :", error);
+        res.status(500).json({ error: `Erreur lors de la mise à jour du cours : ${error}` });
     }
 };
 
@@ -433,7 +452,12 @@ export const deleteCourse = async (req, res) => {
 
         await course.destroy();
 
-        fs.unlinkSync(`public${course.imageUrl}`);
+        // Supprimez l'ancienne image sur S3
+        const deleteResult = await deleteObject(course.imageUrl);
+
+        if (deleteResult.status !== 204) {
+            return res.status(500).json({ error: "Erreur lors de la suppression de l'ancienne image." });
+        }
 
         await Video.destroy({ where: { chapterId: id } });
 

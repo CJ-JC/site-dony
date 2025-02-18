@@ -17,9 +17,28 @@ const EditMasterclass = () => {
   const [file, setFile] = useState(null);
   const [instructors, setInstructors] = useState([]);
 
-  const handleImageChange = (e) => {
-    setFile(e.target.files[0]);
-    setImageUrl(URL.createObjectURL(e.target.files[0]));
+  const CoursesImage = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${
+    import.meta.env.VITE_AWS_REGION
+  }.amazonaws.com/`;
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+
+    const toBase64 = (file) =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = (error) => reject(error);
+      });
+
+    const base64 = await toBase64(file);
+    setImageUrl(URL.createObjectURL(file)); // Pour l'aperçu
+    setInputs((prevState) => ({
+      ...prevState,
+      file: base64,
+    }));
   };
 
   useEffect(() => {
@@ -70,7 +89,7 @@ const EditMasterclass = () => {
           instructorId,
           link,
         });
-        setImageUrl(imageUrl ? `${BASE_URL}${imageUrl}` : null);
+        setImageUrl(`${CoursesImage}${imageUrl}`);
       } catch (error) {
         setError("Erreur lors de la récupération de la masterclass");
       }
@@ -91,6 +110,7 @@ const EditMasterclass = () => {
     slug: "",
     instructorId: null,
     link: "",
+    file: null,
   });
 
   const handleChange = (e) => {
@@ -103,48 +123,15 @@ const EditMasterclass = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      (!inputs.title ||
-        !inputs.description ||
-        !inputs.price ||
-        !inputs.startDate ||
-        !inputs.endDate ||
-        !inputs.duration ||
-        !inputs.maxParticipants ||
-        !inputs.slug ||
-        !inputs.instructorId,
-      !inputs.link)
-    ) {
-      setError("Tous les champs sont obligatoires");
-      return;
-    }
 
     if (isNaN(parseFloat(inputs.price)) || parseFloat(inputs.price) <= 0) {
       setError("Le prix doit être un nombre valide et supérieur à 0");
       return;
     }
 
-    const formData = new FormData();
-
-    if (file) {
-      formData.append("image", file);
-    }
-
-    formData.append("title", inputs.title);
-    formData.append("description", inputs.description);
-    formData.append("startDate", inputs.startDate.toISOString());
-    formData.append("endDate", inputs.endDate.toISOString());
-    formData.append("price", inputs.price);
-    formData.append("duration", inputs.duration);
-    formData.append("maxParticipants", inputs.maxParticipants);
-    formData.append("slug", inputs.slug);
-    formData.append("instructorId", inputs.instructorId);
-    formData.append("link", inputs.link);
-
     try {
-      await axios.put(`${BASE_URL}/api/masterclass/update/${id}`, formData);
+      await axios.put(`${BASE_URL}/api/masterclass/update/${id}`, inputs);
       navigate("/administrator/masterclass");
-      window.location.reload();
     } catch (error) {
       setError(error.response?.data.message || "Une erreur est survenue");
     }
@@ -189,7 +176,6 @@ const EditMasterclass = () => {
                   name="title"
                   label="Titre de la masterclasse"
                   className="dark:text-white"
-                  required
                   value={inputs.title}
                   onChange={handleChange}
                 />

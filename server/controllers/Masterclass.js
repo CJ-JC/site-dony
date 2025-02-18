@@ -1,7 +1,8 @@
 import slugify from "slugify";
 import { Masterclass } from "../models/Masterclass.js";
-import fs from "fs";
 import { Instructor } from "../models/Instructor.js";
+import { putObject } from "../util/putObject.js";
+import { deleteObject } from "../util/deleteObject.js";
 
 export const getMasterclasses = async (req, res) => {
     try {
@@ -22,8 +23,7 @@ export const getMasterclasses = async (req, res) => {
 
 export const createMasterclass = async (req, res) => {
     try {
-        const { title, description, startDate, endDate, price, duration, maxParticipants, instructorId, link } = req.body;
-        const imagePath = req.file ? `/uploads/masterclass/${req.file.filename}` : null;
+        const { title, slug, description, startDate, endDate, price, duration, maxParticipants, instructorId, link, file } = req.body;
 
         // Vérifier les champs obligatoires
         if ((!title || !description || !startDate || !endDate || !price || !duration || !maxParticipants || !instructorId, !link)) {
@@ -48,13 +48,20 @@ export const createMasterclass = async (req, res) => {
 
         const existingMasterclass = await Masterclass.findOne({ where: { title } });
         if (existingMasterclass) {
-            // Supprimer l'image téléchargée
-            fs.unlinkSync(`public${imagePath}`);
             return res.status(400).json({ error: "Un cours avec ce nom existe déjà." });
         }
 
+        // Upload de l'image sur S3
+        const fileBuffer = Buffer.from(file, "base64");
+        const fileName = `masterclass/${Date.now()}-${slug}.jpg`;
+        const uploadResult = await putObject(fileBuffer, fileName);
+
+        if (!uploadResult) {
+            return res.status(500).json({ error: "Erreur lors de l'upload de l'image." });
+        }
+
         const masterclass = await Masterclass.create({
-            imageUrl: imagePath,
+            imageUrl: uploadResult.key,
             title,
             description,
             startDate,
@@ -99,17 +106,14 @@ export const getMasterclassById = async (req, res) => {
 export const updateMasterclass = async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, description, startDate, endDate, price, duration, maxParticipants, slug, instructorId, link } = req.body;
+        const { title, description, startDate, endDate, price, duration, maxParticipants, slug, instructorId, link, file } = req.body;
 
         // Vérification des champs obligatoires
-        if ((!title || !description || !startDate || !endDate || !price || !duration || !maxParticipants || !instructorId, !link)) {
-            if (req.file) {
-                fs.unlinkSync(`public/uploads/masterclass/${req.file.filename}`);
-            }
+        if (!title || !description || !startDate || !endDate || !price || !duration || !maxParticipants || !instructorId || !link) {
             return res.status(400).json({ message: "Tous les champs sont obligatoires" });
         }
 
-        // Vérifiez que la catégorie existe
+        // Vérifiez que l'instructeur existe
         const instructorExists = await Instructor.findByPk(instructorId);
         if (!instructorExists) {
             return res.status(400).json({ error: "L'instructeur spécifié n'existe pas." });
@@ -117,9 +121,6 @@ export const updateMasterclass = async (req, res) => {
 
         const masterclass = await Masterclass.findByPk(id);
         if (!masterclass) {
-            if (req.file) {
-                fs.unlinkSync(`public${req.file.filename}`);
-            }
             return res.status(404).json({ error: "Masterclass non trouvé" });
         }
 
@@ -134,36 +135,48 @@ export const updateMasterclass = async (req, res) => {
         }
 
         let imagePath = masterclass.imageUrl;
-        if (req.file) {
-            imagePath = `/uploads/masterclass/${req.file.filename}`;
-            // Supprimer l'ancienne image si elle existe
-            if (masterclass.imageUrl && fs.existsSync(`public${masterclass.imageUrl}`)) {
-                fs.unlinkSync(`public${masterclass.imageUrl}`);
+
+        // 🔥 Supprimer l'ancienne image si elle existe
+        if (imagePath && file) {
+            const deleteResult = await deleteObject(imagePath);
+
+            if (deleteResult.status !== 204) {
+                return res.status(500).json({ error: "Erreur lors de la suppression de l'ancienne image." });
             }
         }
 
-        const updatedMasterclass = await masterclass.update(
-            {
-                title,
-                description,
-                startDate,
-                endDate,
-                price: parseFloat(price),
-                imageUrl: imagePath,
-                duration: parseInt(duration),
-                maxParticipants: parseInt(maxParticipants),
-                slug: newSlug,
-                instructorId: parseInt(instructorId),
-                link,
-            },
-            {
-                where: { id },
-                returning: true,
+        // 📤 Upload de la nouvelle image si présente
+        if (file) {
+            const fileBuffer = Buffer.from(file, "base64");
+            const fileName = `masterclass/${Date.now()}-${id}.jpg`;
+
+            const uploadResult = await putObject(fileBuffer, fileName);
+
+            if (!uploadResult) {
+                return res.status(500).json({ error: "Erreur lors de l'upload de l'image." });
             }
-        );
+
+            imagePath = uploadResult.key;
+        }
+
+        // 🔄 Mise à jour du masterclass
+        const updatedMasterclass = await masterclass.update({
+            title,
+            description,
+            startDate,
+            endDate,
+            price: parseFloat(price),
+            imageUrl: imagePath,
+            duration: parseInt(duration),
+            maxParticipants: parseInt(maxParticipants),
+            slug: newSlug,
+            instructorId: parseInt(instructorId),
+            link,
+        });
 
         res.status(200).json({ message: "Masterclass mis à jour avec succès", result: updatedMasterclass });
     } catch (error) {
+        console.error("Erreur lors de la mise à jour du masterclass :", error);
         res.status(500).json({ message: "Erreur lors de la mise à jour du masterclass" });
     }
 };
@@ -197,12 +210,19 @@ export const deleteMasterclass = async (req, res) => {
     try {
         const { id } = req.params;
         const masterclass = await Masterclass.findByPk(id);
+
         if (!masterclass) {
             return res.status(404).json({ message: "Masterclass introuvable" });
         }
-        fs.unlinkSync(`public${masterclass.imageUrl}`);
 
         await masterclass.destroy();
+
+        // Supprimez l'ancienne image sur S3
+        const deleteResult = await deleteObject(masterclass.imageUrl);
+
+        if (deleteResult.status !== 204) {
+            return res.status(500).json({ error: "Erreur lors de la suppression de l'ancienne image." });
+        }
 
         res.status(200).json({ message: "Masterclass supprimé avec succès" });
     } catch (error) {

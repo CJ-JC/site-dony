@@ -20,8 +20,8 @@ export function Navbar({ toggleTheme, theme }) {
   const [openNav, setOpenNav] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   const dispatch = useDispatch();
-  const BASE_URL = import.meta.env.VITE_API_URL;
   const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const activeOnglet = localStorage.getItem("activeOnglet");
 
   useEffect(() => {
     window.addEventListener(
@@ -115,7 +115,7 @@ export function Navbar({ toggleTheme, theme }) {
           {isLoggedIn && user ? (
             <>
               <Link
-                to={user.role === "admin" ? "/administrator" : "/user/account"}
+                to={user.role === "admin" ? `${activeOnglet}` : "/user/account"}
               >
                 <Button
                   variant="outlined"
@@ -197,7 +197,7 @@ export function Navbar({ toggleTheme, theme }) {
           {isLoggedIn && user ? (
             <div className="flex items-center justify-center space-x-2">
               <Link
-                to={user.role === "admin" ? "/administrator" : "/user/account"}
+                to={user.role === "admin" ? `${activeOnglet}` : "/user/account"}
               >
                 <Button onClick={handleLinkClick} variant="outlined" size="sm">
                   Mon compte

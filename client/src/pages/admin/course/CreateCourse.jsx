@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input, Option, Select } from "@material-tailwind/react";
+import { Button, Input } from "@material-tailwind/react";
 import axios from "axios";
 import AlertError from "@/widgets/utils/AlertError";
 import { PlusCircle } from "lucide-react";
@@ -34,11 +34,27 @@ const CreateCourse = () => {
     price: "",
     videoUrl: "",
     categoryId: "",
+    file: null,
   });
 
-  const handleImageChange = (e) => {
-    setFile(e.target.files[0]);
-    setImageUrl(URL.createObjectURL(e.target.files[0]));
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+
+    const toBase64 = (file) =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = (error) => reject(error);
+      });
+
+    const base64 = await toBase64(file);
+    setImageUrl(URL.createObjectURL(file)); // Pour l'aperçu
+    setInputs((prevState) => ({
+      ...prevState,
+      file: base64,
+    }));
   };
 
   const handleChange = (e) => {
@@ -48,27 +64,13 @@ const CreateCourse = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-
-    // Ajouter l'image uniquement si elle a été sélectionnée
-    if (file) {
-      formData.append("image", file);
-    }
-
-    // Ajouter les autres champs
-    formData.append("title", inputs.title);
-    formData.append("slug", inputs.slug);
-    formData.append("description", inputs.description);
-    formData.append("price", inputs.price);
-    formData.append("videoUrl", inputs.videoUrl);
-    formData.append("categoryId", inputs.categoryId);
-
     try {
       setLoading(true);
       const response = await axios.post(
         `${BASE_URL}/api/course/create`,
-        formData,
+        inputs,
       );
+
       const newCourseId = response.data.result.id;
 
       navigate(`/administrator/edit-course/${newCourseId}`);

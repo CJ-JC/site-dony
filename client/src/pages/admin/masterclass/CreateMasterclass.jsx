@@ -19,9 +19,24 @@ const CreateMasterclass = () => {
   const [instructors, setInstructors] = useState([]);
   const BASE_URL = import.meta.env.VITE_API_URL;
 
-  const handleImageChange = (e) => {
-    setFile(e.target.files[0]);
-    setImageUrl(URL.createObjectURL(e.target.files[0]));
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+
+    const toBase64 = (file) =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = (error) => reject(error);
+      });
+
+    const base64 = await toBase64(file);
+    setImageUrl(URL.createObjectURL(file)); // Pour l'aperçu
+    setInputs((prevState) => ({
+      ...prevState,
+      file: base64,
+    }));
   };
 
   useEffect(() => {
@@ -53,6 +68,7 @@ const CreateMasterclass = () => {
     endDate: new Date(),
     instructorId: null,
     link: "",
+    file: null,
   });
 
   const handleChange = (e) => {
@@ -71,25 +87,9 @@ const CreateMasterclass = () => {
       return;
     }
 
-    const formData = new FormData();
-
-    if (file) {
-      formData.append("image", file);
-    }
-
-    formData.append("title", inputs.title);
-    formData.append("description", inputs.description);
-    formData.append("startDate", inputs.startDate.toISOString());
-    formData.append("endDate", inputs.endDate.toISOString());
-    formData.append("price", inputs.price || 0);
-    formData.append("duration", inputs.duration || 0); // Valeur par défaut 1 jour
-    formData.append("maxParticipants", inputs.maxParticipants || 0);
-    formData.append("instructorId", inputs.instructorId);
-    formData.append("link", inputs.link);
-
     try {
       setLoading(true);
-      await axios.post(`${BASE_URL}/api/masterclass/create`, formData);
+      await axios.post(`${BASE_URL}/api/masterclass/create`, inputs);
       setInputs({
         title: "",
         slug: "",
@@ -102,6 +102,7 @@ const CreateMasterclass = () => {
         endDate: new Date(),
         instructorId: null,
         link: "",
+        file: null,
       });
       setFile(null);
       setLoading(false);

@@ -12,28 +12,37 @@ import { useNavigate, useParams } from "react-router-dom";
 export default function EditInstructor() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [formData, setFormData] = useState({
-    name: "",
-    biography: "",
-    image: null,
-  });
   const [currentImage, setCurrentImage] = useState("");
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [file, setFile] = useState(null);
+
   const BASE_URL = import.meta.env.VITE_API_URL;
+
+  const CoursesImage = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${
+    import.meta.env.VITE_AWS_REGION
+  }.amazonaws.com/`;
+
+  const [inputs, setInputs] = useState({
+    name: "",
+    biography: "",
+    image: null,
+    file: null,
+  });
 
   useEffect(() => {
     const fetchInstructor = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/api/instructor/${id}`);
         const instructor = response.data;
-        setFormData({
+        setInputs({
           name: instructor.name,
           biography: instructor.biography,
           image: null,
+          file: null,
         });
-        setCurrentImage(instructor.imageUrl);
+        setCurrentImage(`${CoursesImage}${instructor.imageUrl}`);
       } catch (err) {
         setError("Erreur lors de la récupération des données de l'instructeur");
       }
@@ -44,19 +53,27 @@ export default function EditInstructor() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setInputs({ ...inputs, [name]: value });
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setFormData({ ...formData, image: file });
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    setFile(file);
+
+    const toBase64 = (file) =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = (error) => reject(error);
+      });
+
+    const base64 = await toBase64(file);
+    setPreview(URL.createObjectURL(file)); // Pour l'aperçu
+    setInputs((prevState) => ({
+      ...prevState,
+      file: base64,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -65,23 +82,17 @@ export default function EditInstructor() {
     setError("");
 
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("name", formData.name);
-      formDataToSend.append("biography", formData.biography);
-      if (formData.image) {
-        formDataToSend.append("images", formData.image);
+      // Validation des champs
+      if (!inputs.name || !inputs.biography || !inputs.file) {
+        setError("Tous les champs sont obligatoires");
+        return;
       }
-      formDataToSend.append("imageUrl", currentImage);
 
-      await axios.put(
-        `${BASE_URL}/api/instructor/update/${id}`,
-        formDataToSend,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+      await axios.put(`${BASE_URL}/api/instructor/update/${id}`, inputs, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-      );
+      });
 
       navigate("/administrator/instructors");
     } catch (err) {
@@ -115,7 +126,7 @@ export default function EditInstructor() {
             <Input
               type="text"
               name="name"
-              value={formData.name}
+              value={inputs.name}
               onChange={handleInputChange}
               required
               className="bg-gray-50 dark:text-white"
@@ -129,7 +140,7 @@ export default function EditInstructor() {
             </Typography>
             <Textarea
               name="biography"
-              value={formData.biography}
+              value={inputs.biography}
               onChange={handleInputChange}
               required
               placeholder="Biographie de l'instructeur"
@@ -157,7 +168,7 @@ export default function EditInstructor() {
             ) : (
               currentImage && (
                 <img
-                  src={`${BASE_URL}${currentImage}`}
+                  src={`${currentImage}`}
                   alt="Image actuelle"
                   className="mt-2 max-w-xs rounded-lg shadow-lg"
                 />

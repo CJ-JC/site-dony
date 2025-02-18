@@ -11,31 +11,43 @@ import { useNavigate } from "react-router-dom";
 
 export default function CreateInstructor() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: "",
-    biography: "",
-    image: null,
-  });
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [file, setFile] = useState(null);
+
   const BASE_URL = import.meta.env.VITE_API_URL;
+
+  const [inputs, setInputs] = useState({
+    name: "",
+    biography: "",
+    image: null,
+    file: null,
+  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setInputs({ ...inputs, [name]: value });
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setFormData({ ...formData, image: file });
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    setFile(file);
+
+    const toBase64 = (file) =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = (error) => reject(error);
+      });
+
+    const base64 = await toBase64(file);
+    setPreview(URL.createObjectURL(file)); // Pour l'aperçu
+    setInputs((prevState) => ({
+      ...prevState,
+      file: base64,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -44,14 +56,13 @@ export default function CreateInstructor() {
     setError("");
 
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("name", formData.name);
-      formDataToSend.append("biography", formData.biography);
-      if (formData.image) {
-        formDataToSend.append("images", formData.image);
+      // Validation des champs
+      if (!inputs.name || !inputs.biography || !inputs.file) {
+        setError("Tous les champs sont obligatoires");
+        return;
       }
 
-      await axios.post(`${BASE_URL}/api/instructor/create`, formDataToSend, {
+      await axios.post(`${BASE_URL}/api/instructor/create`, inputs, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -90,7 +101,7 @@ export default function CreateInstructor() {
             <Input
               type="text"
               name="name"
-              value={formData.name}
+              value={inputs.name}
               onChange={handleInputChange}
               required
               placeholder="Nom de l'instructeur"
@@ -108,7 +119,7 @@ export default function CreateInstructor() {
             </Typography>
             <Textarea
               name="biography"
-              value={formData.biography}
+              value={inputs.biography}
               onChange={handleInputChange}
               required
               placeholder="Biographie de l'instructeur"

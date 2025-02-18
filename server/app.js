@@ -9,7 +9,6 @@ import remiseRoutes from "./routes/remiseRoutes.js";
 import userProgressRoutes from "./routes/userProgressRoutes.js";
 import masterclassRoutes from "./routes/masterclassRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
-import session from "express-session";
 import crypto from "crypto";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import instructorRoutes from "./routes/instructorRoutes.js";
@@ -28,10 +27,14 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const app = express();
 app.use(
     cors({
+        // origin: "http://localhost:5173",
         origin: "https://donymusic.fr",
         credentials: true,
     })
 );
+
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 app.post("/api/payment/webhook", express.raw({ type: "application/json" }), async (req, res) => {
     const signature = req.headers["stripe-signature"];
@@ -76,27 +79,12 @@ app.post("/api/payment/webhook", express.raw({ type: "application/json" }), asyn
     }
 });
 
-app.use(express.json());
+// app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // const secretKey = crypto.randomBytes(32).toString("hex");
-// console.log(secretKey);
 
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET_KEY,
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            maxAge: 1000 * 60 * 60 * 24,
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "prod",
-            sameSite: "none",
-        },
-    })
-);
-
-app.set("trust proxy", 1);
+// app.set("trust proxy", 1);
 
 // Synchroniser les modèles avec la base de données
 sequelize

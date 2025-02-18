@@ -91,7 +91,7 @@ const CoursePlayer = ({ toggleTheme, theme }) => {
         setLoading(true);
 
         try {
-          const res = await axios.get(`/api/course/${courseId}`, {
+          const res = await axios.get(`${BASE_URL}/api/course/${courseId}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -139,7 +139,7 @@ const CoursePlayer = ({ toggleTheme, theme }) => {
         for (const chapter of course.chapters) {
           for (const video of chapter.videos) {
             const response = await axios.get(
-              `/api/user-progress/video/${video.id}`,
+              `${BASE_URL}/api/user-progress/video/${video.id}`,
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
@@ -153,10 +153,7 @@ const CoursePlayer = ({ toggleTheme, theme }) => {
           }
         }
       } catch (error) {
-        console.error(
-          "Erreur lors de la récupération des progressions:",
-          error,
-        );
+        setError("Erreur lors de la récupération des progressions");
       }
     };
 
@@ -340,7 +337,7 @@ const CoursePlayer = ({ toggleTheme, theme }) => {
       }
 
       // Supprimer toute la progression du cours
-      await axios.delete(`/api/user-progress/course/${courseId}`);
+      await axios.delete(`${BASE_URL}/api/user-progress/course/${courseId}`);
 
       // Réinitialiser l'état local
       setVideoProgress({});

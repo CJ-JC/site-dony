@@ -1,5 +1,6 @@
 import { Instructor } from "../models/Instructor.js";
-import fs from "fs";
+import { putObject } from "../util/putObject.js";
+import { deleteObject } from "../util/deleteObject.js";
 
 export const getInstructors = async (req, res) => {
     try {
@@ -12,8 +13,7 @@ export const getInstructors = async (req, res) => {
 
 export const createInstructor = async (req, res) => {
     try {
-        const { name, biography } = req.body;
-        const imagePath = req.file ? `/uploads/instructors/${req.file.filename}` : null;
+        const { name, biography, file } = req.body;
 
         // Vérification des champs obligatoires
         if (!name || !biography) {
@@ -23,12 +23,20 @@ export const createInstructor = async (req, res) => {
         // Vérifier si l'image existe déjà
         const existingImage = await Instructor.findOne({ where: { name } });
         if (existingImage) {
-            fs.unlinkSync(`public${imageUrl}`);
             return res.status(400).json({ error: "Un fichier avec ce nom existe déjà." });
         }
 
+        // Upload de l'image sur S3
+        const fileBuffer = Buffer.from(file, "base64");
+        const fileName = `instructor/${Date.now()}.jpg`;
+        const uploadResult = await putObject(fileBuffer, fileName);
+
+        if (!uploadResult) {
+            return res.status(500).json({ error: "Erreur lors de l'upload de l'image." });
+        }
+
         // Créer l'instructeur
-        const instructor = await Instructor.create({ name, biography, imageUrl: imagePath });
+        const instructor = await Instructor.create({ name, biography, imageUrl: uploadResult.key });
 
         res.status(201).json(instructor);
     } catch (error) {
@@ -57,31 +65,40 @@ export const getInstructorById = async (req, res) => {
 export const updateInstructor = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, biography } = req.body;
+        const { name, biography, file } = req.body;
 
         // Vérifier les champs obligatoires
         if (!name || !biography) {
-            if (req.file) {
-                fs.unlinkSync(`public/uploads/instructors/${req.file.filename}`);
-            }
             return res.status(400).json({ message: "Tous les champs sont obligatoires" });
         }
 
         const instructor = await Instructor.findByPk(id);
         if (!instructor) {
-            if (req.file) {
-                fs.unlinkSync(`public/uploads/instructors/${req.file.filename}`);
-            }
             return res.status(404).json({ error: "Instructeur non trouvé" });
         }
 
         let imagePath = instructor.imageUrl;
-        if (req.file) {
-            imagePath = `/uploads/instructors/${req.file.filename}`;
-            // Supprime l'ancienne image si elle existe
-            if (instructor.imageUrl && fs.existsSync(`public${instructor.imageUrl}`)) {
-                fs.unlinkSync(`public/uploads/instructors/${instructor.imageUrl}`);
+
+        // 🔥 Supprimer l'ancienne image si elle existe
+        if (imagePath && file) {
+            const deleteResult = await deleteObject(imagePath);
+
+            if (deleteResult.status !== 204) {
+                return res.status(500).json({ error: "Erreur lors de la suppression de l'ancienne image." });
             }
+        }
+
+        if (file) {
+            const fileBuffer = Buffer.from(file, "base64");
+            const fileName = `instructor/${Date.now()}-${id}.jpg`;
+
+            const uploadResult = await putObject(fileBuffer, fileName);
+
+            if (!uploadResult) {
+                return res.status(500).json({ error: "Erreur lors de l'upload de l'image." });
+            }
+
+            imagePath = uploadResult.key;
         }
 
         await instructor.update(
@@ -110,11 +127,16 @@ export const deleteInstructor = async (req, res) => {
             return res.status(404).json({ message: "Instructeur non trouvé" });
         }
 
-        if (instructor.imageUrl) {
-            fs.unlinkSync(`public${instructor.imageUrl}`);
-        }
-
         await instructor.destroy();
+
+        if (instructor.imageUrl) {
+            // Supprimez l'ancienne image sur S3
+            const deleteResult = await deleteObject(instructor.imageUrl);
+
+            if (deleteResult.status !== 204) {
+                return res.status(500).json({ error: "Erreur lors de la suppression de l'ancienne image." });
+            }
+        }
 
         res.status(200).json({ message: "Instructeur supprimé avec succès" });
     } catch (error) {

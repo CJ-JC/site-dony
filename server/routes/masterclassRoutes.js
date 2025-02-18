@@ -1,16 +1,16 @@
 import express from "express";
 import { createMasterclass, deleteMasterclass, getMasterclassById, getMasterclassBySlug, getMasterclasses, updateMasterclass } from "../controllers/Masterclass.js";
-import upload from "../middlewares/multer-config.js";
+import fileUpload from "express-fileupload";
 
 const router = express.Router();
 
 router.get("/", getMasterclasses);
 
-router.post("/create", upload.single("image"), createMasterclass);
+router.post("/create", fileUpload(), createMasterclass);
 
 router.get("/:id", getMasterclassById);
 
-router.put("/update/:id", upload.single("image"), updateMasterclass);
+router.put("/update/:id", fileUpload(), updateMasterclass);
 
 router.get("/slug/:slug", getMasterclassBySlug);
 
