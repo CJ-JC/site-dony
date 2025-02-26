@@ -340,6 +340,7 @@ const editCourse = () => {
                       className="hidden"
                       id="image"
                       name="image"
+                      accept="image/*"
                       onChange={handleImageChange}
                     />
                   </label>

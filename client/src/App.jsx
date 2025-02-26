@@ -37,6 +37,7 @@ import ResetPassword from "@/pages/auth/ResetPassword";
 import Politique from "@/pages/Politique";
 import Cgu from "@/pages/Cgu";
 import Cgv from "@/pages/Cgv";
+import Maintenance from "./pages/Maintenance";
 
 const Layout = ({
   globalDiscount,
@@ -194,6 +195,7 @@ function App() {
     <div className="mx-auto h-auto md:h-screen">
       <ScrollToTop />
       <Routes>
+        <Route path="/" element={<Maintenance />} />
         <Route
           path="/"
           element={
@@ -207,7 +209,7 @@ function App() {
             />
           }
         >
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="courses" element={<Courses />} />
           <Route path="detail/slug/:id" element={<CourseDetail />} />
           <Route path="masterclass" element={<MasterClass />} />

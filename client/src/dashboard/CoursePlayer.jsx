@@ -71,6 +71,7 @@ const CoursePlayer = ({ toggleTheme, theme }) => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [activeTab, setActiveTab] = useState("presentation");
   const token = localStorage.getItem("token");
+  const [showModal, setShowModal] = useState(false);
 
   const CoursesImage = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${
     import.meta.env.VITE_AWS_REGION
@@ -325,33 +326,38 @@ const CoursePlayer = ({ toggleTheme, theme }) => {
     navigate("/");
   };
 
-  const handleReset = async () => {
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleConfirmReset = async () => {
     if (!course || !user || !user.id) {
       return;
     }
 
+    setLoading(true);
     try {
-      // Demander confirmation à l'utilisateur
-      if (
-        !window.confirm(
-          "Êtes-vous sûr de vouloir réinitialiser votre progression ? Cette action est irréversible.",
-        )
-      ) {
-        return;
-      }
+      await axios.delete(`${BASE_URL}/api/user-progress/course/${courseId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      // Supprimer toute la progression du cours
-      await axios.delete(`${BASE_URL}/api/user-progress/course/${courseId}`);
-
-      // Réinitialiser l'état local
       setVideoProgress({});
       setProgress(0);
       setShowConfetti(false);
+      setShowModal(false);
     } catch (error) {
       console.error(
         "Erreur lors de la réinitialisation de la progression :",
         error,
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -642,7 +648,7 @@ const CoursePlayer = ({ toggleTheme, theme }) => {
                               variant="outlined"
                               color="red"
                               size="sm"
-                              onClick={handleReset}
+                              onClick={handleOpenModal}
                             >
                               Recommencer le cours
                             </Button>
@@ -692,6 +698,67 @@ const CoursePlayer = ({ toggleTheme, theme }) => {
               </div>
             </div>
           </div>
+        </div>
+
+        <div>
+          <button
+            onClick={handleOpenModal} // 🔹 Ouvre le modal
+            className="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+          >
+            Réinitialiser la progression
+          </button>
+
+          {showModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="relative w-full max-w-md p-4">
+                <div className="relative rounded-lg bg-white p-6 shadow-lg">
+                  <button
+                    onClick={handleCloseModal} // 🔹 Ferme le modal
+                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                  >
+                    ✖
+                  </button>
+                  <div className="text-center">
+                    <svg
+                      className="mx-auto mb-4 h-12 w-12 text-gray-700"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                    <h3 className="text-lg font-medium text-gray-800">
+                      Voulez-vous vraiment réinitialiser votre progression ?
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      Cette action est irréversible.
+                    </p>
+                  </div>
+                  <div className="mt-6 flex justify-center space-x-4">
+                    <button
+                      onClick={handleCloseModal} // 🔹 Annuler
+                      className="rounded-lg bg-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-400"
+                    >
+                      Annuler
+                    </button>
+                    <button
+                      onClick={handleConfirmReset} // 🔹 Exécute la réinitialisation
+                      className="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                      disabled={loading}
+                    >
+                      {loading ? "Réinitialisation..." : "Oui, confirmer"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </motion.div>
     </>

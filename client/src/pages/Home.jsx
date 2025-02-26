@@ -52,8 +52,9 @@ export function Home() {
           muted
           loop
           playsInline
+          preload="auto"
         >
-          <source src="/img/dony-music.mov" type="video/mp4" />
+          <source src="/img/dony-music.mp4" type="video/mp4" />
         </video>
         <div className="absolute top-0 h-full w-full bg-black/80 bg-cover bg-center" />
         <div className="max-w-8xl container relative mx-auto">
