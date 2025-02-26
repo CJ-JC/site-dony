@@ -283,7 +283,7 @@ const CourseDetail = () => {
                 </div>
               </div>
 
-              <div className="my-3 text-sm text-blue-gray-500 dark:text-white">
+              <div className="my-3 text-sm text-blue-gray-800 dark:text-white">
                 <ReactQuill
                   value={course.description}
                   readOnly={true}
@@ -365,7 +365,7 @@ const CourseDetail = () => {
                   <h3 className="mb-4 text-xl font-semibold text-blue-gray-900 dark:text-white">
                     Continuez là où vous vous êtes arrêté.
                   </h3>
-                  <p className="text-sm text-blue-gray-500 dark:text-white">
+                  <p className="text-sm text-blue-gray-800 dark:text-white">
                     {progress === 0
                       ? "Commencez dès maintenant à visionner le cours."
                       : "Regardez à partir du dernier chapitre terminé."}
@@ -425,7 +425,7 @@ const CourseDetail = () => {
                   )}
                 </div>
 
-                <div className="mt-6 border-t pt-4 text-sm text-blue-gray-500 dark:text-white">
+                <div className="mt-6 border-t pt-4 text-sm text-blue-gray-800 dark:text-white">
                   <p className="flex items-center gap-x-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -453,7 +453,7 @@ const CourseDetail = () => {
                   <h3 className="mb-4 text-2xl font-semibold text-blue-gray-900 dark:text-white">
                     Accédez à votre formation maintenant
                   </h3>
-                  <p className="text-sm text-blue-gray-500 dark:text-white">
+                  <p className="text-sm text-blue-gray-800 dark:text-white">
                     Bénéficiez d’un accès immédiat à tous les contenus de la
                     formation en procédant au paiement sécurisé.
                   </p>
@@ -464,7 +464,7 @@ const CourseDetail = () => {
                   <div className="flex items-center gap-x-4">
                     {discountedPrice && discountedPrice < course.price ? (
                       <>
-                        <span className="text-lg font-bold text-blue-gray-500 line-through dark:text-white">
+                        <span className="text-lg font-bold text-blue-gray-800 line-through dark:text-white">
                           {course.price}€
                         </span>
                         <span className="text-lg font-bold text-red-600">
@@ -475,14 +475,14 @@ const CourseDetail = () => {
                         </span>
                       </>
                     ) : (
-                      <span className="text-lg font-bold text-blue-gray-500 dark:text-white">
+                      <span className="text-lg font-bold text-blue-gray-800 dark:text-white">
                         {course.price}€
                       </span>
                     )}
                   </div>
 
                   {/* Points de valeur ajoutée */}
-                  <ul className="list-disc space-y-2 pl-5 text-sm text-blue-gray-500 dark:text-white">
+                  <ul className="list-disc space-y-2 pl-5 text-sm text-blue-gray-800 dark:text-white">
                     <li>Accès à vie à la formation.</li>
                     <li>Garantie satisfait ou remboursé sous 14 jours.</li>
                     <li>Support pédagogique 24/7.</li>

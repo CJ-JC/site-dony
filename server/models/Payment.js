@@ -20,6 +20,15 @@ export const Payment = sequelize.define(
             onUpdate: "CASCADE",
             onDelete: "CASCADE",
         },
+        emailSent: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+        },
+        invoiceUrl: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
         paymentMethod: {
             type: DataTypes.ENUM("credit_card", "paypal", "bank_transfer"),
             allowNull: false,

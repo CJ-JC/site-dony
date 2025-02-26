@@ -139,31 +139,31 @@ const MasterclassDetail = () => {
 
               {/* Informations clés */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center space-x-2 text-blue-gray-500">
+                <div className="flex items-center space-x-2 text-blue-gray-800">
                   <Calendar className="h-5 w-5" />
                   <Typography className="dark:text-white">
                     {new Date(masterclass.startDate).toLocaleDateString()}
                   </Typography>
                 </div>
-                <div className="flex items-center space-x-2 text-blue-gray-500">
+                <div className="flex items-center space-x-2 text-blue-gray-800">
                   <Clock className="h-5 w-5" />
                   <Typography className="dark:text-white">
                     <FormatHour masterclass={masterclass} />
                   </Typography>
                 </div>
-                <div className="flex items-center space-x-2 text-blue-gray-500">
+                <div className="flex items-center space-x-2 text-blue-gray-800">
                   <Users className="h-5 w-5" />
                   <Typography className="dark:text-white">
                     {masterclass.maxParticipants} participants max
                   </Typography>
                 </div>
-                <div className="flex items-center space-x-2 text-blue-gray-500">
+                <div className="flex items-center space-x-2 text-blue-gray-800">
                   <Euro className="h-5 w-5" />
                   <Typography className="dark:text-white">
                     {masterclass.price}
                   </Typography>
                 </div>
-                <div className="flex items-center space-x-2 text-blue-gray-500">
+                <div className="flex items-center space-x-2 text-blue-gray-800">
                   <Hourglass className="h-5 w-5" />
                   <Typography className="dark:text-white">
                     Durée totale :{" "}
@@ -173,7 +173,7 @@ const MasterclassDetail = () => {
                     />
                   </Typography>
                 </div>
-                <div className="flex items-center space-x-2 text-blue-gray-500">
+                <div className="flex items-center space-x-2 text-blue-gray-800">
                   <CalendarClock className="h-5 w-5" />
                   <Typography className="dark:text-white">
                     Durée de chaque réunion : {masterclass.duration}h
@@ -216,7 +216,8 @@ const MasterclassDetail = () => {
                 )
               ) : (
                 <MasterclassRegistration
-                  endDate={masterclass.endDate}
+                  targetDate={masterclass.startDate}
+                  startDate={masterclass.startDate}
                   handleCheckoutClick={handleCheckoutClick}
                 />
               )}
@@ -236,7 +237,7 @@ const MasterclassDetail = () => {
                 value={masterclass.description}
                 readOnly={true}
                 theme="bubble"
-                className="text-blue-gray-500 dark:text-black"
+                className="text-blue-gray-700 dark:text-black"
               />
             </CardBody>
           </Card>
@@ -256,11 +257,11 @@ const MasterclassDetail = () => {
                 <div>
                   <Typography
                     variant="h6"
-                    className="text-blue-gray-500 dark:text-black"
+                    className="text-blue-gray-800 dark:text-black"
                   >
                     {masterclass.instructor?.name}
                   </Typography>
-                  <Typography className="text-blue-gray-600 dark:text-black">
+                  <Typography className="font-normal text-blue-gray-800 dark:text-black">
                     {masterclass.instructor?.biography}
                   </Typography>
                 </div>

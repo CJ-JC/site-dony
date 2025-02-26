@@ -14,7 +14,7 @@ export function PageTitle({ section, heading, children }) {
       >
         {heading}
       </Typography>
-      <Typography variant="lead" className="text-blue-gray-500 dark:text-white">
+      <Typography variant="lead" className="text-blue-gray-800 dark:text-white">
         {children}
       </Typography>
     </div>

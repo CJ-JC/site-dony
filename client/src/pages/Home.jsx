@@ -52,8 +52,9 @@ export function Home() {
           muted
           loop
           playsInline
+          preload="auto"
         >
-          <source src="/img/dony-music.mov" type="video/mp4" />
+          <source src="/img/dony-music.mp4" type="video/mp4" />
         </video>
         <div className="absolute top-0 h-full w-full bg-black/80 bg-cover bg-center" />
         <div className="max-w-8xl container relative mx-auto">
@@ -87,7 +88,7 @@ export function Home() {
                       >
                         {firstMasterclass?.title}
                       </Typography>
-                      <div className="text-sm text-blue-gray-500 dark:text-black">
+                      <div className="text-sm text-blue-gray-800 dark:text-black">
                         <ReactQuill
                           value={
                             firstMasterclass?.description?.length > 200
@@ -108,7 +109,7 @@ export function Home() {
                     <div>
                       <Typography
                         variant="h6"
-                        className="text-blue-gray-500 dark:text-black"
+                        className="text-blue-gray-800 dark:text-black"
                       >
                         Début dans :
                       </Typography>
@@ -186,7 +187,7 @@ export function Home() {
                   <h3 className="text-lg font-semibold text-blue-gray-900 dark:text-white">
                     Jean Dupont
                   </h3>
-                  <p className="text-blue-gray-500 dark:text-white">
+                  <p className="text-blue-gray-800 dark:text-white">
                     Pianiste expert, passionné par la musique et la transmission
                     de son art. Avec plus de 10 ans d'expérience, il a donné des
                     concerts à travers le monde et formé de nombreux élèves, les
@@ -301,11 +302,11 @@ export function Home() {
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="flex flex-col items-center justify-center text-blue-gray-500">
+                <div className="flex flex-col items-center justify-center text-blue-gray-800">
                   <div className="rounded-full bg-blue-gray-900 p-2 text-white">
                     <Monitor className="h-8 w-8" />
                   </div>
-                  <p className="mt-2 text-blue-gray-500 dark:text-white">
+                  <p className="mt-2 text-blue-gray-800 dark:text-white">
                     <strong>Formation en ligne</strong> : Accédez à des cours
                     interactifs et flexibles, disponibles 24/7 pour s'adapter à
                     votre emploi du temps.
@@ -316,11 +317,11 @@ export function Home() {
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="flex flex-col items-center justify-center text-blue-gray-500">
+                <div className="flex flex-col items-center justify-center text-blue-gray-800">
                   <div className="rounded-full bg-blue-gray-900 p-2 text-white">
                     <UsersRound className="h-8 w-8" />
                   </div>
-                  <p className="mt-2 text-blue-gray-500 dark:text-white">
+                  <p className="mt-2 text-blue-gray-800 dark:text-white">
                     <strong>Communauté dynamique</strong> : Rejoignez une
                     communauté d'apprenants et partagez vos expériences.
                   </p>
@@ -330,11 +331,11 @@ export function Home() {
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="flex flex-col items-center justify-center text-blue-gray-500">
+                <div className="flex flex-col items-center justify-center text-blue-gray-800">
                   <div className="rounded-full bg-blue-gray-900 p-2 text-white">
                     <Rocket className="h-8 w-8" />
                   </div>
-                  <p className="mt-2 text-blue-gray-500 dark:text-white">
+                  <p className="mt-2 text-blue-gray-800 dark:text-white">
                     <strong>Atteignez de nouveaux sommets</strong> : Progresser
                     n'a jamais été aussi simple. Développez vos compétences et
                     avancez vers vos ambitions.

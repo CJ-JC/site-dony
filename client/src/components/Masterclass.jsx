@@ -55,7 +55,7 @@ const MasterClass = () => {
               >
                 Rejoignez Nos Masterclasses
               </Typography>
-              <Typography className="text-blue-gray-600 dark:text-white">
+              <Typography className="text-blue-gray-800 dark:text-white">
                 Découvrez des cours intensifs dispensés par des professionnels
                 de la musique. Améliorez vos compétences et faites passer votre
                 talent au niveau supérieur.
@@ -95,10 +95,10 @@ const MasterClass = () => {
                             <div>
                               <div className="flex flex-col gap-2 px-2">
                                 <div className="flex items-center gap-2">
-                                  <span className="font-medium text-blue-gray-500 dark:text-black">
+                                  <span className="font-medium text-blue-gray-700 dark:text-black">
                                     Début :
                                   </span>
-                                  <Typography className="text-md font-medium text-blue-gray-500 dark:text-black">
+                                  <Typography className="text-md font-medium text-blue-gray-700 dark:text-black">
                                     {new Date(
                                       masterclass.startDate,
                                     ).toLocaleDateString("fr-FR", {
@@ -112,10 +112,10 @@ const MasterClass = () => {
                                   </Typography>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                  <span className="font-medium text-blue-gray-500 dark:text-black">
+                                  <span className="font-medium text-blue-gray-700 dark:text-black">
                                     Fin :
                                   </span>
-                                  <Typography className="text-md font-medium text-blue-gray-500 dark:text-black">
+                                  <Typography className="text-md font-medium text-blue-gray-700 dark:text-black">
                                     {new Date(
                                       masterclass.endDate,
                                     ).toLocaleDateString("fr-FR", {
@@ -157,7 +157,7 @@ const MasterClass = () => {
                             }
                             readOnly={true}
                             theme="bubble"
-                            className="text-blue-gray-500 dark:text-black"
+                            className="text-blue-gray-700 dark:text-black"
                           />
                           <hr className="my-4 dark:border-gray-700" />
                           <div className="flex items-center justify-between gap-2">
@@ -179,7 +179,7 @@ const MasterClass = () => {
                               </div>
                               <Typography
                                 variant="h6"
-                                className="text-blue-gray-500"
+                                className="text-blue-gray-700"
                               >
                                 {masterclass.instructor?.name}
                               </Typography>

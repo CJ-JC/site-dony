@@ -2,7 +2,7 @@ const generateRegisterEmailTemplate = ({ fullname }) => {
     return `
 <section class="mx-auto max-w-2xl bg-white px-6 py-8 dark:bg-gray-900">
 <main style="font-size: 12px;">
-    <p>Bonjour ${fullname},</p>
+    <p>${fullname},</p>
 
     <p style="margin-top: 20px; line-height: 1.6;">
       Merci de vous être inscrit sur <strong>Donymusic</strong> ! <br /> Nous sommes ravis de vous compter parmi notre communauté d'apprenants passionnés par la musique.

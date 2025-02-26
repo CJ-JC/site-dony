@@ -21,21 +21,14 @@ import replyRoutes from "./routes/replyRoutes.js";
 import noteRoutes from "./routes/noteRoutes.js";
 import resetPasswordRoutes from "./routes/resetPassword.js";
 import attachmentRoutes from "./routes/attachmentRoutes.js";
+import nodemailer from "nodemailer";
+import generateInvoiceEmailTemplate from "./email/generateInvoiceEmailTemplate.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
-app.use(
-    cors({
-        // origin: "http://localhost:5173",
-        origin: "https://donymusic.fr",
-        credentials: true,
-    })
-);
 
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ limit: "10mb", extended: true }));
-
+// 🔹 Webhook avec express.raw() pour Stripe
 app.post("/api/payment/webhook", express.raw({ type: "application/json" }), async (req, res) => {
     const signature = req.headers["stripe-signature"];
     let event;
@@ -46,30 +39,41 @@ app.post("/api/payment/webhook", express.raw({ type: "application/json" }), asyn
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
+    // 🔹 Filtrer uniquement les événements importants
+    const relevantEvents = ["checkout.session.completed"];
+
+    if (!relevantEvents.includes(event.type)) {
+        return res.status(200).json({ received: true });
+    }
+
     if (event.type === "checkout.session.completed") {
         const session = event.data.object;
 
         try {
-            // Mettre à jour le paiement
-            const payment = await Payment.findOne({
-                where: { transactionId: session.id },
-            });
+            const payment = await Payment.findOne({ where: { transactionId: session.id } });
 
             if (payment) {
-                await payment.update({
-                    status: "completed",
-                });
+                await payment.update({ status: "completed" });
 
-                // Mettre à jour l'achat
-                const purchase = await Purchase.findOne({
-                    where: { id: payment.purchaseId },
-                });
+                const purchase = await Purchase.findOne({ where: { id: payment.purchaseId } });
 
                 if (purchase) {
-                    await purchase.update({
-                        status: "completed",
-                    });
+                    await purchase.update({ status: "completed" });
                 }
+
+                // 🔹 Récupérer la facture Stripe
+                const invoice = await stripe.invoices.retrieve(session.invoice);
+                const invoiceUrl = invoice.hosted_invoice_url;
+
+                // 🔹 Stocker l'URL de la facture en base de données
+                await payment.update({ invoiceUrl });
+
+                // 🔹 Envoyer la facture par email
+                await sendInvoiceEmail({
+                    email: session.customer_email || "cherley95@hotmail.fr",
+                    fullname: "Cher client",
+                    invoiceUrl,
+                });
             }
 
             res.json({ received: true });
@@ -79,24 +83,54 @@ app.post("/api/payment/webhook", express.raw({ type: "application/json" }), asyn
     }
 });
 
-// app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+const sendInvoiceEmail = async ({ email, fullname, invoiceUrl }) => {
+    let transporter = nodemailer.createTransport({
+        host: process.env.EMAIL_HOST,
+        port: parseInt(process.env.EMAIL_PORT || "587", 10),
+        secure: false,
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+        },
+    });
 
-// const secretKey = crypto.randomBytes(32).toString("hex");
+    const htmlContent = generateInvoiceEmailTemplate({ fullname, invoiceUrl });
 
-// app.set("trust proxy", 1);
+    const mailOptions = {
+        from: "Donymusic <donymusic@contact.com>",
+        to: email,
+        subject: "Votre facture d'achat",
+
+        html: htmlContent,
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+    } catch (error) {
+        throw new Error("L'email n'a pas pu être envoyé");
+    }
+};
+
+// 🔹 Charger express.json() après pour le reste de l'API
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
+
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        credentials: true,
+    })
+);
 
 // Synchroniser les modèles avec la base de données
 sequelize
-    .sync()
+    .sync({ alter: true })
     .then(() => {
         console.log("Les tables ont été créées !");
     })
     .catch((error) => {
         console.error("Erreur lors de la création des tables :", error);
     });
-
-app.use("/uploads", express.static("public/uploads"));
 
 app.use("/api/user", userRoutes);
 

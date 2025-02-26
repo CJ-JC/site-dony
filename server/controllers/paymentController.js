@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import { Masterclass } from "../models/Masterclass.js";
 import { User } from "../models/User.js";
 import nodemailer from "nodemailer";
-import generateInvoiceEmailTemplate from "../email/generateInvoiceEmailTemplate.js";
+import generatePurchaseEmailTemplate from "../email/generatePurchaseEmailTemplate.js";
 dotenv.config();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -27,6 +27,11 @@ export const getPurchases = async (req, res) => {
                             attributes: ["id", "title"],
                         },
                     ],
+                },
+                {
+                    model: Payment,
+                    as: "payments",
+                    attributes: ["invoiceUrl"],
                 },
                 {
                     model: User,
@@ -61,6 +66,11 @@ export const getUserPurchases = async (req, res) => {
             where: { userId },
             include: [
                 {
+                    model: Payment,
+                    as: "payments",
+                    attributes: ["invoiceUrl"],
+                },
+                {
                     model: Course,
                     as: "course",
                     attributes: ["id", "title", "description", "imageUrl"],
@@ -80,6 +90,8 @@ export const getUserPurchases = async (req, res) => {
 
         res.status(200).json({ purchases });
     } catch (error) {
+        console.log("Erreur lors de la récupération des achats :", error);
+
         res.status(500).json({ message: "Erreur serveur lors de la récupération des achats." });
     }
 };
@@ -167,6 +179,7 @@ export const createCheckoutSession = async (req, res) => {
             // Créer un enregistrement de paiement en attente
             await Payment.create({
                 purchaseId: purchase.id,
+                emailSent: false,
                 paymentMethod: "credit_card",
                 transactionId: null, // La transaction sera liée lors du paiement réussi
                 amount: productPrice / 100,
@@ -191,6 +204,7 @@ export const createCheckoutSession = async (req, res) => {
                 },
             ],
             mode: "payment",
+            invoice_creation: { enabled: true },
             success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${isMasterclass ? `${process.env.CLIENT_URL}/masterclass/slug/${productSlug}` : `${process.env.CLIENT_URL}/detail/slug/${productSlug}`}`,
             metadata: {
@@ -217,6 +231,7 @@ export const createCheckoutSession = async (req, res) => {
 
 export const verifyPayment = async (req, res) => {
     try {
+        const userId = req.user.id;
         const { sessionId } = req.query;
         const session = await stripe.checkout.sessions.retrieve(sessionId);
 
@@ -229,6 +244,7 @@ export const verifyPayment = async (req, res) => {
                     {
                         model: Purchase,
                         as: "purchase",
+                        where: { userId },
                         include: [
                             {
                                 model: session.metadata.type === "masterclass" ? Masterclass : Course,
@@ -249,7 +265,7 @@ export const verifyPayment = async (req, res) => {
 
                 // Envoi de l'email une seule fois
                 const userEmail = session.customer_email || "cherley95@hotmail.fr";
-                const fullname = payment.purchase.user?.fullname || "Cher utilisateur";
+                const fullname = "Cher client";
                 const subject = `Confirmation de votre achat : ${item.title}`;
                 const product = `${modelAlias === "masterclass" ? "masterclass" : "formation"}`;
                 const productTitle = `"${item.title}"`;
@@ -298,7 +314,7 @@ const sendInvoiceEmail = async ({ fullname, email, subject, payment, item, produ
         },
     });
 
-    const htmlContent = generateInvoiceEmailTemplate({
+    const htmlContent = generatePurchaseEmailTemplate({
         fullname,
         subject,
         email,

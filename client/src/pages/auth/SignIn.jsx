@@ -113,7 +113,7 @@ export function SignIn() {
           </div>
           <Typography
             variant="paragraph"
-            className="mt-4 text-center font-medium text-blue-gray-500 dark:text-white"
+            className="mt-4 text-center font-medium text-blue-gray-800 dark:text-white"
           >
             Vous n'avez pas de compte ?
             <Link

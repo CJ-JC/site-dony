@@ -11,6 +11,7 @@ const Success = () => {
   const [item, setItem] = useState(null);
   const [itemType, setItemType] = useState(null);
   const BASE_URL = import.meta.env.VITE_API_URL;
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const verifyPayment = async () => {
@@ -30,6 +31,12 @@ const Success = () => {
       try {
         const response = await axios.get(
           `${BASE_URL}/api/payment/verify?sessionId=${sessionId}`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
         );
         if (response.data.success) {
           setItem(response.data.item);
@@ -70,8 +77,14 @@ const Success = () => {
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <div className="mb-4 text-2xl font-bold text-red-600">{error}</div>
-          <Button color="blue" onClick={() => navigate("/courses")}>
-            Retour aux cours
+          <Button
+            color="gray"
+            variant="outlined"
+            onClick={() =>
+              navigate(itemType === "masterclass" ? "/masterclass" : "/courses")
+            }
+          >
+            Retour aux {itemType === "masterclass" ? "masterclass" : "cours"}
           </Button>
         </div>
       </div>
@@ -111,8 +124,7 @@ const Success = () => {
               )
             }
           >
-            Accéder à votre{" "}
-            {itemType === "masterclass" ? "masterclass" : "cours"}
+            Votre {itemType === "masterclass" ? "masterclass" : "cours"}
           </Button>
           <Button
             color="gray"
@@ -121,7 +133,7 @@ const Success = () => {
               navigate(itemType === "masterclass" ? "/masterclass" : "/courses")
             }
           >
-            Voir tous les {itemType === "masterclass" ? "masterclass" : "cours"}
+            Tous les {itemType === "masterclass" ? "masterclass" : "cours"}
           </Button>
         </div>
       </div>

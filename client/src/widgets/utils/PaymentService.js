@@ -14,6 +14,8 @@ export const handleCheckout = async ({
     return;
   }
 
+  const token = localStorage.getItem("token");
+
   try {
     // Déterminer le type de produit
     const isMasterclass = !!masterclass;
@@ -38,6 +40,11 @@ export const handleCheckout = async ({
             courseImageUrl: course.imageUrl,
             courseSlug: course.slug,
           },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
     );
 
     // Vérifier que nous avons bien reçu l'ID de session

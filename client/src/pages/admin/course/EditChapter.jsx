@@ -315,6 +315,12 @@ const EditChapter = () => {
                   type="text"
                   className="dark:text-white dark:focus:border-white"
                 />
+
+                {/* <input
+                  type="file"
+                  accept="video/*"
+                  className="block w-full cursor-pointer text-sm file:mr-2 file:rounded-md file:border-0 file:bg-black file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white focus:outline-none dark:text-white dark:file:bg-gray-700 dark:file:text-white"
+                /> */}
                 {videos.length > 1 && (
                   <button
                     type="button"
@@ -421,6 +427,7 @@ const EditChapter = () => {
                           onChange={(e) =>
                             handleAttachmentChange(index, attachmentIndex, e)
                           }
+                          accept="application/pdf"
                           className="block w-full cursor-pointer text-sm file:mr-2 file:rounded-md file:border-0 file:bg-black file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white focus:outline-none dark:text-white dark:file:bg-gray-700 dark:file:text-white"
                         />
                         <button

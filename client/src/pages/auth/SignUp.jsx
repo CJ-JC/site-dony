@@ -135,7 +135,7 @@ export function SignUp() {
 
           <Typography
             variant="paragraph"
-            className="mt-4 text-center font-medium text-blue-gray-500 dark:text-white"
+            className="mt-4 text-center font-medium text-blue-gray-800 dark:text-white"
           >
             Vous avez déjà un compte ?
             <Link

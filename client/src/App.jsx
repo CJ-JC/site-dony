@@ -31,12 +31,12 @@ import Users from "@/pages/admin/users/Users";
 import AccountAdmin from "@/pages/admin/users/AccountAdmin";
 import Setting from "@/pages/user/Settings";
 import Success from "@/pages/Success";
-import InvoicePdf from "@/pages/user/InvoicePdf";
 import ForgotPassword from "@/pages/auth/ForgotPassword";
 import ResetPassword from "@/pages/auth/ResetPassword";
 import Politique from "@/pages/Politique";
 import Cgu from "@/pages/Cgu";
 import Cgv from "@/pages/Cgv";
+import Maintenance from "./pages/Maintenance";
 
 const Layout = ({
   globalDiscount,
@@ -194,6 +194,7 @@ function App() {
     <div className="mx-auto h-auto md:h-screen">
       <ScrollToTop />
       <Routes>
+        <Route path="/" element={<Maintenance />} />
         <Route
           path="/"
           element={
@@ -207,7 +208,7 @@ function App() {
             />
           }
         >
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="courses" element={<Courses />} />
           <Route path="detail/slug/:id" element={<CourseDetail />} />
           <Route path="masterclass" element={<MasterClass />} />
@@ -215,7 +216,6 @@ function App() {
             path="masterclass/slug/:slug"
             element={<MasterclassDetail />}
           />
-          <Route path="/invoice-pdf" element={<InvoicePdf />} />
 
           <Route path="user/account" element={<Account />} />
           <Route path="user/account/settings" element={<Setting />} />

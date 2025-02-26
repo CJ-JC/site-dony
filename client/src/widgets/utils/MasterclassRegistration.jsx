@@ -1,22 +1,22 @@
 import { Button } from "@material-tailwind/react";
 import { useState, useEffect } from "react";
 
-const MasterclassRegistration = ({ endDate, handleCheckoutClick }) => {
+const MasterclassRegistration = ({ handleCheckoutClick, startDate }) => {
   const [isExpired, setIsExpired] = useState(false);
 
   useEffect(() => {
     const checkExpiration = () => {
       const now = new Date();
-      const end = new Date(endDate);
-      setIsExpired(now > end);
+      const start = new Date(startDate);
+      setIsExpired(now >= start); // Expiration dès que startDate est atteint
     };
 
     checkExpiration(); // Vérifie immédiatement
 
-    const timer = setInterval(checkExpiration, 1000); // Vérifie toutes les secondes
+    const timer = setInterval(checkExpiration, 1000); // Vérifie chaque seconde
 
-    return () => clearInterval(timer); // Nettoyage
-  }, [endDate]);
+    return () => clearInterval(timer); // Nettoyage du timer
+  }, [startDate]);
 
   return (
     <div className="text-center">

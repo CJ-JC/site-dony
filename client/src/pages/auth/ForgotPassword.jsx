@@ -87,7 +87,7 @@ const ForgotPassword = () => {
         <div className="mt-6 text-center text-sm text-gray-600 dark:text-white">
           <Link
             to={"/sign-in"}
-            className="text-blue-gray-500 hover:underline dark:text-white"
+            className="text-blue-gray-800 hover:underline dark:text-white"
           >
             Retour à la connexion
           </Link>

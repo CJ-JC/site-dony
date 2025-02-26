@@ -1,8 +1,8 @@
-const generateInvoiceEmailTemplate = ({ fullname, product, payment, item, productTitle, startDate, startTime, link }) => {
+const generateInvoiceEmailTemplate = ({ fullname, invoiceUrl }) => {
     return `
 <section class="mx-auto max-w-2xl bg-white px-6 py-8 dark:bg-gray-900">
   <main class="mt-8">
-    <p>Bonjour ${fullname},</p>
+    <p>${fullname},</p>
 
     <div class="mt-6 rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
         <p class="mt-4 text-sm font-semibold text-gray-700 dark:text-gray-200">
@@ -10,44 +10,16 @@ const generateInvoiceEmailTemplate = ({ fullname, product, payment, item, produc
         </p>
      </div>
      <div class="mt-6 rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
-        <p class="mt-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Nous sommes ravis de vous compter parmi nos clients et nous vous félicitons pour votre engagement à développer vos compétences musicales.</p>
-     </div>
-    <div class="mt-6 rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
-       <p class="mt-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Voici les détails de votre achat :</p>
-     </div>
-     <div class="mt-6 rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
-        <ul>
-            <li><strong>La ${product} :</strong> ${productTitle}</li>
-            <li><strong>montant payé :</strong> ${payment.amount}€</li>
-            ${
-                product === "masterclass"
-                    ? `
-                    <li>
-                        <strong>Date :</strong> ${startDate}
-                    </li>`
-                    : ""
-            }
-            ${
-                product === "masterclass"
-                    ? `
-                    <li>
-                        <strong>Heure :</strong> ${startTime}
-                    </li>`
-                    : ""
-            }
-        </ul>
+        <p class="mt-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Vous pouvez télécharger votre facture en cliquant sur le lien ci-dessous :</p>
      </div>
 
-    <p class="mt-8 text-gray-600 dark:text-gray-300">
-      Vous pouvez accéder à votre ${product} via votre espace utilisateur ou en cliquant sur le lien suivant :
-    </p>
-
+  
     <a
-      href="${product === "masterclass" ? link : `http://localhost:5173/detail/slug/${item.slug}`}"
+      href="${invoiceUrl}"
       target="_blank"
       class="mt-4 inline-block rounded bg-blue-600 px-6 py-2 text-white hover:bg-blue-700"
     >
-      Accéder à la ${product}
+     Consulter ma facture
     </a>
   </main>
 

@@ -89,7 +89,7 @@ const CreateRemark = ({ selectedVideo }) => {
       </div>
       {isCreating && (
         <>
-          <div className="my-4 p-4 text-sm text-blue-gray-500 dark:text-white">
+          <div className="my-4 p-4 text-sm text-blue-gray-800 dark:text-white">
             <strong>
               Conseils pour obtenir plus rapidement des réponses à vos questions
             </strong>
