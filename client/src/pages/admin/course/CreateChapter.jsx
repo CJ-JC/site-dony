@@ -273,12 +273,17 @@ const CreateChapter = () => {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="relative space-y-2 rounded-md border p-4">
                 <div className="flex items-center gap-2">
-                  <Input
+                  {/* <Input
                     label="Fichier annexe"
                     name="file"
                     type="file"
                     onChange={(e) => handleAttachmentChange(index, e)}
                     className="dark:text-white dark:focus:border-white"
+                  /> */}
+                  <input
+                    type="file"
+                    onChange={(e) => handleAttachmentChange(index, e)}
+                    className="block w-full cursor-pointer text-sm file:mr-2 file:rounded-md file:border-0 file:bg-black file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white focus:outline-none dark:text-white dark:file:bg-gray-700 dark:file:text-white"
                   />
                   {attachments.length > 1 && (
                     <button

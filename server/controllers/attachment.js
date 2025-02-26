@@ -1,5 +1,6 @@
 import { Attachments } from "../models/Attachments.js";
 import fs from "fs";
+import { deleteObject } from "../util/deleteObject.js";
 
 export const deleteAttachment = async (req, res) => {
     try {
@@ -10,9 +11,10 @@ export const deleteAttachment = async (req, res) => {
             return res.status(404).json({ error: "Annexe non trouvée" });
         }
 
-        // Supprimer le fichier physique
         try {
-            fs.unlinkSync(`public${attachment.fileUrl}`);
+            // Supprimer l'ancien fichier S3
+            await deleteObject(attachment.fileUrl);
+            await attachment.destroy();
         } catch (error) {
             console.error("Erreur lors de la suppression du fichier:", error);
         }

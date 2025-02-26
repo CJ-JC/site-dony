@@ -72,6 +72,10 @@ const CoursePlayer = ({ toggleTheme, theme }) => {
   const [activeTab, setActiveTab] = useState("presentation");
   const token = localStorage.getItem("token");
 
+  const CoursesImage = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${
+    import.meta.env.VITE_AWS_REGION
+  }.amazonaws.com/`;
+
   useEffect(() => {
     checkAuthStatus(dispatch, setAuthLoading);
   }, [dispatch]);
@@ -604,7 +608,7 @@ const CoursePlayer = ({ toggleTheme, theme }) => {
                                   {selectedVideo.attachments.map(
                                     (attachment) => (
                                       <a
-                                        href={`${BASE_URL}${attachment.fileUrl}`}
+                                        href={`${CoursesImage}${attachment.fileUrl}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         key={attachment.id}

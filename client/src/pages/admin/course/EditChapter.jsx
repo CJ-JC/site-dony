@@ -7,6 +7,9 @@ import Editor from "@/widgets/utils/Editor";
 
 const EditChapter = () => {
   const BASE_URL = import.meta.env.VITE_API_URL;
+  const CoursesImage = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${
+    import.meta.env.VITE_AWS_REGION
+  }.amazonaws.com/`;
 
   const navigate = useNavigate();
   const { id, courseId } = useParams();
@@ -27,7 +30,7 @@ const EditChapter = () => {
       title: "",
       url: "",
       attachments: [],
-      newAttachments: [], // Ajout d'un tableau pour les nouvelles annexes par vidéo
+      newAttachments: [],
     },
   ]);
 
@@ -162,13 +165,15 @@ const EditChapter = () => {
     formData.append("courseId", courseId);
     formData.append("videos", JSON.stringify(validVideos));
 
-    // Ajouter les fichiers d'annexe au formData avec leurs videoId
+    let fileIndex = 0;
+
     videos.forEach((video, videoIndex) => {
       if (video.newAttachments) {
-        video.newAttachments.forEach((attachment, attachmentIndex) => {
+        video.newAttachments.forEach((attachment) => {
           if (attachment.file) {
             formData.append(`attachments`, attachment.file);
-            formData.append(`videoId${attachmentIndex}`, videoIndex);
+            formData.append(`videoId${fileIndex}`, videoIndex);
+            fileIndex++;
           }
         });
       }
@@ -182,6 +187,7 @@ const EditChapter = () => {
       });
       navigate(`/administrator/edit-course/${courseId}`);
     } catch (error) {
+      console.error("Erreur complète:", error);
       setError(
         error.response?.data?.error ||
           "Une erreur est survenue lors de la mise à jour",
@@ -344,85 +350,92 @@ const EditChapter = () => {
               {video.attachments && video.attachments.length > 0 && (
                 <div className="mb-4 space-y-2">
                   <h4 className="text-sm font-medium">Annexes existantes :</h4>
-                  {video.attachments.map((attachment, attachmentIndex) => (
-                    <div
-                      key={attachmentIndex}
-                      className="flex items-center justify-between rounded-lg border p-2"
-                    >
-                      <div className="flex items-center gap-2">
-                        <Paperclip className="h-4 w-4 text-gray-500" />
-                        <a
-                          href={`${BASE_URL}${attachment.fileUrl}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm text-blue-500 hover:text-blue-700 hover:underline"
-                          download
-                        >
-                          {attachment.title}
-                        </a>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <a
-                          href={`${BASE_URL}${attachment.fileUrl}`}
-                          download
-                          className="text-blue-500 hover:text-blue-700"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="lucide lucide-download"
+                  <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                    {video.attachments.map((attachment, attachmentIndex) => (
+                      <div
+                        key={attachmentIndex}
+                        className="flex items-center justify-between rounded-lg border p-2"
+                      >
+                        <div className="flex items-center gap-2">
+                          <Paperclip className="h-4 w-4 text-gray-500" />
+                          <a
+                            href={`${CoursesImage}${attachment.fileUrl}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm text-blue-500 hover:text-blue-700 hover:underline"
+                            download
                           >
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                            <polyline points="7 10 12 15 17 10" />
-                            <line x1="12" y1="15" x2="12" y2="3" />
-                          </svg>
-                        </a>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            handleRemoveExistingAttachment(index, attachment.id)
-                          }
-                          className="text-red-500 hover:text-red-700"
-                        >
-                          <TrashIcon className="h-4 w-4" />
-                        </button>
+                            {attachment.title}
+                          </a>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <a
+                            href={`${CoursesImage}${attachment.fileUrl}`}
+                            download
+                            className="text-blue-500 hover:text-blue-700"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="lucide lucide-download"
+                            >
+                              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                              <polyline points="7 10 12 15 17 10" />
+                              <line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
+                          </a>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleRemoveExistingAttachment(
+                                index,
+                                attachment.id,
+                              )
+                            }
+                            className="text-red-500 hover:text-red-700"
+                          >
+                            <TrashIcon className="h-4 w-4" />
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               )}
 
               {/* Formulaire d'ajout d'annexe */}
-              {video.newAttachments &&
-                video.newAttachments.map((attachment, attachmentIndex) => (
-                  <div key={attachmentIndex} className="mb-4">
-                    <div className="flex items-center gap-2">
-                      <Input
-                        type="file"
-                        onChange={(e) =>
-                          handleAttachmentChange(index, attachmentIndex, e)
-                        }
-                        className="dark:text-white dark:focus:border-white"
-                      />
-                      <button
-                        type="button"
-                        onClick={() =>
-                          handleRemoveAttachment(index, attachmentIndex)
-                        }
-                        className="text-red-500 hover:text-red-700"
-                      >
-                        <Trash2 className="h-5 w-5" />
-                      </button>
+              <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                {video.newAttachments &&
+                  video.newAttachments.map((attachment, attachmentIndex) => (
+                    <div key={attachmentIndex} className="mb-4">
+                      <div className="flex items-center gap-1 rounded-md border p-2">
+                        <input
+                          type="file"
+                          onChange={(e) =>
+                            handleAttachmentChange(index, attachmentIndex, e)
+                          }
+                          className="block w-full cursor-pointer text-sm file:mr-2 file:rounded-md file:border-0 file:bg-black file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white focus:outline-none dark:text-white dark:file:bg-gray-700 dark:file:text-white"
+                        />
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleRemoveAttachment(index, attachmentIndex)
+                          }
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <Trash2 className="h-5 w-5" />
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+              </div>
             </div>
           </div>
         ))}

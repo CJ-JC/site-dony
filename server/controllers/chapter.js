@@ -3,6 +3,8 @@ import { Video } from "../models/Video.js";
 import { Attachments } from "../models/Attachments.js";
 import fs from "fs";
 import { Op } from "sequelize";
+import { deleteObject } from "../util/deleteObject.js";
+import { putObject } from "../util/putObject.js";
 
 export const getChapters = async (req, res) => {
     try {
@@ -83,11 +85,15 @@ export const createChapter = async (req, res) => {
         const createdVideos = await Promise.all(videoPromises);
 
         // Traitement des fichiers d'annexe
-        const files = req.files;
-        if (files && files.length > 0) {
+        const files = req.files ? Object.values(req.files).flat() : [];
+
+        if (files.length > 0) {
             const attachmentPromises = files.map(async (file, index) => {
-                const filePath = `/uploads/attachments/${file.filename}`;
-                const originalName = file.originalname;
+                const originalName = file.name;
+                const fileBuffer = file.data;
+
+                const fileName = `attachments/${Date.now()}.${originalName}`;
+
                 const videoIndex = req.body[`videoId${index}`];
                 const videoId = videoIndex !== "" ? createdVideos[parseInt(videoIndex)]?.id : null;
 
@@ -102,7 +108,7 @@ export const createChapter = async (req, res) => {
                 if (existingAttachment) {
                     // Supprimer l'ancien fichier physique
                     try {
-                        fs.unlinkSync(`public${existingAttachment.fileUrl}`);
+                        await deleteObject(existingAttachment.fileUrl);
                     } catch (error) {
                         console.error("Erreur lors de la suppression de l'ancien fichier:", error);
                     }
@@ -110,9 +116,11 @@ export const createChapter = async (req, res) => {
                     await existingAttachment.destroy();
                 }
 
+                const uploadResult = await putObject(fileBuffer, fileName);
+
                 // Créer la nouvelle annexe
                 return Attachments.create({
-                    fileUrl: filePath,
+                    fileUrl: uploadResult.key,
                     title: originalName,
                     chapterId: chapter.id,
                     videoId: videoId,
@@ -222,11 +230,15 @@ export const editChapter = async (req, res) => {
         });
 
         // 3. Gestion des annexes
-        const files = req.files;
-        if (files && files.length > 0) {
+        const files = req.files ? Object.values(req.files).flat() : [];
+
+        if (files.length > 0) {
             const attachmentPromises = files.map(async (file, index) => {
-                const filePath = `/uploads/attachments/${file.filename}`;
-                const originalName = file.originalname;
+                const originalName = file.name;
+                const fileBuffer = file.data;
+
+                const fileName = `attachments/${Date.now()}-${id}.${originalName}`;
+
                 const videoIndex = req.body[`videoId${index}`];
                 const videoId = videoIndex !== "" ? updatedVideos[parseInt(videoIndex)]?.id : null;
 
@@ -239,9 +251,9 @@ export const editChapter = async (req, res) => {
                 });
 
                 if (existingAttachment) {
-                    // Supprimer l'ancien fichier physique
+                    // Supprimer l'ancien fichier dans S3
                     try {
-                        fs.unlinkSync(`public${existingAttachment.fileUrl}`);
+                        await deleteObject(existingAttachment.fileUrl);
                     } catch (error) {
                         console.error("Erreur lors de la suppression de l'ancien fichier:", error);
                     }
@@ -249,9 +261,12 @@ export const editChapter = async (req, res) => {
                     await existingAttachment.destroy();
                 }
 
-                // Créer la nouvelle annexe
+                // Upload du fichier sur AWS S3
+                const uploadResult = await putObject(fileBuffer, fileName);
+
+                // Créer la nouvelle annexe dans la base de données
                 return Attachments.create({
-                    fileUrl: filePath,
+                    fileUrl: uploadResult.key, // Utiliser l'URL de S3
                     title: originalName,
                     chapterId: id,
                     videoId: videoId,
@@ -308,7 +323,7 @@ export const deleteChapter = async (req, res) => {
         // Supprimer les fichiers physiques
         for (const attachment of attachments) {
             try {
-                fs.unlinkSync(`public${attachment.fileUrl}`);
+                await deleteObject(attachment.fileUrl);
             } catch (error) {
                 console.error("Erreur lors de la suppression du fichier:", error);
             }

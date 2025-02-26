@@ -1,14 +1,14 @@
 import express from "express";
 import { getChapters, getChapterById, createChapter, editChapter, deleteChapter } from "../controllers/chapter.js";
-import upload from "../middlewares/multer-config.js";
+import fileUpload from "express-fileupload";
 
 export const router = express.Router();
 
 router.get("/", getChapters);
 
-router.post("/create", upload.array("attachments"), createChapter);
+router.post("/create", fileUpload(), createChapter);
 
-router.put("/edit/:id", upload.array("attachments"), editChapter);
+router.put("/edit/:id", fileUpload(), editChapter);
 
 router.get("/:id", getChapterById);
 
