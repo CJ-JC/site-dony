@@ -40,7 +40,7 @@ app.post("/api/payment/webhook", express.raw({ type: "application/json" }), asyn
     }
 
     // 🔹 Filtrer uniquement les événements importants
-    const relevantEvents = ["checkout.session.completed"];
+    const relevantEvents = ["checkout.session.completed", "invoice.finalized"];
 
     if (!relevantEvents.includes(event.type)) {
         return res.status(200).json({ received: true });
@@ -61,24 +61,49 @@ app.post("/api/payment/webhook", express.raw({ type: "application/json" }), asyn
                     await purchase.update({ status: "completed" });
                 }
 
-                // 🔹 Récupérer la facture Stripe
-                const invoice = await stripe.invoices.retrieve(session.invoice);
-                const invoiceUrl = invoice.hosted_invoice_url;
+                // 🔹 Vérifier si la facture est bien créée
+                if (session.invoice) {
+                    const invoice = await stripe.invoices.retrieve(session.invoice);
+                    const invoiceUrl = invoice.hosted_invoice_url;
 
-                // 🔹 Stocker l'URL de la facture en base de données
-                await payment.update({ invoiceUrl });
+                    await payment.update({ invoiceUrl });
 
-                // 🔹 Envoyer la facture par email
-                await sendInvoiceEmail({
-                    email: session.customer_email || "cherley95@hotmail.fr",
-                    fullname: "Cher client",
-                    invoiceUrl,
-                });
+                    // 🔹 Envoyer la facture par email
+                    await sendInvoiceEmail({
+                        email: session.customer_email,
+                        fullname: "Cher client",
+                        invoiceUrl,
+                    });
+                }
             }
 
             res.json({ received: true });
         } catch (error) {
             res.status(500).json({ error: "Erreur lors du traitement du paiement" });
+        }
+    }
+    // ⚡️ L'événement invoice.finalized
+    if (event.type === "invoice.finalized") {
+        const invoice = event.data.object;
+
+        try {
+            const payment = await Payment.findOne({ where: { transactionId: invoice.subscription } });
+
+            if (payment) {
+                // Mettre à jour la base de données avec le lien de la facture
+                await payment.update({ invoiceUrl: invoice.hosted_invoice_url });
+
+                // Envoyer la facture par email
+                await sendInvoiceEmail({
+                    email: payment.email,
+                    fullname: "Cher client",
+                    invoiceUrl: invoice.hosted_invoice_url,
+                });
+            }
+
+            res.json({ received: true });
+        } catch (error) {
+            res.status(500).json({ error: "Erreur lors du traitement de la facture" });
         }
     }
 });
@@ -117,6 +142,7 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 app.use(
     cors({
+        // origin: "http://localhost:5173",
         origin: "https://donymusic.fr",
         credentials: true,
     })
