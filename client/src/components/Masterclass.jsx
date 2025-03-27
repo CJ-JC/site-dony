@@ -37,7 +37,7 @@ const MasterClass = () => {
   }
 
   return (
-    <div className="container mx-auto h-auto max-w-screen-xl p-4 py-4 md:h-screen">
+    <div className="container mx-auto h-auto max-w-screen-xl p-4 py-4">
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0 }}
