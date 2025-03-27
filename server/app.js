@@ -61,16 +61,15 @@ app.post("/api/payment/webhook", express.raw({ type: "application/json" }), asyn
                     await purchase.update({ status: "completed" });
                 }
 
-                // 🔹 Récupérer la facture Stripe
+                // 🔹 Vérifier si la facture est bien créée
                 const invoice = await stripe.invoices.retrieve(session.invoice);
                 const invoiceUrl = invoice.hosted_invoice_url;
 
-                // 🔹 Stocker l'URL de la facture en base de données
                 await payment.update({ invoiceUrl });
 
                 // 🔹 Envoyer la facture par email
                 await sendInvoiceEmail({
-                    email: session.customer_email || "cherley95@hotmail.fr",
+                    email: session.customer_email,
                     fullname: "Cher client",
                     invoiceUrl,
                 });
@@ -117,6 +116,7 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 app.use(
     cors({
+        // origin: "http://localhost:5173",
         origin: "https://donymusic.fr",
         credentials: true,
     })

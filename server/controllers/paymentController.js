@@ -190,6 +190,7 @@ export const createCheckoutSession = async (req, res) => {
         // Créer une session de paiement Stripe
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
+            customer_email: req.user.email,
             line_items: [
                 {
                     price_data: {
@@ -264,7 +265,7 @@ export const verifyPayment = async (req, res) => {
                 }
 
                 // Envoi de l'email une seule fois
-                const userEmail = session.customer_email || "cherley95@hotmail.fr";
+                const userEmail = session.customer_email;
                 const fullname = "Cher client";
                 const subject = `Confirmation de votre achat : ${item.title}`;
                 const product = `${modelAlias === "masterclass" ? "masterclass" : "formation"}`;
