@@ -72,7 +72,7 @@ const Courses = () => {
             <Categories items={categories} />
           </div>
 
-          <div className="h-auto">
+          <div className="h-auto md:h-screen">
             <CourseList courses={currentItems} />
           </div>
 
@@ -86,7 +86,7 @@ const Courses = () => {
                     disabled={currentPage === 1}
                     className={`border px-4 py-2 ${
                       currentPage === 1
-                        ? "bg-gray-200 text-gray-400"
+                        ? "bg-gray-200 text-black"
                         : "bg-white text-gray-700 hover:bg-gray-100"
                     }`}
                   >
@@ -97,9 +97,9 @@ const Courses = () => {
                   <li key={i + 1}>
                     <button
                       onClick={() => paginate(i + 1)}
-                      className={`border px-4 py-2 ${
+                      className={`px-4 py-2 ${
                         currentPage === i + 1
-                          ? "bg-gray-800 text-white"
+                          ? "bg-gray-800 text-white "
                           : "bg-white text-gray-700 hover:bg-gray-100"
                       }`}
                     >
@@ -111,9 +111,9 @@ const Courses = () => {
                   <button
                     onClick={() => paginate(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    className={`border px-4 py-2 ${
+                    className={`px-4 py-2 ${
                       currentPage === totalPages
-                        ? "bg-gray-200 text-gray-400"
+                        ? "bg-gray-200 text-black"
                         : "bg-white text-gray-700 hover:bg-gray-100"
                     }`}
                   >

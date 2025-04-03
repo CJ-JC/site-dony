@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import { Monitor, Rocket, UsersRound } from "lucide-react";
 import Contact from "@/components/Contact";
 import { useSelector } from "react-redux";
+import Vimeo from "@u-wave/react-vimeo";
 import { Button, CardBody, Card, Typography } from "@material-tailwind/react";
 
 export function Home() {
@@ -78,7 +79,7 @@ export function Home() {
         <div className="container mx-auto">
           {firstMasterclass?.id && (
             <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1">
-              <Card className="rounded-lg shadow-lg shadow-gray-500/10 dark:bg-white/90">
+              <Card className="rounded-lg shadow-lg shadow-gray-500/10 dark:bg-gray-300/90">
                 <CardBody className="px-4 py-6">
                   <div className="flex flex-col items-center justify-between gap-x-10 md:flex-row">
                     <div>
@@ -175,7 +176,23 @@ export function Home() {
             Apprenez à connaître votre formateur
           </PageTitle>
 
-          <div className="mt-12 grid items-center gap-12 md:grid-cols-2">
+          <div className="mt-12 grid items-center gap-2 md:grid-cols-2 md:gap-12">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="relative"
+            >
+              <video class="h-full w-full rounded-lg" controls>
+                <source
+                  src="https://docs.material-tailwind.com/demo.mp4"
+                  type="video/mp4"
+                />
+                Your browser does not support the video tag.
+              </video>
+            </motion.div>
+
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -185,7 +202,54 @@ export function Home() {
               <div className="mt-4 flex items-center space-x-6">
                 <div>
                   <h3 className="text-lg font-semibold text-blue-gray-900 dark:text-white">
-                    Jean Dupont
+                    Dony Paul
+                  </h3>
+                  <p className="text-blue-gray-800 dark:text-white">
+                    Pianiste expert, passionné par la musique et la transmission
+                    de son art. Avec plus de 10 ans d'expérience, il a donné des
+                    concerts à travers le monde et formé de nombreux élèves, les
+                    accompagnant dans leur parcours musical avec patience et
+                    expertise.
+                  </p>
+
+                  <div className="mt-2 flex space-x-4">
+                    <a
+                      href="https://www.linkedin.com/in/jeandupont"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <motion.i
+                        whileHover={{ scale: 1.2 }}
+                        className="fab fa-facebook text-2xl text-blue-600"
+                      ></motion.i>
+                    </a>
+                    <a
+                      href="https://www.youtube.com/@donymusic0"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <motion.i
+                        whileHover={{ scale: 1.2 }}
+                        className="fab fa-youtube text-2xl text-red-500"
+                      ></motion.i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+          <div className="mt-12 grid items-center gap-2 md:grid-cols-2 md:gap-12">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="order-2 md:order-1"
+            >
+              <div className="mt-4 flex items-center space-x-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-blue-gray-900 dark:text-white">
+                    Dony Paul
                   </h3>
                   <p className="text-blue-gray-800 dark:text-white">
                     Pianiste expert, passionné par la musique et la transmission
@@ -222,17 +286,16 @@ export function Home() {
             </motion.div>
 
             <motion.div
-              whileHover={{ scale: 1.03 }}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative"
+              className="relative order-1 md:order-2"
             >
-              <img
-                src="/img/formateur.png"
-                alt="Formateur en action"
-                className="rounded-lg shadow-lg"
+              <Vimeo
+                video={"https://vimeo.com/1042812947"}
+                responsive={true}
+                autoplay={false}
               />
             </motion.div>
           </div>

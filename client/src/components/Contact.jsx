@@ -60,6 +60,10 @@ const Contact = () => {
             name="fullname"
             value={fullname}
             onChange={(e) => setFullname(e.target.value)}
+            className="dark:text-white dark:focus:border-b-white"
+            labelProps={{
+              style: { color: "white" },
+            }}
           />
           <Input
             variant="outlined"
@@ -68,6 +72,10 @@ const Contact = () => {
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="dark:text-white dark:focus:border-b-white"
+            labelProps={{
+              style: { color: "white" },
+            }}
           />
         </div>
         <Textarea
@@ -78,6 +86,10 @@ const Contact = () => {
           name="message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          className="dark:text-white dark:focus:border-b-white"
+          labelProps={{
+            style: { color: "white" },
+          }}
         />
         <Button
           type="submit"

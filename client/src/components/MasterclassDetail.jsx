@@ -126,7 +126,7 @@ const MasterclassDetail = () => {
               </Typography>
 
               {/* Compte à rebours */}
-              <div className="rounded-lg bg-[#F9FAFB] p-4 dark:bg-white/90">
+              <div className="rounded-lg bg-[#F9FAFB] p-4 dark:bg-gray-300/90">
                 <Typography variant="h6" className="mb-2 dark:text-black">
                   Début de la masterclass dans :
                 </Typography>
@@ -140,31 +140,31 @@ const MasterclassDetail = () => {
               {/* Informations clés */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center space-x-2 text-blue-gray-800">
-                  <Calendar className="h-5 w-5" />
+                  <Calendar className="h-5 w-5 dark:text-gray-400" />
                   <Typography className="dark:text-white">
                     {new Date(masterclass.startDate).toLocaleDateString()}
                   </Typography>
                 </div>
                 <div className="flex items-center space-x-2 text-blue-gray-800">
-                  <Clock className="h-5 w-5" />
+                  <Clock className="h-5 w-5 dark:text-gray-400" />
                   <Typography className="dark:text-white">
                     <FormatHour masterclass={masterclass} />
                   </Typography>
                 </div>
                 <div className="flex items-center space-x-2 text-blue-gray-800">
-                  <Users className="h-5 w-5" />
+                  <Users className="h-5 w-5 dark:text-gray-400" />
                   <Typography className="dark:text-white">
                     {masterclass.maxParticipants} participants max
                   </Typography>
                 </div>
                 <div className="flex items-center space-x-2 text-blue-gray-800">
-                  <Euro className="h-5 w-5" />
+                  <Euro className="h-5 w-5 dark:text-gray-400" />
                   <Typography className="dark:text-white">
                     {masterclass.price}
                   </Typography>
                 </div>
                 <div className="flex items-center space-x-2 text-blue-gray-800">
-                  <Hourglass className="h-5 w-5" />
+                  <Hourglass className="h-5 w-5 dark:text-gray-400" />
                   <Typography className="dark:text-white">
                     Durée totale :{" "}
                     <CalculateDuration
@@ -174,7 +174,7 @@ const MasterclassDetail = () => {
                   </Typography>
                 </div>
                 <div className="flex items-center space-x-2 text-blue-gray-800">
-                  <CalendarClock className="h-5 w-5" />
+                  <CalendarClock className="h-5 w-5 dark:text-gray-400" />
                   <Typography className="dark:text-white">
                     Durée de chaque réunion : {masterclass.duration}h
                   </Typography>
@@ -225,7 +225,7 @@ const MasterclassDetail = () => {
           </div>
 
           {/* Description détaillée */}
-          <Card className="mt-12 dark:bg-white/90">
+          <Card className="mt-12 dark:bg-gray-300/90">
             <CardBody>
               <Typography
                 variant="h4"
@@ -243,7 +243,7 @@ const MasterclassDetail = () => {
           </Card>
 
           {/* Instructeur */}
-          <Card className="mt-8 dark:bg-white/90">
+          <Card className="mt-8 dark:bg-gray-300/90">
             <CardBody>
               <Typography variant="h4" className="mb-4 text-blue-gray-900">
                 Votre instructeur

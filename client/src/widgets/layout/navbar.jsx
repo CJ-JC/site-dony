@@ -152,11 +152,11 @@ export function Navbar({ toggleTheme, theme }) {
               </Link>
               <Link to="/sign-up">
                 <Button
-                  variant="gradient"
+                  // variant="gradient"
                   size="sm"
                   fullWidth
                   onClick={handleLinkClick}
-                  className="border border-black font-medium dark:bg-black dark:text-white"
+                  className="border border-black font-medium dark:text-white"
                 >
                   S'inscrire
                 </Button>
@@ -168,31 +168,44 @@ export function Navbar({ toggleTheme, theme }) {
             className="theme-toggle rounded-md hover:bg-gray-200"
           >
             {theme === "dark" ? (
-              <SunIcon className="text- h-8 w-8 p-1 text-white dark:hover:text-black" />
+              <SunIcon className="h-8 w-8 p-1 text-white dark:hover:text-black" />
             ) : (
               <MoonIcon className="h-8 w-8 p-1" />
             )}
           </button>
         </div>
-        <IconButton
-          variant="text"
-          size="sm"
-          color="white"
-          className="ml-auto text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
-          onClick={() => setOpenNav(!openNav)}
-        >
-          {openNav ? (
-            <XMarkIcon strokeWidth={2} className="h-6 w-6" />
-          ) : (
-            <Bars3Icon strokeWidth={2} className="h-6 w-6" />
-          )}
-        </IconButton>
+
+        <div className="flex items-center gap-2 lg:hidden">
+          <button
+            onClick={toggleTheme}
+            className="theme-toggle rounded-md hover:bg-gray-200"
+          >
+            {theme === "dark" ? (
+              <SunIcon className="h-8 w-8 p-1 text-white" />
+            ) : (
+              <MoonIcon className="h-8 w-8 p-1" />
+            )}
+          </button>
+          <IconButton
+            variant="text"
+            size="sm"
+            color="white"
+            className="ml-auto text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent dark:bg-white lg:hidden"
+            onClick={() => setOpenNav(!openNav)}
+          >
+            {openNav ? (
+              <XMarkIcon strokeWidth={2} className="h-6 w-6" />
+            ) : (
+              <Bars3Icon strokeWidth={2} className="h-6 w-6" />
+            )}
+          </IconButton>
+        </div>
       </div>
       <Collapse
         className="absolute left-2/4 z-50 w-[350px] -translate-x-2/4 rounded-xl text-blue-gray-900"
         open={openNav}
       >
-        <div className="container mx-auto border bg-white px-4 pb-4 pt-2">
+        <div className="container mx-auto border bg-white px-4 pb-4 pt-2 dark:bg-[#020818]">
           {navList}
           {isLoggedIn && user ? (
             <div className="flex items-center justify-center space-x-2">
@@ -223,18 +236,13 @@ export function Navbar({ toggleTheme, theme }) {
                   variant="outlined"
                   size="sm"
                   fullWidth
-                  className="my-2"
+                  className="my-2 dark:bg-white dark:text-black"
                 >
                   Connexion
                 </Button>
               </Link>
               <Link to="/sign-up">
-                <Button
-                  onClick={handleLinkClick}
-                  variant="gradient"
-                  size="sm"
-                  fullWidth
-                >
+                <Button onClick={handleLinkClick} size="sm" fullWidth>
                   S'inscrire
                 </Button>
               </Link>

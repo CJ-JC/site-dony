@@ -202,6 +202,7 @@ export const createCheckoutSession = async (req, res) => {
                         unit_amount: productPrice,
                     },
                     quantity: 1,
+                    tax_rates: ["txr_1R9loHE9XsDumcXZ3P1DKCbp"],
                 },
             ],
             mode: "payment",

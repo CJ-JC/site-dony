@@ -60,36 +60,32 @@ export function SignIn() {
             </Typography>
           </div>
           <div className="mb-1 flex flex-col gap-4">
-            <label
-              htmlFor="email"
-              className="-mb-3 text-sm font-medium text-blue-gray-900 dark:text-white"
-            >
-              Email
-            </label>
             <Input
               size="lg"
-              placeholder="Votre email"
-              className=" dark:text-white dark:focus:border-gray-50"
+              variant="outlined"
+              label="Email"
               id="email"
               name="email"
               type="email"
               onChange={handleChange}
               autoFocus
+              className="dark:text-white dark:focus:border-b-white"
+              labelProps={{
+                style: { color: "white" },
+              }}
             />
-            <label
-              htmlFor="password"
-              className="-mb-3 text-sm font-medium text-blue-gray-900 dark:text-white"
-            >
-              Mot de passe
-            </label>
             <Input
+              label="Mot de passe"
+              variant="outlined"
               type="password"
               size="lg"
-              placeholder="********"
-              className=" dark:text-white dark:focus:border-gray-50"
               id="password"
               name="password"
               onChange={handleChange}
+              className="dark:text-white dark:focus:border-b-white"
+              labelProps={{
+                style: { color: "white" },
+              }}
             />
             {error && <p className="text-red-500">{error}</p>}
           </div>

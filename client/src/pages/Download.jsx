@@ -9,7 +9,13 @@ const Download = () => {
     window.location.href = `${BASE_URL}/api/download/${fileName}`;
   }, [fileName]);
 
-  return <p>Redirection en cours...</p>;
+  return (
+    <>
+      <div className="mx-auto flex h-screen flex-col items-center justify-center">
+        <h1 className="text-2xl">Redirection en cours...</h1>
+      </div>
+    </>
+  );
 };
 
 export default Download;

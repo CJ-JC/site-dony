@@ -81,7 +81,7 @@ const MasterClass = () => {
                       <div className="mt-2 h-56 w-1 bg-gray-500"></div>
                     </div>
 
-                    <Card className="flex-1 text-white shadow dark:bg-white/90">
+                    <Card className="flex-1 text-white shadow dark:bg-gray-300/90">
                       <CardBody className="flex flex-col items-center gap-6 p-4 md:flex-row">
                         <div className="overflow-hidden rounded-md">
                           <img
