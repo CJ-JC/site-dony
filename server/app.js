@@ -23,10 +23,18 @@ import resetPasswordRoutes from "./routes/resetPassword.js";
 import attachmentRoutes from "./routes/attachmentRoutes.js";
 import nodemailer from "nodemailer";
 import generateInvoiceEmailTemplate from "./email/generateInvoiceEmailTemplate.js";
+import { putObjectStripe } from "./util/putObjectStripe.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
+
+app.get("/api/download/:fileName", (req, res) => {
+    const fileName = req.params.fileName;
+    const s3Url = `https://${process.env.NODE_AWS_S3_BUCKET}.s3.${process.env.NODE_AWS_REGION}.amazonaws.com/invoices/${fileName}`;
+
+    res.redirect(s3Url);
+});
 
 // 🔹 Webhook avec express.raw() pour Stripe
 app.post("/api/payment/webhook", express.raw({ type: "application/json" }), async (req, res) => {
@@ -61,18 +69,32 @@ app.post("/api/payment/webhook", express.raw({ type: "application/json" }), asyn
                     await purchase.update({ status: "completed" });
                 }
 
-                // 🔹 Vérifier si la facture est bien créée
+                // 🔹 Récupérer la facture Stripe
                 const invoice = await stripe.invoices.retrieve(session.invoice);
-                const invoiceUrl = invoice.hosted_invoice_url;
+                const invoicePdfUrl = invoice.invoice_pdf;
 
-                await payment.update({ invoiceUrl });
+                if (!invoicePdfUrl) {
+                    console.log("⚠️ Facture non disponible.");
+                    return res.status(200).json({ message: "Facture en attente de finalisation." });
+                }
 
-                // 🔹 Envoyer la facture par email
-                await sendInvoiceEmail({
-                    email: session.customer_email,
-                    fullname: "Cher client",
-                    invoiceUrl,
-                });
+                // 🔹 Télécharger et uploader la facture sur AWS S3
+                const fileName = `invoices/${purchase.itemType}-${Date.now()}.pdf`;
+                const s3Url = await putObjectStripe(invoicePdfUrl, fileName);
+
+                if (s3Url) {
+                    await payment.update({ invoiceUrl: s3Url });
+
+                    // 🔹 Lien raccourci vers la facture
+                    const shortUrl = `${process.env.CLIENT_URL}/download/${fileName}`;
+
+                    // 🔹 Envoyer l’email avec le lien raccourci
+                    await sendInvoiceEmail({
+                        email: session.customer_email,
+                        fullname: "Cher client",
+                        invoiceUrl: shortUrl,
+                    });
+                }
             }
 
             res.json({ received: true });
@@ -99,13 +121,14 @@ const sendInvoiceEmail = async ({ email, fullname, invoiceUrl }) => {
         from: "Donymusic <donymusic@contact.com>",
         to: email,
         subject: "Votre facture d'achat",
-
         html: htmlContent,
     };
 
     try {
         await transporter.sendMail(mailOptions);
+        console.log("✅ Email envoyé avec succès à :", email);
     } catch (error) {
+        console.error("❌ Erreur lors de l'envoi de l'email :", error);
         throw new Error("L'email n'a pas pu être envoyé");
     }
 };

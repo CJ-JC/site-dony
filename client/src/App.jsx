@@ -37,6 +37,7 @@ import Politique from "@/pages/Politique";
 import Cgu from "@/pages/Cgu";
 import Cgv from "@/pages/Cgv";
 import Maintenance from "./pages/Maintenance";
+import Download from "@/pages/Download";
 
 const Layout = ({
   globalDiscount,
@@ -256,6 +257,8 @@ function App() {
 
           <Route path="remise" element={<Remise />} />
         </Route>
+
+        <Route path="/download/invoices/:fileName" element={<Download />} />
 
         <Route
           path="/course-player/course/:courseId/chapters/:chapterId"

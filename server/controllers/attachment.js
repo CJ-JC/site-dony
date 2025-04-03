@@ -1,5 +1,4 @@
 import { Attachments } from "../models/Attachments.js";
-import fs from "fs";
 import { deleteObject } from "../util/deleteObject.js";
 
 export const deleteAttachment = async (req, res) => {
