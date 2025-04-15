@@ -61,59 +61,66 @@ export function SignUp() {
             </Typography>
           </div>
           <div className="mb-1 flex flex-col gap-4">
+            <label
+              htmlFor="lastname"
+              className="-mb-3 text-sm font-medium text-blue-gray-900 dark:text-white"
+            >
+              Nom
+            </label>
             <Input
               size="lg"
-              label="Nom"
-              variant="outlined"
+              placeholder="Votre nom"
+              className=" dark:text-white dark:focus:border-b-white"
               name="lastName"
               id="lastname"
               type="text"
               onChange={handleChange}
               autoFocus
-              className="dark:text-white dark:focus:border-b-white"
-              labelProps={{
-                style: { color: "white" },
-              }}
             />
+            <label
+              htmlFor="firstname"
+              className="-mb-3 text-sm font-medium text-blue-gray-900 dark:text-white"
+            >
+              Prénom
+            </label>
             <Input
               size="lg"
-              label="Prénom"
-              variant="outlined"
+              placeholder="Votre prénom"
+              className=" dark:text-white dark:focus:border-b-white"
               name="firstName"
               id="firstname"
               type="text"
               onChange={handleChange}
-              className="dark:text-white dark:focus:border-b-white"
-              labelProps={{
-                style: { color: "white" },
-              }}
             />
-
+            <label
+              htmlFor="email"
+              className="-mb-3 text-sm font-medium text-blue-gray-900 dark:text-white"
+            >
+              Email
+            </label>
             <Input
               size="lg"
-              label="Adresse email"
-              variant="outlined"
+              placeholder="Email"
+              className=" dark:text-white dark:focus:border-b-white"
               name="email"
               id="email"
               type="email"
               onChange={handleChange}
-              className="dark:text-white dark:focus:border-b-white"
-              labelProps={{
-                style: { color: "white" },
-              }}
             />
+            <label
+              htmlFor="password"
+              className="-mb-3 text-sm font-medium text-blue-gray-900 dark:text-white"
+            >
+              Mot de passe
+            </label>
             <Input
               size="lg"
-              variant="outlined"
-              label="Mot de passe"
+              placeholder="Votre mot de passe"
+              className=" dark:text-white dark:focus:border-b-white"
               name="password"
               id="password"
               type="password"
               onChange={handleChange}
-              className="dark:text-white dark:focus:border-b-white"
-              labelProps={{
-                style: { color: "white" },
-              }}
             />
             {error && <p className="text-red-500">{error}</p>}
           </div>

@@ -25,7 +25,7 @@ function sendEmail({ email, fullname, message }) {
         let transporter = nodemailer.createTransport({
             host: process.env.EMAIL_HOST,
             port: parseInt(process.env.EMAIL_PORT || "587", 10),
-            secure: false,
+            secure: true,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS,
@@ -50,7 +50,8 @@ function sendEmail({ email, fullname, message }) {
 
         transporter.sendMail(mail_configs, function (error, info) {
             if (error) {
-                return reject({ message: `An error has occurred` });
+                console.error("❌ Erreur lors de l'envoi de l'email :", error);
+                return reject({ message: "Erreur lors de l'envoi de l'email" });
             }
             return resolve({ message: "Votre message a été envoyé avec succès" });
         });

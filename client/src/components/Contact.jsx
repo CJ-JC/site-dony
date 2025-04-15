@@ -53,35 +53,39 @@ const Contact = () => {
           </Alert>
         )}
         <div className="mb-8 flex flex-col justify-center gap-4 md:flex-row">
-          <Input
-            variant="outlined"
-            size="lg"
-            label="Nom complet"
-            name="fullname"
-            value={fullname}
-            onChange={(e) => setFullname(e.target.value)}
-            className="dark:text-white dark:focus:border-b-white"
-            labelProps={{
-              style: { color: "white" },
-            }}
-          />
-          <Input
-            variant="outlined"
-            size="lg"
-            label="Adresse email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="dark:text-white dark:focus:border-b-white"
-            labelProps={{
-              style: { color: "white" },
-            }}
-          />
+          <div className="w-full">
+            <label htmlFor="fullname">Nom complet</label>
+            <Input
+              variant="outlined"
+              size="lg"
+              name="fullname"
+              placeholder="Nom complet"
+              id="fullname"
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
+              className="dark:text-white dark:focus:border-b-white"
+            />
+          </div>
+          <div className="w-full">
+            <label htmlFor="email">Adresse email</label>
+            <Input
+              variant="outlined"
+              size="lg"
+              placeholder="Adresse email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="dark:text-white dark:focus:border-b-white"
+            />
+          </div>
         </div>
+        <label htmlFor="message">Votre message</label>
         <Textarea
           variant="outlined"
           size="lg"
-          label="Votre message"
+          placeholder="Votre message"
+          id="message"
           rows={8}
           name="message"
           value={message}

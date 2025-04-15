@@ -8,10 +8,11 @@ import Loading from "@/widgets/utils/Loading";
 import axios from "axios";
 import ReactQuill from "react-quill";
 import { motion } from "framer-motion";
-import { Monitor, Rocket, UsersRound } from "lucide-react";
+import { CircleHelp, Monitor, Music, Rocket, UsersRound } from "lucide-react";
 import Contact from "@/components/Contact";
 import { useSelector } from "react-redux";
 import Vimeo from "@u-wave/react-vimeo";
+import { CalendarCheck, Video } from "lucide-react";
 import { Button, CardBody, Card, Typography } from "@material-tailwind/react";
 
 export function Home() {
@@ -166,8 +167,186 @@ export function Home() {
           </section>
         </div>
       </section>
+
+      {/* Masterclass */}
+      {/* <section className="dark:bg-gray-950 -mt-28 mb-28 bg-white px-4 py-20 dark:text-white">
+        <div className="mx-auto max-w-screen-xl">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="mb-12 text-center"
+          >
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">
+              Nos Masterclasses
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600 dark:text-gray-300">
+              Explorez l'univers du piano à travers des masterclasses uniques,
+              conçues pour les passionnés, débutants ou avancés.
+            </p>
+          </motion.div>
+
+          <div className="grid items-center gap-12 md:grid-cols-2">
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <img
+                src="./img/guitare-mini.jpg"
+                alt="Masterclass piano"
+                className="w-full rounded-2xl object-cover shadow-lg"
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
+                Ce que vous allez apprendre :
+              </h3>
+              <ul className="space-y-4 text-gray-700 dark:text-gray-300">
+                <li className="flex items-start space-x-3">
+                  <CalendarCheck className="mt-1 text-blue-600" />
+                  <span>Techniques avancées et interprétation expressive</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <Video className="mt-1 text-blue-600" />
+                  <span>Sessions en direct & replay disponibles</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <span className="mt-1 font-bold text-blue-600">🎹</span>
+                  <span>Analyse d’œuvres classiques et contemporaines</span>
+                </li>
+              </ul>
+
+              <Button size="lg" className="mt-6">
+                Rejoindre une Masterclass
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+      </section> */}
+      <section className="relative mx-auto -mt-28  mb-28 flex items-center bg-[url('/img/piano-back.jpg')] bg-cover bg-fixed bg-center bg-no-repeat px-4 py-20">
+        <div className="absolute inset-0 bg-black/80" />
+
+        <div className="container relative z-10 mx-auto max-w-screen-xl">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="mb-12 text-center"
+          >
+            <div className="relative inline-block">
+              <h2 className="text-3xl font-bold text-white md:text-4xl">
+                Nos Masterclasses
+              </h2>
+              <span className="absolute -bottom-2 left-0 block h-1 w-full bg-orange-600"></span>
+            </div>
+
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-white">
+              Piano, guitare, batterie, basse… Nos masterclasses s'adressent à
+              tous les musiciens, du passionné au professionnel. Accédez à une
+              formation de qualité, animée par des artistes expérimentés.
+            </p>
+          </motion.div>
+          <div className="grid items-center gap-12 md:grid-cols-2">
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <img
+                src={firstMasterclass?.imageUrl}
+                alt="Masterclass piano"
+                className="w-full rounded-2xl object-cover shadow-lg"
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
+              {/* <h3 className="text-2xl font-semibold text-white">
+                Ce que vous allez apprendre :
+              </h3>
+              <ul className="space-y-4 text-white">
+                <li className="flex items-start space-x-3">
+                  <CalendarCheck className="text-orange-700" />
+                  <span>Techniques avancées et interprétation expressive</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <Video className="text-orange-700" />
+                  <span>Sessions en direct & replay disponibles</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <Music className="font-bold text-orange-600" />
+                  <span>Analyse d’œuvres classiques et contemporaines</span>
+                </li>
+                💬
+              </ul> */}
+
+              <h3 className="text-2xl font-semibold text-white">
+                Ce que vous allez apprendre :
+              </h3>
+              <ul className="space-y-4 text-white">
+                <li className="flex items-center space-x-3">
+                  <CalendarCheck className="w-8 text-orange-600" />
+                  <span>
+                    <strong>Techniques avancées</strong> et{" "}
+                    <strong>interprétation expressive</strong> adaptées à chaque
+                    niveau.
+                  </span>
+                </li>
+                <li className="flex items-center space-x-3">
+                  <Video className="w-8 text-orange-600" />
+                  <span>
+                    <strong>Sessions en direct</strong> avec les intervenants.
+                  </span>
+                </li>
+                <li className="flex items-center space-x-5">
+                  <Music className="w-8 font-bold text-orange-600" />
+                  <span>
+                    <strong>
+                      Analyse d’œuvres classiques et contemporaines
+                    </strong>
+                    , avec une approche pédagogique détaillée.
+                  </span>
+                </li>
+                <li className="flex items-center space-x-5">
+                  <CircleHelp className="w-10 font-bold text-orange-600" />
+                  <span>
+                    <strong>Interactivité garantie</strong> : posez vos
+                    questions en direct ou par écrit, échanges avec les
+                    professeurs et retours personnalisés.
+                  </span>
+                </li>
+              </ul>
+              <Button
+                size="md"
+                onClick={() => navigate("/masterclass")}
+                className="bg-white px-6 py-3 text-black hover:bg-gray-300"
+              >
+                Rejoindre une Masterclass
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+      </section>
       {/* About */}
-      <section className="mx-auto -mt-28 max-w-screen-xl px-4 py-20">
+      {/* <section className="-mt-28 "> */}
+      <div className="mx-auto -mt-28 max-w-screen-xl px-4 py-20">
         <div className="container mx-auto">
           <PageTitle
             section="À propos du formateur"
@@ -184,13 +363,49 @@ export function Home() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative"
             >
-              <video class="h-full w-full rounded-lg" controls>
-                <source
-                  src="https://docs.material-tailwind.com/demo.mp4"
-                  type="video/mp4"
-                />
-                Your browser does not support the video tag.
-              </video>
+              <div className="mt-4 flex items-center space-x-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-blue-gray-900 dark:text-white">
+                    Dony Paul
+                  </h3>
+                  <div className="space-y-2 text-justify text-blue-gray-800 dark:text-white">
+                    <p>
+                      Musicien professionnel et formateur depuis plus de 10 ans,
+                      j’ai suivi une formation au conservatoire puis dans une
+                      école privée, me spécialisant en interprétation,
+                      composition et arrangement. <br /> Passionné par la
+                      transmission, j’ai accompagné de nombreux élèves grâce à
+                      des cours alliant rigueur pédagogique, approche ludique et
+                      interactivité.{" "}
+                    </p>
+                    <p>
+                      <strong>Mon objectif :</strong> offrir un cadre stimulant
+                      où chacun développe ses compétences techniques tout en
+                      cultivant sa passion pour la musique, pour progresser
+                      pleinement en tant qu’artiste.
+                    </p>
+                  </div>
+
+                  <div className="mt-2 flex space-x-2">
+                    <motion.i
+                      whileHover={{ scale: 1.2 }}
+                      className="w-10 text-black"
+                    >
+                      <a href="#" target="_blank" rel="noopener noreferrer">
+                        <img src={"./img/tiktok.svg"} alt="" />
+                      </a>
+                    </motion.i>
+                    <motion.i
+                      whileHover={{ scale: 1.2 }}
+                      className="w-10 text-black"
+                    >
+                      <a href="#" target="_blank" rel="noopener noreferrer">
+                        <img src={"./img/youtube.svg"} alt="" />
+                      </a>
+                    </motion.i>
+                  </div>
+                </div>
+              </div>
             </motion.div>
 
             <motion.div
@@ -199,43 +414,12 @@ export function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div className="mt-4 flex items-center space-x-6">
-                <div>
-                  <h3 className="text-lg font-semibold text-blue-gray-900 dark:text-white">
-                    Dony Paul
-                  </h3>
-                  <p className="text-blue-gray-800 dark:text-white">
-                    Pianiste expert, passionné par la musique et la transmission
-                    de son art. Avec plus de 10 ans d'expérience, il a donné des
-                    concerts à travers le monde et formé de nombreux élèves, les
-                    accompagnant dans leur parcours musical avec patience et
-                    expertise.
-                  </p>
-
-                  <div className="mt-2 flex space-x-4">
-                    <a
-                      href="https://www.linkedin.com/in/jeandupont"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <motion.i
-                        whileHover={{ scale: 1.2 }}
-                        className="fab fa-facebook text-2xl text-blue-600"
-                      ></motion.i>
-                    </a>
-                    <a
-                      href="https://www.youtube.com/@donymusic0"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <motion.i
-                        whileHover={{ scale: 1.2 }}
-                        className="fab fa-youtube text-2xl text-red-500"
-                      ></motion.i>
-                    </a>
-                  </div>
-                </div>
-              </div>
+              <Vimeo
+                video={"https://vimeo.com/1073164199/d2ed6421f4"}
+                responsive={true}
+                autoplay={false}
+                className="h-full w-full rounded-lg"
+              />
             </motion.div>
           </div>
           <div className="mt-12 grid items-center gap-2 md:grid-cols-2 md:gap-12">
@@ -246,43 +430,12 @@ export function Home() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="order-2 md:order-1"
             >
-              <div className="mt-4 flex items-center space-x-6">
-                <div>
-                  <h3 className="text-lg font-semibold text-blue-gray-900 dark:text-white">
-                    Dony Paul
-                  </h3>
-                  <p className="text-blue-gray-800 dark:text-white">
-                    Pianiste expert, passionné par la musique et la transmission
-                    de son art. Avec plus de 10 ans d'expérience, il a donné des
-                    concerts à travers le monde et formé de nombreux élèves, les
-                    accompagnant dans leur parcours musical avec patience et
-                    expertise.
-                  </p>
-
-                  <div className="mt-2 flex space-x-4">
-                    <a
-                      href="https://www.linkedin.com/in/jeandupont"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <motion.i
-                        whileHover={{ scale: 1.2 }}
-                        className="fab fa-facebook text-2xl text-blue-600"
-                      ></motion.i>
-                    </a>
-                    <a
-                      href="https://www.youtube.com/@donymusic0"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <motion.i
-                        whileHover={{ scale: 1.2 }}
-                        className="fab fa-youtube text-2xl text-red-500"
-                      ></motion.i>
-                    </a>
-                  </div>
-                </div>
-              </div>
+              <Vimeo
+                video={"https://vimeo.com/1073168976/462d142889"}
+                responsive={true}
+                autoplay={false}
+                className="h-full w-full rounded-lg"
+              />
             </motion.div>
 
             <motion.div
@@ -293,16 +446,19 @@ export function Home() {
               className="relative order-1 md:order-2"
             >
               <Vimeo
-                video={"https://vimeo.com/1042812947"}
+                video="https://vimeo.com/1073167180/08212f0c03?ts=0&share=copy"
                 responsive={true}
                 autoplay={false}
+                className="h-full w-full rounded-lg"
               />
             </motion.div>
           </div>
         </div>
-      </section>
+      </div>
+      {/* </section> */}
 
-      <section className="relative mx-auto my-10 flex h-96 items-center bg-[url('/img/bg-home-2.jpg')] bg-cover bg-scroll bg-center bg-no-repeat px-4 py-20">
+      {/* services */}
+      <section className="relative mx-auto flex items-center bg-[url('/img/bg-home-2.jpg')] bg-cover bg-fixed bg-center bg-no-repeat px-4 py-20">
         <div className="absolute inset-0 bg-black/80" />
 
         <div className="container relative z-10 mx-auto max-w-screen-xl">
@@ -345,7 +501,7 @@ export function Home() {
       </section>
 
       <section className="mx-auto -mt-28 max-w-screen-xl px-4 py-20">
-        <div className="container mx-auto">
+        <div className="container mx-auto pt-20">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -409,6 +565,7 @@ export function Home() {
           </motion.div>
         </div>
       </section>
+
       {/* bg-[#F9FAFB] */}
 
       <section className="mx-auto px-4 py-20">
