@@ -9,18 +9,29 @@
 .quill .ql-editor {
   padding-left: 10px !important;
   padding-right: 10px !important;
-  font-size: 14px;
+  font-size: 15px;
+  font-family: "Nunito", sans-serif;
 }
 
-/* h1,
-h2,
+h1,
+h2 {
+  font-family: "Gagalin", sans-serif !important;
+}
+
 h3,
 h4,
 h5,
 h6 {
-  font-size: inherit;
-  font-weight: inherit;
-} */
+  font-family: "Cocomat Pro Bold", sans-serif !important;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+}
+
+p {
+  font-family: "Nunito", sans-serif !important;
+}
 
 body.light {
   background-color: white;

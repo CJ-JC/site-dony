@@ -63,13 +63,15 @@ export function Home() {
           <div className="flex flex-wrap items-center">
             <div className="lg:w-8/10 ml-auto mr-auto w-full px-4 text-center">
               <Typography variant="h1" color="white" className="font-black">
-                Laissez la musique vous inspirer.
+                Éveillez Votre Passion pour la Musique !
               </Typography>
               <Typography variant="lead" color="white" className="opacity-80">
-                Avec DonyMusic, découvrez une nouvelle façon d'apprendre à jouer
-                de vos instruments préférés. <br /> Suivez des cours
-                interactifs, progressez à votre rythme et réalisez vos rêves
-                musicaux.
+                Plongez dans un univers musical où chaque note prend vie.
+                Explorez des cours adaptés à tous les niveaux. <br /> Que vous
+                souhaitiez apprendre un nouvel instrument ou perfectionner votre
+                technique, nous avons ce qu'il vous faut. <br /> Venez
+                développer votre passion et laissez votre créativité s'exprimer
+                !
               </Typography>
             </div>
           </div>
@@ -141,12 +143,12 @@ export function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                <PageTitle
-                  section="Explorez Nos Cours"
-                  heading="Maîtrisez Votre Instrument"
-                >
-                  Découvrez nos formations et perfectionnez vos compétences
-                  musicales
+                <PageTitle heading="Nos cours">
+                  Découvrez une gamme variée de cours conçus pour inspirer et
+                  accompagner chaque musicien dans son parcours. Du piano à la
+                  batterie en passant par le jazz et l’harmonisation, vous
+                  trouverez des programmes enrichissants qui stimulent votre
+                  créativité musicale et renforcent votre confiance.
                 </PageTitle>
 
                 <CourseList
@@ -168,71 +170,6 @@ export function Home() {
         </div>
       </section>
 
-      {/* Masterclass */}
-      {/* <section className="dark:bg-gray-950 -mt-28 mb-28 bg-white px-4 py-20 dark:text-white">
-        <div className="mx-auto max-w-screen-xl">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="mb-12 text-center"
-          >
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">
-              Nos Masterclasses
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600 dark:text-gray-300">
-              Explorez l'univers du piano à travers des masterclasses uniques,
-              conçues pour les passionnés, débutants ou avancés.
-            </p>
-          </motion.div>
-
-          <div className="grid items-center gap-12 md:grid-cols-2">
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <img
-                src="./img/guitare-mini.jpg"
-                alt="Masterclass piano"
-                className="w-full rounded-2xl object-cover shadow-lg"
-              />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="space-y-6"
-            >
-              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
-                Ce que vous allez apprendre :
-              </h3>
-              <ul className="space-y-4 text-gray-700 dark:text-gray-300">
-                <li className="flex items-start space-x-3">
-                  <CalendarCheck className="mt-1 text-blue-600" />
-                  <span>Techniques avancées et interprétation expressive</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <Video className="mt-1 text-blue-600" />
-                  <span>Sessions en direct & replay disponibles</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <span className="mt-1 font-bold text-blue-600">🎹</span>
-                  <span>Analyse d’œuvres classiques et contemporaines</span>
-                </li>
-              </ul>
-
-              <Button size="lg" className="mt-6">
-                Rejoindre une Masterclass
-              </Button>
-            </motion.div>
-          </div>
-        </div>
-      </section> */}
       <section className="relative mx-auto -mt-28  mb-28 flex items-center bg-[url('/img/piano-back.jpg')] bg-cover bg-fixed bg-center bg-no-repeat px-4 py-20">
         <div className="absolute inset-0 bg-black/80" />
 
@@ -246,12 +183,12 @@ export function Home() {
           >
             <div className="relative inline-block">
               <h2 className="text-3xl font-bold text-white md:text-4xl">
-                Nos Masterclasses
+                Nos masterclasses
               </h2>
-              <span className="absolute -bottom-2 left-0 block h-1 w-full bg-orange-600"></span>
+              <span className="absolute -bottom-1 left-0 block h-1 w-full bg-orange-600"></span>
             </div>
 
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-white">
+            <p className="mx-auto mt-4 max-w-5xl text-xl text-white">
               Piano, guitare, batterie, basse… Nos masterclasses s'adressent à
               tous les musiciens, du passionné au professionnel. Accédez à une
               formation de qualité, animée par des artistes expérimentés.
@@ -276,27 +213,8 @@ export function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
-              className="space-y-6"
+              className="space-y-3"
             >
-              {/* <h3 className="text-2xl font-semibold text-white">
-                Ce que vous allez apprendre :
-              </h3>
-              <ul className="space-y-4 text-white">
-                <li className="flex items-start space-x-3">
-                  <CalendarCheck className="text-orange-700" />
-                  <span>Techniques avancées et interprétation expressive</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <Video className="text-orange-700" />
-                  <span>Sessions en direct & replay disponibles</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <Music className="font-bold text-orange-600" />
-                  <span>Analyse d’œuvres classiques et contemporaines</span>
-                </li>
-                💬
-              </ul> */}
-
               <h3 className="text-2xl font-semibold text-white">
                 Ce que vous allez apprendre :
               </h3>
@@ -333,13 +251,15 @@ export function Home() {
                   </span>
                 </li>
               </ul>
-              <Button
-                size="md"
-                onClick={() => navigate("/masterclass")}
-                className="bg-white px-6 py-3 text-black hover:bg-gray-300"
-              >
-                Rejoindre une Masterclass
-              </Button>
+              <div className="flex items-center justify-center md:justify-start">
+                <Button
+                  size="md"
+                  onClick={() => navigate("/masterclass")}
+                  className="bg-white px-6 py-3 text-black hover:bg-gray-300"
+                >
+                  Rejoindre une Masterclass
+                </Button>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -348,10 +268,7 @@ export function Home() {
       {/* <section className="-mt-28 "> */}
       <div className="mx-auto -mt-28 max-w-screen-xl px-4 py-20">
         <div className="container mx-auto">
-          <PageTitle
-            section="À propos du formateur"
-            heading="Découvrez votre formateur"
-          >
+          <PageTitle heading="Découvrez votre formateur">
             Apprenez à connaître votre formateur
           </PageTitle>
 
@@ -509,14 +426,11 @@ export function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="mt-16 text-center"
           >
-            <PageTitle
-              section="Nos Services"
-              heading="Ce que propose Donymusic"
-            >
+            <PageTitle heading="Ce que propose Donymusic">
               Découvrez une plateforme de formation pour développer vos
               compétences musicales et professionnelles.
             </PageTitle>
-            <div className="mt-8 grid gap-8 sm:grid-cols-1 md:grid-cols-3">
+            <div className="mt-12 grid gap-8 sm:grid-cols-1 md:grid-cols-3">
               <motion.div
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 300 }}

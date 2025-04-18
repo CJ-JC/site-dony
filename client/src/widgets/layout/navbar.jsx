@@ -60,8 +60,8 @@ export function Navbar({ toggleTheme, theme }) {
         className={({ isActive }) =>
           `group flex items-center rounded-lg p-1 px-2 ${
             isActive
-              ? "border-b border-gray-500 font-medium text-gray-800 dark:border-white dark:bg-white dark:text-black"
-              : "bg-white font-medium text-gray-600 hover:bg-gray-100 dark:border-b dark:bg-transparent dark:text-white dark:hover:bg-gray-800"
+              ? "border-b border-gray-500 font-semibold text-gray-800 dark:border-white dark:bg-white dark:text-black"
+              : "bg-white font-semibold text-gray-600 hover:bg-gray-100 dark:border-b dark:bg-transparent dark:text-white dark:hover:bg-gray-800"
           }`
         }
       >
@@ -74,8 +74,8 @@ export function Navbar({ toggleTheme, theme }) {
         className={({ isActive }) =>
           `group flex items-center rounded-lg p-1 px-2 ${
             isActive
-              ? "border-b border-gray-500 font-medium text-gray-800 dark:border-white dark:bg-white dark:text-black"
-              : "bg-white font-medium text-gray-600 hover:bg-gray-100 dark:border-b dark:bg-transparent dark:text-white dark:hover:bg-gray-800"
+              ? "border-b border-gray-500 font-semibold text-gray-800 dark:border-white dark:bg-white dark:text-black"
+              : "bg-white font-semibold text-gray-600 hover:bg-gray-100 dark:border-b dark:bg-transparent dark:text-white dark:hover:bg-gray-800"
           }`
         }
       >
@@ -87,8 +87,8 @@ export function Navbar({ toggleTheme, theme }) {
         className={({ isActive }) =>
           `group flex items-center rounded-lg p-1 px-2 ${
             isActive
-              ? "border-b border-gray-500 font-medium text-gray-800 dark:border-white dark:bg-white dark:text-black"
-              : "bg-white font-medium text-gray-600 hover:bg-gray-100 dark:border-b dark:bg-transparent dark:text-white dark:hover:bg-gray-800"
+              ? "border-b border-gray-500 font-semibold text-gray-800 dark:border-white dark:bg-white dark:text-black"
+              : "bg-white font-semibold text-gray-600 hover:bg-gray-100 dark:border-b dark:bg-transparent dark:text-white dark:hover:bg-gray-800"
           }`
         }
       >

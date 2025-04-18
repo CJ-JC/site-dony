@@ -1,3 +1,4 @@
+import { Typography } from "@material-tailwind/react";
 import CourseCard from "./CourseCard";
 
 const CourseList = ({ courses }) => {
@@ -22,7 +23,15 @@ const CourseList = ({ courses }) => {
       </div>
 
       {courses.length === 0 && (
-        <p className="text-center">Aucune formation trouvée.</p>
+        <section className="mb-12 flex flex-col items-center justify-center">
+          <Typography
+            variant="h2"
+            color="blue-gray"
+            className="mb-6 p-4 text-center text-2xl font-extrabold dark:text-white"
+          >
+            Aucune formation trouvée.
+          </Typography>
+        </section>
       )}
     </>
   );

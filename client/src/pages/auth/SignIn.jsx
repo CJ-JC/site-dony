@@ -103,10 +103,10 @@ export function SignIn() {
             Connexion
           </Button>
 
-          <div className="mt-6 flex flex-col items-center justify-between gap-2 md:flex-row">
+          <div className="mt-4 flex flex-col items-center justify-between gap-2 md:flex-row">
             <Typography
               variant="small"
-              className="font-medium text-gray-900 dark:text-white"
+              className="font-semibold text-red-500 dark:text-red-500"
             >
               <Link to={"/forgot-password"}>Mot de passe oublié</Link>
             </Typography>
@@ -118,7 +118,7 @@ export function SignIn() {
             Vous n'avez pas de compte ?
             <Link
               to="/sign-up"
-              className="ml-1 text-gray-900 dark:text-gray-300"
+              className="ml-1 font-bold text-gray-900 dark:text-gray-300"
             >
               Créer un compte
             </Link>

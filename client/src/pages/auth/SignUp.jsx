@@ -140,7 +140,7 @@ export function SignUp() {
             Vous avez déjà un compte ?
             <Link
               to="/sign-in"
-              className="ml-1 text-gray-900 dark:text-gray-300"
+              className="ml-1 font-bold text-gray-900 dark:text-gray-300"
             >
               Connectez-vous
             </Link>
