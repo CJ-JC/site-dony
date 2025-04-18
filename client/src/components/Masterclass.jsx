@@ -22,7 +22,12 @@ const MasterClass = () => {
     const fetchMasterclass = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/api/masterclass`);
-        setMasterclasses(response.data);
+        // Tri par date de début (startDate) croissante
+        const sortedData = response.data.sort(
+          (a, b) => new Date(a.startDate) - new Date(b.startDate),
+        );
+
+        setMasterclasses(sortedData);
       } catch (error) {
         setError("Erreur lors de la récupération de la masterclass");
       } finally {
