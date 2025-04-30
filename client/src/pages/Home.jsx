@@ -308,7 +308,11 @@ export function Home() {
                       whileHover={{ scale: 1.2 }}
                       className="w-10 text-black"
                     >
-                      <a href="#" target="_blank" rel="noopener noreferrer">
+                      <a
+                        href="https://www.tiktok.com/@donymusic0"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <img src={"./img/tiktok.svg"} alt="" />
                       </a>
                     </motion.i>
@@ -316,7 +320,11 @@ export function Home() {
                       whileHover={{ scale: 1.2 }}
                       className="w-10 text-black"
                     >
-                      <a href="#" target="_blank" rel="noopener noreferrer">
+                      <a
+                        href="https://www.youtube.com/@donymusic0"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <img src={"./img/youtube.svg"} alt="" />
                       </a>
                     </motion.i>
