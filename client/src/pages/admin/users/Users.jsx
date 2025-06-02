@@ -1,5 +1,5 @@
 import { Button } from "@material-tailwind/react";
-import { Trash } from "lucide-react";
+import { Edit, Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SearchInput from "@/components/search/SearchInput";
@@ -132,33 +132,44 @@ const Users = () => {
                 className="hover:bg-slate-50 border-slate-200 border-b dark:text-white"
                 key={index}
               >
-                <td className="p-4 py-5">
+                <td className="p-4 py-4">
                   <p className="text-slate-800 block text-sm font-semibold">
                     {user.firstName}
                   </p>
                 </td>
-                <td className="p-4 py-5">
+                <td className="p-4 py-4">
                   <p className="text-slate-800 block text-sm font-semibold">
                     {user.lastName}
                   </p>
                 </td>
-                <td className="p-4 py-5">
+                <td className="p-4 py-4">
                   <p className="text-slate-800 block text-sm">{user.email}</p>
                 </td>
-                <td className="p-4 py-5">
-                  <p className="text-slate-500 text-sm">
+                <td className="p-4 py-4">
+                  <p className="text-slate-800 text-sm">
                     {user.role && user.role === "admin" ? "Admin" : "Client"}
                   </p>
                 </td>
-                <td className="p-4 py-5">
-                  <Link to={`/administrator/instructor/delete/${user.id}`}>
+                <td className="flex items-center space-x-2 p-1 py-4">
+                  <Link to={`/administrator/profile/user/${user.id}`}>
+                    <Button
+                      size="sm"
+                      className="flex items-center bg-gray-700 text-white focus:outline-none"
+                      title="Voir les informations de l'utilisateur"
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                  </Link>
+
+                  {/* <Link to={`/administrator/user/delete/${user.id}`}>
                     <Button
                       size="sm"
                       className="flex items-center bg-red-600 text-white focus:outline-none"
+                      title="Supprimer l'utilisateur"
                     >
                       <Trash className="h-4 w-4" />
                     </Button>
-                  </Link>
+                  </Link> */}
                 </td>
               </tr>
             ))}

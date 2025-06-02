@@ -7,11 +7,12 @@ import {
   Alert,
   IconButton,
 } from "@material-tailwind/react";
-import { PencilIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuthStatus } from "@/widgets/utils/CheckAuthStatus";
 import Loading from "@/widgets/utils/Loading";
+import { Edit } from "lucide-react";
 
 const AccountAdmin = () => {
   const [userData, setUserData] = useState(null);
@@ -126,7 +127,7 @@ const AccountAdmin = () => {
             Mon Profil
           </Typography>
           <IconButton variant="text" onClick={() => setIsEditing(!isEditing)}>
-            <PencilIcon className="h-5 w-5 dark:text-white" />
+            <Edit className="h-5 w-5 dark:text-white" />
           </IconButton>
         </div>
 

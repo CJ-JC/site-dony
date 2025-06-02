@@ -5,7 +5,7 @@ import {
   DialogFooter,
   DialogHeader,
 } from "@material-tailwind/react";
-import { PencilIcon, PlusCircle, Trash } from "lucide-react";
+import { Edit, PlusCircle, Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SearchInput from "@/components/search/SearchInput";
@@ -175,9 +175,9 @@ const ShowMasterclass = () => {
                 <td className="flex items-center gap-2 p-4 py-5">
                   <Link
                     to={`/administrator/edit-masterclass/${masterclass.id}`}
-                    className="flex w-min items-center gap-1 rounded-lg bg-blue-gray-100 p-2 text-sm font-medium text-black hover:bg-gray-200 dark:text-black"
+                    className="flex w-min items-center gap-1 rounded-lg bg-gray-700 p-2 text-sm font-medium text-white hover:bg-gray-200 dark:text-black"
                   >
-                    <PencilIcon className="h-4 w-4" />
+                    <Edit className="h-4 w-4" />
                   </Link>
                   <Button
                     size="sm"

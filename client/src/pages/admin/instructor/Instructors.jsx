@@ -9,7 +9,7 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import { Link, useNavigate } from "react-router-dom";
-import { PencilIcon, PlusCircle, Trash, User2 } from "lucide-react";
+import { Edit, PlusCircle, Trash, User2 } from "lucide-react";
 
 export default function Instructors() {
   const navigate = useNavigate();
@@ -146,9 +146,9 @@ export default function Instructors() {
                   onClick={() => handleEdit(instructor)}
                   size="sm"
                   title="Modifier"
-                  className="flex items-center bg-blue-gray-100 focus:outline-none"
+                  className="flex items-center bg-gray-700 text-white focus:outline-none"
                 >
-                  <PencilIcon className="h-4 w-4 text-black" />
+                  <Edit className="h-4 w-4" />
                 </Button>
                 <Button
                   onClick={() => openDeleteDialog(instructor)}

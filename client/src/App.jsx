@@ -38,6 +38,7 @@ import Cgu from "@/pages/Cgu";
 import Cgv from "@/pages/Cgv";
 import Maintenance from "./pages/Maintenance";
 import Download from "@/pages/Download";
+import UserProfile from "./pages/admin/users/UserProfile";
 
 const Layout = ({
   globalDiscount,
@@ -254,6 +255,7 @@ function App() {
           <Route path="users" element={<Users />} />
 
           <Route path="profile" element={<AccountAdmin />} />
+          <Route path="profile/user/:id" element={<UserProfile />} />
 
           <Route path="remise" element={<Remise />} />
         </Route>

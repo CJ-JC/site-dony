@@ -1,5 +1,5 @@
 import { Button } from "@material-tailwind/react";
-import { PencilIcon, PlusCircle } from "lucide-react";
+import { Edit, PlusCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SearchInput from "@/components/search/SearchInput";
@@ -139,9 +139,9 @@ const ShowCourses = () => {
                 <td className="p-4 py-5">
                   <Link
                     to={`/administrator/edit-course/${course.id}`}
-                    className="flex w-min items-center gap-1 rounded-lg border bg-blue-gray-100 p-2 text-sm font-medium text-black dark:text-blue-500"
+                    className="flex w-min items-center gap-1 rounded-lg border bg-gray-700 p-2 text-sm font-medium text-white dark:text-blue-500"
                   >
-                    <PencilIcon className="h-4 w-4" />
+                    <Edit className="h-4 w-4" />
                   </Link>
                 </td>
               </tr>

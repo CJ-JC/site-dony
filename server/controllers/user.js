@@ -4,6 +4,9 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import generateRegisterEmailTemplate from "../email/generateRegisterEmailTemplate.js";
+import { Purchase } from "../models/Purchase.js";
+import { Course } from "../models/Course.js";
+import { Masterclass } from "../models/Masterclass.js";
 dotenv.config();
 
 export const getUsers = async (req, res) => {
@@ -240,6 +243,45 @@ export const updateUserPassword = async (req, res) => {
     }
 };
 
+export const getUserById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const user = await User.findByPk(id, {
+            attributes: { exclude: ["password"] },
+            include: [
+                {
+                    model: Purchase,
+                    as: "purchases",
+                    where: { status: "completed" }, // facultatif : uniquement les achats réussis
+                    required: false, // pour inclure les users même s'ils n'ont aucun achat
+                    include: [
+                        {
+                            model: Course,
+                            as: "course",
+                            required: false,
+                        },
+                        {
+                            model: Masterclass,
+                            as: "masterclass",
+                            required: false,
+                        },
+                    ],
+                },
+            ],
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "Utilisateur non trouvé" });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.error("Erreur getUserById:", error);
+        res.status(500).json({ message: "Erreur lors de la récupération de l'utilisateur" });
+    }
+};
+
 export const getUserProfile = async (req, res) => {
     try {
         const { id } = req.params;
@@ -254,6 +296,23 @@ export const getUserProfile = async (req, res) => {
         res.status(200).json(user);
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la récupération du profil" });
+    }
+};
+
+export const deletePurchaseUser = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const purchase = await Purchase.findByPk(id);
+
+        if (!purchase) {
+            return res.status(404).json({ message: "Achat introuvable" });
+        }
+
+        await purchase.destroy();
+        res.status(200).json({ message: "Achat supprimé avec succès" });
+    } catch (error) {
+        res.status(500).json({ message: "Erreur lors de la suppression de l'achat" });
     }
 };
 
