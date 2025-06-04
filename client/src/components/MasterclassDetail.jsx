@@ -99,7 +99,7 @@ const MasterclassDetail = () => {
   }
 
   return (
-    <div className="container mx-auto max-w-screen-xl p-4">
+    <div className="container mx-auto h-auto max-w-screen-xl p-4 md:h-screen">
       {/* En-tête de la masterclass */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -126,8 +126,8 @@ const MasterclassDetail = () => {
               </Typography>
 
               {/* Compte à rebours */}
-              <div className="rounded-lg bg-[#F9FAFB] p-4 dark:bg-gray-300/90">
-                <Typography variant="h6" className="mb-2 dark:text-black">
+              <div className="rounded-lg bg-[#F9FAFB] p-4 dark:bg-gray-800">
+                <Typography variant="h6" className="mb-2 dark:text-white">
                   Début de la masterclass dans :
                 </Typography>
                 <Countdown
@@ -139,31 +139,31 @@ const MasterclassDetail = () => {
 
               {/* Informations clés */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center space-x-2 text-blue-gray-800">
+                <div className="flex items-center space-x-2 text-gray-800">
                   <Calendar className="h-5 w-5 dark:text-gray-400" />
                   <Typography className="dark:text-white">
                     {new Date(masterclass.startDate).toLocaleDateString()}
                   </Typography>
                 </div>
-                <div className="flex items-center space-x-2 text-blue-gray-800">
+                <div className="flex items-center space-x-2 text-gray-800">
                   <Clock className="h-5 w-5 dark:text-gray-400" />
                   <Typography className="dark:text-white">
                     <FormatHour masterclass={masterclass} />
                   </Typography>
                 </div>
-                <div className="flex items-center space-x-2 text-blue-gray-800">
+                <div className="flex items-center space-x-2 text-gray-800">
                   <Users className="h-5 w-5 dark:text-gray-400" />
                   <Typography className="dark:text-white">
                     {masterclass.maxParticipants} participants max
                   </Typography>
                 </div>
-                <div className="flex items-center space-x-2 text-blue-gray-800">
+                <div className="flex items-center space-x-2 text-gray-800">
                   <Euro className="h-5 w-5 dark:text-gray-400" />
                   <Typography className="dark:text-white">
                     {masterclass.price}
                   </Typography>
                 </div>
-                <div className="flex items-center space-x-2 text-blue-gray-800">
+                <div className="flex items-center space-x-2 text-gray-800">
                   <Hourglass className="h-5 w-5 dark:text-gray-400" />
                   <Typography className="dark:text-white">
                     Durée totale :{" "}
@@ -173,7 +173,7 @@ const MasterclassDetail = () => {
                     />
                   </Typography>
                 </div>
-                <div className="flex items-center space-x-2 text-blue-gray-800">
+                <div className="flex items-center space-x-2 text-gray-800">
                   <CalendarClock className="h-5 w-5 dark:text-gray-400" />
                   <Typography className="dark:text-white">
                     Durée de chaque réunion : {masterclass.duration}h
@@ -225,11 +225,11 @@ const MasterclassDetail = () => {
           </div>
 
           {/* Description détaillée */}
-          <Card className="mt-12 dark:bg-gray-300/90">
+          <Card className="mt-12 dark:bg-gray-800">
             <CardBody>
               <Typography
                 variant="h4"
-                className="px-2 font-bold text-blue-gray-900"
+                className="px-2 font-bold text-gray-900 dark:text-white"
               >
                 À propos de cette masterclass
               </Typography>
@@ -237,15 +237,18 @@ const MasterclassDetail = () => {
                 value={masterclass.description}
                 readOnly={true}
                 theme="bubble"
-                className="text-blue-gray-700 dark:text-black"
+                className="text-gray-700 dark:text-white"
               />
             </CardBody>
           </Card>
 
           {/* Instructeur */}
-          <Card className="mt-8 dark:bg-gray-300/90">
+          <Card className="mt-8 dark:bg-gray-800">
             <CardBody>
-              <Typography variant="h4" className="mb-4 text-blue-gray-900">
+              <Typography
+                variant="h4"
+                className="mb-4 text-gray-900 dark:text-white"
+              >
                 Votre instructeur
               </Typography>
               <div className="grid grid-cols-[auto,1fr] items-center gap-4">
@@ -257,11 +260,11 @@ const MasterclassDetail = () => {
                 <div>
                   <Typography
                     variant="h6"
-                    className="text-blue-gray-800 dark:text-black"
+                    className="text-gray-800 dark:text-white"
                   >
                     {masterclass.instructor?.name}
                   </Typography>
-                  <Typography className="font-normal text-blue-gray-800 dark:text-black">
+                  <Typography className="font-normal text-gray-800 dark:text-white">
                     {masterclass.instructor?.biography}
                   </Typography>
                 </div>

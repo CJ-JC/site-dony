@@ -62,17 +62,33 @@ export function Home() {
         <div className="max-w-8xl container relative mx-auto">
           <div className="flex flex-wrap items-center">
             <div className="lg:w-8/10 ml-auto mr-auto w-full px-4 text-center">
-              <Typography variant="h1" color="white" className="font-black">
-                Éveillez Votre Passion pour la Musique !
-              </Typography>
-              <Typography variant="lead" color="white" className="opacity-80">
-                Plongez dans un univers musical où chaque note prend vie.
-                Explorez des cours adaptés à tous les niveaux. <br /> Que vous
-                souhaitiez apprendre un nouvel instrument ou perfectionner votre
-                technique, nous avons ce qu'il vous faut. <br /> Venez
-                développer votre passion et laissez votre créativité s'exprimer
-                !
-              </Typography>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <Typography
+                  variant="h1"
+                  color="white"
+                  className="mb-2 text-3xl font-light md:text-5xl"
+                >
+                  Éveillez Votre Passion pour la Musique !
+                </Typography>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.9, delay: 0.3 }}
+              >
+                <Typography variant="lead" color="white" className="opacity-80">
+                  Plongez dans un univers musical où chaque note prend vie.
+                  Explorez des cours adaptés à tous les niveaux. <br /> Que vous
+                  souhaitiez apprendre un nouvel instrument ou perfectionner
+                  votre technique, nous avons ce qu'il vous faut. <br /> Venez
+                  développer votre passion et laissez votre créativité
+                  s'exprimer !
+                </Typography>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -82,17 +98,17 @@ export function Home() {
         <div className="container mx-auto">
           {firstMasterclass?.id && (
             <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1">
-              <Card className="rounded-lg shadow-lg shadow-gray-500/10 dark:bg-gray-300/90">
+              <Card className="rounded-lg shadow-lg shadow-gray-500/10 dark:bg-gray-800">
                 <CardBody className="px-4 py-6">
                   <div className="flex flex-col items-center justify-between gap-x-10 md:flex-row">
                     <div>
                       <Typography
                         variant="h5"
-                        className="px-2 font-bold text-blue-gray-900"
+                        className="px-2 font-bold text-gray-900 dark:text-white"
                       >
                         {firstMasterclass?.title}
                       </Typography>
-                      <div className="text-sm text-blue-gray-800 dark:text-black">
+                      <div className="text-sm text-gray-800 dark:text-white">
                         <ReactQuill
                           value={
                             firstMasterclass?.description?.length > 200
@@ -113,7 +129,7 @@ export function Home() {
                     <div>
                       <Typography
                         variant="h6"
-                        className="text-blue-gray-800 dark:text-black"
+                        className="text-gray-800 dark:text-white"
                       >
                         Début dans :
                       </Typography>
@@ -126,7 +142,10 @@ export function Home() {
                   </div>
                   <div className="flex w-full justify-center">
                     <Link to="/masterclass">
-                      <Button size="md" className="mt-4">
+                      <Button
+                        size="md"
+                        className="mt-4 px-6 py-3 dark:bg-white dark:text-black dark:hover:bg-gray-300"
+                      >
                         En savoir plus
                       </Button>
                     </Link>
@@ -159,7 +178,7 @@ export function Home() {
 
                 <div className="my-24 flex justify-center">
                   <Link to={`/courses`} className="rounded-full">
-                    <Button className="dark:bg-white dark:text-black dark:hover:bg-gray-400">
+                    <Button className="dark:bg-white dark:text-black dark:hover:bg-gray-300">
                       Voir tous les cours
                     </Button>
                   </Link>
@@ -182,9 +201,12 @@ export function Home() {
             className="mb-12 text-center"
           >
             <div className="relative inline-block">
-              <h2 className="text-3xl font-bold text-white md:text-4xl">
+              <Typography
+                variant="h2"
+                className="text-center font-light text-white"
+              >
                 Nos masterclasses
-              </h2>
+              </Typography>
               <span className="absolute -bottom-1 left-0 block h-1 w-full bg-orange-600"></span>
             </div>
 
@@ -282,10 +304,10 @@ export function Home() {
             >
               <div className="mt-4 flex items-center space-x-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-gray-900 dark:text-white">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                     Dony Paul
                   </h3>
-                  <div className="space-y-2 text-justify text-blue-gray-800 dark:text-white">
+                  <div className="space-y-2 text-justify text-gray-800 dark:text-white">
                     <p>
                       Musicien professionnel et formateur depuis plus de 10 ans,
                       j’ai suivi une formation au conservatoire puis dans une
@@ -394,9 +416,12 @@ export function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-center"
           >
-            <h2 className="mb-4 text-3xl font-bold text-white">
+            <Typography
+              variant="h2"
+              className="text-center font-light text-white"
+            >
               Transformez votre avenir dès aujourd'hui !
-            </h2>
+            </Typography>
             <p className="mb-6 text-lg text-gray-200">
               Rejoignez notre communauté et accédez à des formations exclusives
               pour développer vos compétences et réaliser vos ambitions. <br />{" "}
@@ -443,11 +468,11 @@ export function Home() {
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="flex flex-col items-center justify-center text-blue-gray-800">
+                <div className="flex flex-col items-center justify-center text-gray-800">
                   <div className="rounded-full bg-blue-gray-900 p-2 text-white">
                     <Monitor className="h-8 w-8" />
                   </div>
-                  <p className="mt-2 text-blue-gray-800 dark:text-white">
+                  <p className="mt-2 text-gray-800 dark:text-white">
                     <strong>Formation en ligne</strong> : Accédez à des cours
                     interactifs et flexibles, disponibles 24/7 pour s'adapter à
                     votre emploi du temps.
@@ -458,11 +483,11 @@ export function Home() {
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="flex flex-col items-center justify-center text-blue-gray-800">
+                <div className="flex flex-col items-center justify-center text-gray-800">
                   <div className="rounded-full bg-blue-gray-900 p-2 text-white">
                     <UsersRound className="h-8 w-8" />
                   </div>
-                  <p className="mt-2 text-blue-gray-800 dark:text-white">
+                  <p className="mt-2 text-gray-800 dark:text-white">
                     <strong>Communauté dynamique</strong> : Rejoignez une
                     communauté d'apprenants et partagez vos expériences.
                   </p>
@@ -472,11 +497,11 @@ export function Home() {
                 whileHover={{ scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="flex flex-col items-center justify-center text-blue-gray-800">
+                <div className="flex flex-col items-center justify-center text-gray-800">
                   <div className="rounded-full bg-blue-gray-900 p-2 text-white">
                     <Rocket className="h-8 w-8" />
                   </div>
-                  <p className="mt-2 text-blue-gray-800 dark:text-white">
+                  <p className="mt-2 text-gray-800 dark:text-white">
                     <strong>Atteignez de nouveaux sommets</strong> : Progresser
                     n'a jamais été aussi simple. Développez vos compétences et
                     avancez vers vos ambitions.
@@ -491,14 +516,7 @@ export function Home() {
       {/* bg-[#F9FAFB] */}
 
       <section className="mx-auto px-4 py-20">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <Contact />
-        </motion.div>
+        <Contact />
       </section>
     </>
   );

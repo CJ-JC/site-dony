@@ -15,7 +15,7 @@ import instructorRoutes from "./routes/instructorRoutes.js";
 import Stripe from "stripe";
 import { Payment } from "./models/Payment.js";
 import { Purchase } from "./models/Purchase.js";
-import { sendEmail } from "./controllers/email.js";
+import { sendEmail, sendEventEmail } from "./controllers/email.js";
 import remarkRoutes from "./routes/remarkRoutes.js";
 import replyRoutes from "./routes/replyRoutes.js";
 import noteRoutes from "./routes/noteRoutes.js";
@@ -187,6 +187,12 @@ app.use("/api/reset-password", resetPasswordRoutes);
 
 app.use("/api/email", (req, res) => {
     sendEmail(req.query)
+        .then((response) => res.send(response.message))
+        .catch((error) => res.status(500).send(error.message));
+});
+
+app.use("/api/event", (req, res) => {
+    sendEventEmail(req.query)
         .then((response) => res.send(response.message))
         .catch((error) => res.status(500).send(error.message));
 });

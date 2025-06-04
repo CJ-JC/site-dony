@@ -56,11 +56,11 @@ const MasterClass = () => {
               <Typography
                 variant="h2"
                 color="blue-gray"
-                className="mb-6 text-3xl font-extrabold dark:text-white"
+                className="mb-6 text-3xl font-light dark:text-white"
               >
                 Rejoignez Nos Masterclasses
               </Typography>
-              <Typography className="text-blue-gray-800 dark:text-white">
+              <Typography className="text-gray-800 dark:text-white">
                 Découvrez des cours intensifs dispensés par des professionnels
                 de la musique. Améliorez vos compétences et faites passer votre
                 talent au niveau supérieur.
@@ -86,7 +86,7 @@ const MasterClass = () => {
                       <div className="mt-2 h-56 w-1 bg-gray-500"></div>
                     </div>
 
-                    <Card className="flex-1 text-white shadow dark:bg-gray-300/90">
+                    <Card className="flex-1 text-white shadow dark:bg-gray-800">
                       <CardBody className="flex flex-col items-center gap-6 p-4 md:flex-row">
                         <div className="overflow-hidden rounded-md">
                           <img
@@ -100,10 +100,10 @@ const MasterClass = () => {
                             <div>
                               <div className="flex flex-col gap-2 px-2">
                                 <div className="flex items-center gap-2">
-                                  <span className="font-medium text-blue-gray-700 dark:text-black">
+                                  <span className="font-medium text-gray-700 dark:text-white">
                                     Début :
                                   </span>
-                                  <Typography className="text-md font-medium text-blue-gray-700 dark:text-black">
+                                  <Typography className="text-md font-medium text-gray-700 dark:text-white">
                                     {new Date(
                                       masterclass.startDate,
                                     ).toLocaleDateString("fr-FR", {
@@ -117,10 +117,10 @@ const MasterClass = () => {
                                   </Typography>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                  <span className="font-medium text-blue-gray-700 dark:text-black">
+                                  <span className="font-medium text-gray-700 dark:text-white">
                                     Fin :
                                   </span>
-                                  <Typography className="text-md font-medium text-blue-gray-700 dark:text-black">
+                                  <Typography className="text-md font-medium text-gray-700 dark:text-white">
                                     {new Date(
                                       masterclass.endDate,
                                     ).toLocaleDateString("fr-FR", {
@@ -143,7 +143,7 @@ const MasterClass = () => {
                           </div>
                           <Typography
                             variant="h5"
-                            className="px-2 font-medium text-blue-gray-900"
+                            className="px-2 font-medium text-gray-900 dark:text-white"
                           >
                             {masterclass.title}
                           </Typography>
@@ -162,7 +162,7 @@ const MasterClass = () => {
                             }
                             readOnly={true}
                             theme="bubble"
-                            className="text-blue-gray-700 dark:text-black"
+                            className="text-gray-700 dark:text-white"
                           />
                           <hr className="my-4 dark:border-gray-700" />
                           <div className="flex items-center justify-between gap-2">
@@ -184,16 +184,15 @@ const MasterClass = () => {
                               </div>
                               <Typography
                                 variant="h6"
-                                className="text-blue-gray-700"
+                                className="text-gray-700 dark:text-white"
                               >
                                 {masterclass.instructor?.name}
                               </Typography>
                             </div>
                             <Link to={`/masterclass/slug/${masterclass.slug}`}>
                               <Button
-                                variant="gradient"
                                 size="md"
-                                className="mt-4"
+                                className="mt-4 px-6 py-3 text-white dark:bg-white dark:text-black dark:hover:bg-gray-300"
                               >
                                 Voir plus
                               </Button>
@@ -212,7 +211,7 @@ const MasterClass = () => {
             <Typography
               variant="h2"
               color="blue-gray"
-              className="mb-6 p-4 text-center text-2xl font-extrabold dark:text-white"
+              className="mb-6 p-4 text-center text-2xl font-light dark:text-white"
             >
               Pas de sessions disponibles pour le moment.
             </Typography>

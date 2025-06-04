@@ -1,5 +1,5 @@
-const generateContactEmailTemplate = ({ fullname, email, subject, message }) => {
-    const formattedMessage = message.replace(/\n/g, "<br>");
+const generateEventEmailTemplate = ({ firstName, lastName, email, eventType, message }) => {
+    const formattedMessage = message.replace(/\n/g, "<br />");
 
     return `
       <section class="mx-auto max-w-2xl bg-white px-6 py-8 dark:bg-gray-900">  
@@ -9,11 +9,11 @@ const generateContactEmailTemplate = ({ fullname, email, subject, message }) => 
           </p>
   
           <div class="mt-6 rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
-            <p class="text-sm font-semibold text-gray-700 dark:text-gray-200"><strong>Nom complet : </strong> ${fullname}
+            <p class="text-sm font-semibold text-gray-700 dark:text-gray-200"><strong>Nom complet : </strong> ${firstName} ${lastName} 
             <br/>
-            <strong>Email de la personne : </strong> <a href="#" class="text-blue-600 hover:underline dark:text-blue-400" target="_blank">${email}</a> 
+           <strong>Email du client : </strong> <a href="#" class="text-blue-600 hover:underline dark:text-blue-400" target="_blank">${email}</a> 
             <br/>
-            <strong>Sujet : </strong> ${subject}
+            <strong>Événement : </strong> ${eventType}
             </p>
             <p><strong>Message : </strong> ${formattedMessage}</p>
           </div>
@@ -23,8 +23,7 @@ const generateContactEmailTemplate = ({ fullname, email, subject, message }) => 
           </p>
         </main>
   
-        <footer class="mt-8">
-  
+        <footer class="mt-8">  
           <p class="mt-3 text-gray-500 dark:text-gray-400">
             © Donymusic. Tous droits réservés.
           </p>
@@ -32,4 +31,4 @@ const generateContactEmailTemplate = ({ fullname, email, subject, message }) => 
       </section>`;
 };
 
-export default generateContactEmailTemplate;
+export default generateEventEmailTemplate;

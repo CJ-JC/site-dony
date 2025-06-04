@@ -13,7 +13,7 @@ const HeaderAdmin = ({ users, purchases, totalBenefits, courses }) => {
             <h4 className="text-lg font-medium dark:text-white">
               {formattedNumberPurchases}
             </h4>
-            <span className="text-sm font-normal text-blue-gray-700 dark:text-white">
+            <span className="text-sm font-normal text-gray-700 dark:text-white">
               Nombre de commandes
             </span>
           </div>
@@ -29,7 +29,7 @@ const HeaderAdmin = ({ users, purchases, totalBenefits, courses }) => {
             <h4 className="text-lg font-medium dark:text-white">
               {totalBenefits.toFixed(2)}€
             </h4>
-            <span className="text-sm font-normal text-blue-gray-700 dark:text-white">
+            <span className="text-sm font-normal text-gray-700 dark:text-white">
               Total des bénéfices
             </span>
           </div>
@@ -45,7 +45,7 @@ const HeaderAdmin = ({ users, purchases, totalBenefits, courses }) => {
             <h4 className="text-lg font-medium dark:text-white">
               {courses.length}
             </h4>
-            <span className="text-sm font-normal text-blue-gray-700 dark:text-white">
+            <span className="text-sm font-normal text-gray-700 dark:text-white">
               Nombre de formations
             </span>
           </div>
@@ -61,7 +61,7 @@ const HeaderAdmin = ({ users, purchases, totalBenefits, courses }) => {
             <h4 className="text-lg font-medium dark:text-white">
               {formattedNumber}
             </h4>
-            <span className="text-sm font-normal text-blue-gray-700 dark:text-white">
+            <span className="text-sm font-normal text-gray-700 dark:text-white">
               Nombre d'inscrits
             </span>
           </div>

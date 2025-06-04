@@ -37,7 +37,7 @@ const CategoryItem = ({ label, value, icon }) => {
       className={cn(
         "flex min-w-max items-center gap-x-2 rounded-md border px-2 py-2 text-sm font-medium transition hover:shadow-sm dark:text-white",
         {
-          "border-blue-gray-800/10 bg-blue-gray-500/20 dark:bg-gray-100 dark:text-blue-gray-800":
+          "border-blue-gray-800/10 bg-blue-gray-500/20 dark:bg-gray-100 dark:text-gray-800":
             isSelected,
           "border-gray-300 text-gray-700 hover:bg-gray-100 dark:hover:text-black":
             !isSelected,

@@ -445,16 +445,14 @@ const CoursePlayer = ({ toggleTheme, theme }) => {
                                   isCompleted
                                     ? "bg-green-400 text-white hover:bg-green-600"
                                     : selectedVideo?.id === video.id
-                                    ? "bg-gray-200 text-blue-gray-900"
-                                    : "text-blue-gray-800 hover:bg-gray-200"
+                                    ? "bg-gray-200 text-gray-900"
+                                    : "text-gray-800 hover:bg-gray-200"
                                 }
                               `}
                               >
                                 <span
                                   className={`gap-x-1 ${
-                                    isCompleted
-                                      ? "text-white"
-                                      : "text-blue-gray-800"
+                                    isCompleted ? "text-white" : "text-gray-800"
                                   }`}
                                 >
                                   {isCompleted ? (
@@ -586,7 +584,7 @@ const CoursePlayer = ({ toggleTheme, theme }) => {
                       onClick={() => setActiveTab(tab.id)}
                       className={`whitespace-nowrap px-4 py-1 text-sm font-medium focus:outline-none ${
                         activeTab === tab.id
-                          ? "border-b-2 border-blue-gray-900 font-semibold text-blue-gray-900 dark:border-white dark:text-white"
+                          ? "border-b-2 border-blue-gray-900 font-semibold text-gray-900 dark:border-white dark:text-white"
                           : "text-gray-500 hover:text-gray-700"
                       }`}
                     >

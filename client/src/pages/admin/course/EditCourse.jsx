@@ -284,7 +284,7 @@ const editCourse = () => {
               <div className="mt-6 space-y-2 rounded-md border p-4">
                 <label
                   htmlFor="description"
-                  className="-mb-3 text-sm font-medium text-blue-gray-900 dark:text-white"
+                  className="-mb-3 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Description de la formation
                 </label>
@@ -318,7 +318,7 @@ const editCourse = () => {
               <div className="my-6 rounded-md border p-4">
                 <label
                   htmlFor="image"
-                  className="-mb-3 text-sm font-medium text-blue-gray-900 dark:text-white"
+                  className="-mb-3 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Image de la formation
                 </label>
@@ -383,7 +383,7 @@ const editCourse = () => {
               <div className="mt-6 space-y-2 rounded-md border p-4">
                 <label
                   htmlFor="price"
-                  className="text-sm font-medium text-blue-gray-900 dark:text-white"
+                  className="text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Prix de la formation
                 </label>
@@ -428,7 +428,7 @@ const editCourse = () => {
                   <div className="flex items-center justify-between font-medium">
                     <label
                       htmlFor="chapterTitle"
-                      className="-mb-3 text-sm font-medium text-blue-gray-900 dark:text-white"
+                      className="-mb-3 text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Titre du chapitre
                     </label>

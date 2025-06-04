@@ -23,7 +23,6 @@ import MasterclassDetail from "@/components/MasterclassDetail";
 import CreateMasterclass from "@/pages/admin/masterclass/CreateMasterclass";
 import EditMasterclass from "@/pages/admin/masterclass/EditMasterclass";
 import CourseDetail from "@/components/CourseDetail";
-import ScrollToTop from "@/widgets/utils/ScrollToTop";
 import CreateInstructor from "@/pages/admin/instructor/CreateInstructor";
 import Instructors from "@/pages/admin/instructor/Instructors";
 import EditInstructor from "@/pages/admin/instructor/EditInstructor";
@@ -39,6 +38,8 @@ import Cgv from "@/pages/Cgv";
 import Maintenance from "./pages/Maintenance";
 import Download from "@/pages/Download";
 import UserProfile from "./pages/admin/users/UserProfile";
+import Services from "./components/Services";
+import ScrollToTop from "@/widgets/utils/ScrollToTop";
 
 const Layout = ({
   globalDiscount,
@@ -214,6 +215,7 @@ function App() {
           <Route path="courses" element={<Courses />} />
           <Route path="detail/slug/:id" element={<CourseDetail />} />
           <Route path="masterclass" element={<MasterClass />} />
+          <Route path="services" element={<Services />} />
           <Route
             path="masterclass/slug/:slug"
             element={<MasterclassDetail />}

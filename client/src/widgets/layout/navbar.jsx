@@ -53,7 +53,7 @@ export function Navbar({ toggleTheme, theme }) {
   };
 
   const navList = (
-    <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+    <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-2">
       <NavLink
         to="/"
         onClick={handleLinkClick}
@@ -93,6 +93,19 @@ export function Navbar({ toggleTheme, theme }) {
         }
       >
         Masterclass
+      </NavLink>
+      <NavLink
+        to="/services"
+        onClick={handleLinkClick}
+        className={({ isActive }) =>
+          `group flex items-center rounded-lg p-1 px-2 ${
+            isActive
+              ? "border-b border-gray-500 font-semibold text-gray-800 dark:border-white dark:bg-white dark:text-black"
+              : "bg-white font-semibold text-gray-600 hover:bg-gray-100 dark:border-b dark:bg-transparent dark:text-white dark:hover:bg-gray-800"
+          }`
+        }
+      >
+        Prestations
       </NavLink>
     </ul>
   );
@@ -165,7 +178,7 @@ export function Navbar({ toggleTheme, theme }) {
           )}
           <button
             onClick={toggleTheme}
-            className="theme-toggle rounded-md hover:bg-gray-200"
+            className="theme-toggle rounded-md hover:bg-gray-300"
           >
             {theme === "dark" ? (
               <SunIcon className="h-8 w-8 p-1 text-white dark:hover:text-black" />
@@ -202,7 +215,7 @@ export function Navbar({ toggleTheme, theme }) {
         </div>
       </div>
       <Collapse
-        className="absolute left-2/4 z-50 w-[350px] -translate-x-2/4 rounded-xl text-blue-gray-900"
+        className="absolute left-2/4 z-50 w-[350px] -translate-x-2/4 rounded-xl text-gray-900"
         open={openNav}
       >
         <div className="container mx-auto border bg-white px-4 pb-4 pt-2 dark:bg-[#020818]">

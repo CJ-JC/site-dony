@@ -19,7 +19,7 @@ export function Footer({ theme }) {
               <img src={logoDay} width={200} alt="logo donymusic" />
             )}
           </a>
-          <ul className="mb-6 flex flex-wrap items-center justify-center text-sm text-blue-gray-800 dark:text-white sm:mb-0">
+          <ul className="mb-6 flex flex-wrap items-center justify-center text-sm text-gray-800 dark:text-white sm:mb-0">
             <Link to={"/cgv"} className="me-4 hover:underline md:me-6">
               CGV
             </Link>
@@ -33,7 +33,7 @@ export function Footer({ theme }) {
         </div>
 
         <hr className="my-6 border-gray-200 dark:border-gray-700 sm:mx-auto lg:my-4" />
-        <span className="block text-center text-sm text-blue-gray-800 dark:text-white">
+        <span className="block text-center text-sm text-gray-800 dark:text-white">
           © {year} {""}
           <a href="https://www.donymusic.fr" className="hover:underline">
             Donymusic
