@@ -27,7 +27,7 @@ const CourseList = ({ courses }) => {
           <Typography
             variant="h2"
             color="blue-gray"
-            className="mb-6 p-4 text-center text-2xl font-extrabold dark:text-white"
+            className="mb-6 p-4 text-center text-2xl font-light dark:text-white"
           >
             Aucune formation trouvée.
           </Typography>

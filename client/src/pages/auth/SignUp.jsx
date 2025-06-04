@@ -63,7 +63,7 @@ export function SignUp() {
           <div className="mb-1 flex flex-col gap-4">
             <label
               htmlFor="lastname"
-              className="-mb-3 text-sm font-medium text-blue-gray-900 dark:text-white"
+              className="-mb-3 text-sm font-medium text-gray-900 dark:text-white"
             >
               Nom
             </label>
@@ -79,7 +79,7 @@ export function SignUp() {
             />
             <label
               htmlFor="firstname"
-              className="-mb-3 text-sm font-medium text-blue-gray-900 dark:text-white"
+              className="-mb-3 text-sm font-medium text-gray-900 dark:text-white"
             >
               Prénom
             </label>
@@ -94,7 +94,7 @@ export function SignUp() {
             />
             <label
               htmlFor="email"
-              className="-mb-3 text-sm font-medium text-blue-gray-900 dark:text-white"
+              className="-mb-3 text-sm font-medium text-gray-900 dark:text-white"
             >
               Email
             </label>
@@ -109,7 +109,7 @@ export function SignUp() {
             />
             <label
               htmlFor="password"
-              className="-mb-3 text-sm font-medium text-blue-gray-900 dark:text-white"
+              className="-mb-3 text-sm font-medium text-gray-900 dark:text-white"
             >
               Mot de passe
             </label>
@@ -135,7 +135,7 @@ export function SignUp() {
 
           <Typography
             variant="paragraph"
-            className="mt-4 text-center font-medium text-blue-gray-800 dark:text-white"
+            className="mt-4 text-center font-medium text-gray-800 dark:text-white"
           >
             Vous avez déjà un compte ?
             <Link

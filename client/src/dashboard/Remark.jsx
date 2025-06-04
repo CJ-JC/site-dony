@@ -172,7 +172,7 @@ const Remark = ({ selectedVideo, createdRemark }) => {
                   onChange={(e) =>
                     handleInputChange(remark.id, "title", e.target.value)
                   }
-                  className="mb-2 text-blue-gray-900"
+                  className="mb-2 text-gray-900"
                 />
                 <Textarea
                   name="content"

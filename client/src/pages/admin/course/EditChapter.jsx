@@ -245,7 +245,7 @@ const EditChapter = () => {
           <div className="space-y-2 rounded-md border p-4">
             <label
               htmlFor="description"
-              className="text-sm font-medium text-blue-gray-900 dark:text-white"
+              className="text-sm font-medium text-gray-900 dark:text-white"
             >
               Description du chapitre
             </label>

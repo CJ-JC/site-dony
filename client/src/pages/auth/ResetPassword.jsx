@@ -99,7 +99,7 @@ const ResetPassword = () => {
         <div className="mt-6 text-center text-sm text-gray-600 dark:text-white">
           <Link
             to={"/sign-in"}
-            className="text-blue-gray-800 hover:underline dark:text-white"
+            className="text-gray-800 hover:underline dark:text-white"
           >
             Retour à la connexion
           </Link>

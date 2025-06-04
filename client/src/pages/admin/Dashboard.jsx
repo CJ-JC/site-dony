@@ -173,7 +173,7 @@ const Dashboard = () => {
                       href={purchase.payments?.[0]?.invoiceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1 text-sm font-semibold text-blue-gray-900 hover:underline dark:text-white"
+                      className="flex items-center gap-1 text-sm font-semibold text-gray-900 hover:underline dark:text-white"
                     >
                       <Eye className="h-5 w-5" />
                       Voir

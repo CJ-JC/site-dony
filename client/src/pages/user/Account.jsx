@@ -273,7 +273,7 @@ const Account = () => {
     <section className="mx-auto h-auto max-w-screen-xl px-4 py-5 md:h-screen">
       <div className="container mx-auto h-auto space-y-10 md:h-screen">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-blue-gray-900 dark:text-white">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Mon compte
           </h1>
           <p className="mt-2 text-sm text-gray-600 dark:text-white">

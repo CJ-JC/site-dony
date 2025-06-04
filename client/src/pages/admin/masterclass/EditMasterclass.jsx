@@ -183,7 +183,7 @@ const EditMasterclass = () => {
               <div className="mt-6 space-y-2 rounded-md border p-4">
                 <label
                   htmlFor="description"
-                  className="text-sm font-medium text-blue-gray-900 dark:text-white"
+                  className="text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Description de la masterclasse
                 </label>
@@ -218,7 +218,7 @@ const EditMasterclass = () => {
               <div className="my-6 rounded-md border p-4">
                 <label
                   htmlFor="image"
-                  className="-mb-3 text-sm font-medium text-blue-gray-900 dark:text-white"
+                  className="-mb-3 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Image de la masterclasse
                 </label>
@@ -315,7 +315,7 @@ const EditMasterclass = () => {
                 <div className="mt-6 space-y-2 rounded-md border p-4">
                   <label
                     htmlFor="price"
-                    className="text-sm font-medium text-blue-gray-900 dark:text-white"
+                    className="text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Prix de la masterclasse
                   </label>
@@ -335,7 +335,7 @@ const EditMasterclass = () => {
               <div>
                 <h2 className="text-xl">Choisissez les dates et heures</h2>
                 <div>
-                  <label className="text-sm font-medium text-blue-gray-900 dark:text-white">
+                  <label className="text-sm font-medium text-gray-900 dark:text-white">
                     Date et heure de début
                   </label>
                   <DatePicker
@@ -350,7 +350,7 @@ const EditMasterclass = () => {
                   />
                 </div>
                 <div>
-                  <label className="darl:text-white text-sm font-medium text-blue-gray-900 dark:text-white">
+                  <label className="darl:text-white text-sm font-medium text-gray-900 dark:text-white">
                     Date et heure de fin
                   </label>
                   <DatePicker
@@ -368,7 +368,7 @@ const EditMasterclass = () => {
               <div className="mt-6 space-y-2 rounded-md border p-4">
                 <label
                   htmlFor="duration"
-                  className="text-sm font-medium text-blue-gray-900 dark:text-white"
+                  className="text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Durer de la masterclasse (en heures)
                 </label>
@@ -386,7 +386,7 @@ const EditMasterclass = () => {
               <div className="mt-6 space-y-2 rounded-md border p-4">
                 <label
                   htmlFor="maxParticipants"
-                  className="text-sm font-medium text-blue-gray-900 dark:text-white"
+                  className="text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Maximum de participants
                 </label>
@@ -404,7 +404,7 @@ const EditMasterclass = () => {
               <div className="mt-6 space-y-2 rounded-md border p-4">
                 <label
                   htmlFor="link"
-                  className="text-sm font-medium text-blue-gray-900 dark:text-white"
+                  className="text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Lien de la masterclass
                 </label>

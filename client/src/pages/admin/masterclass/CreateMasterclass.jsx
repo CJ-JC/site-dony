@@ -160,7 +160,7 @@ const CreateMasterclass = () => {
               <div className="mt-6 space-y-2 rounded-md border p-4">
                 <label
                   htmlFor="description"
-                  className="text-sm font-medium text-blue-gray-900 dark:text-white"
+                  className="text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Description de la masterclass
                 </label>
@@ -195,7 +195,7 @@ const CreateMasterclass = () => {
               <div className="my-6 space-y-2 rounded-md border p-4">
                 <label
                   htmlFor="image"
-                  className="text-sm font-medium text-blue-gray-900 dark:text-white"
+                  className="text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Image de la masterclass
                 </label>
@@ -292,7 +292,7 @@ const CreateMasterclass = () => {
                 <div className="mt-6 space-y-2 rounded-md border p-4">
                   <label
                     htmlFor="price"
-                    className="text-sm font-medium text-blue-gray-900 dark:text-white"
+                    className="text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Prix de la masterclass
                   </label>
@@ -313,7 +313,7 @@ const CreateMasterclass = () => {
               <div>
                 <h2 className="mb-4 text-xl">Choisissez les dates et heures</h2>
                 <div className="flex flex-col items-start gap-x-2 md:flex-row md:items-center">
-                  <label className="text-sm font-medium text-blue-gray-900 dark:text-white">
+                  <label className="text-sm font-medium text-gray-900 dark:text-white">
                     Date et heure de début
                   </label>
                   <DatePicker
@@ -328,7 +328,7 @@ const CreateMasterclass = () => {
                   />
                 </div>
                 <div className="flex flex-col items-start gap-x-2 md:flex-row md:items-center">
-                  <label className="text-sm font-medium text-blue-gray-900 dark:text-white">
+                  <label className="text-sm font-medium text-gray-900 dark:text-white">
                     Date et heure de fin
                   </label>
                   <DatePicker
@@ -347,7 +347,7 @@ const CreateMasterclass = () => {
               <div className="mt-6 space-y-2 rounded-md border p-4">
                 <label
                   htmlFor="duration"
-                  className="text-sm font-medium text-blue-gray-900 dark:text-white"
+                  className="text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Durer de la masterclass (en heures)
                 </label>
@@ -365,7 +365,7 @@ const CreateMasterclass = () => {
               <div className="mt-6 space-y-2 rounded-md border p-4">
                 <label
                   htmlFor="maxParticipants"
-                  className="text-sm font-medium text-blue-gray-900 dark:text-white"
+                  className="text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Maximum de participants
                 </label>
@@ -383,7 +383,7 @@ const CreateMasterclass = () => {
               <div className="mt-6 space-y-2 rounded-md border p-4">
                 <label
                   htmlFor="link"
-                  className="text-sm font-medium text-blue-gray-900 dark:text-white"
+                  className="text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Lien de la masterclass
                 </label>
