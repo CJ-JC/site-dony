@@ -17,7 +17,20 @@ const CreateMasterclass = () => {
   const [file, setFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [instructors, setInstructors] = useState([]);
+  const [categories, setCategories] = useState([]);
   const BASE_URL = import.meta.env.VITE_API_URL;
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/category`);
+        setCategories(response.data);
+      } catch (error) {
+        setError("Erreur lors de la récupération des catégories");
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
@@ -60,9 +73,9 @@ const CreateMasterclass = () => {
     title: "",
     slug: "",
     description: "",
-    price: 0,
-    duration: 0,
-    maxParticipants: 0,
+    price: "",
+    duration: "",
+    maxParticipants: "",
     imageUrl: "",
     startDate: new Date(),
     endDate: new Date(),
@@ -89,26 +102,16 @@ const CreateMasterclass = () => {
 
     try {
       setLoading(true);
-      await axios.post(`${BASE_URL}/api/masterclass/create`, inputs);
-      setInputs({
-        title: "",
-        slug: "",
-        description: "",
-        price: "",
-        duration: 0,
-        maxParticipants: 0,
-        imageUrl: "",
-        startDate: new Date(),
-        endDate: new Date(),
-        instructorId: null,
-        link: "",
-        file: null,
-      });
-      setFile(null);
-      setLoading(false);
-      navigate("/administrator/masterclass");
+      const response = await axios.post(
+        `${BASE_URL}/api/masterclass/create`,
+        inputs,
+      );
+
+      const newMasterclass = response.data;
+      navigate(`/administrator/edit-masterclass/${newMasterclass.id}`);
     } catch (error) {
       setError(error.response?.data.message || "Une erreur est survenue");
+    } finally {
       setLoading(false);
     }
   };
@@ -255,7 +258,7 @@ const CreateMasterclass = () => {
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  dark:bg-white dark:text-black dark:placeholder-gray-400"
                 >
                   <option value="" disabled>
-                    -- Sélectionnez un instructeur --
+                    Sélectionnez un instructeur
                   </option>
                   {instructors.map((instructor) => (
                     <option key={instructor.id} value={instructor.id}>
@@ -306,6 +309,35 @@ const CreateMasterclass = () => {
                     onChange={handleChange}
                     className="dark:text-white dark:focus:border-white"
                   />
+                </div>
+                <div className="mt-6 space-y-2 rounded-md border p-4">
+                  <label
+                    htmlFor="category"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Catégorie du cours
+                  </label>
+                  <select
+                    id="category"
+                    name="categoryId"
+                    value={inputs.categoryId || ""}
+                    onChange={(e) =>
+                      setInputs((prev) => ({
+                        ...prev,
+                        categoryId: parseInt(e.target.value),
+                      }))
+                    }
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  dark:bg-white dark:text-black dark:placeholder-gray-400"
+                  >
+                    <option value="" disabled>
+                      Sélectionnez une catégorie
+                    </option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.title}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 

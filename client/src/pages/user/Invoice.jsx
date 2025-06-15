@@ -37,7 +37,7 @@ const Invoice = ({ purchases }) => {
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-black dark:bg-white/50">
           {purchases
             .filter((purchase) => purchase.status === "completed")
             .map((purchase, index) => (
@@ -66,7 +66,7 @@ const Invoice = ({ purchases }) => {
                     href={purchase.payments?.[0]?.invoiceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-sm font-semibold text-gray-900 hover:underline dark:text-white"
+                    className="flex items-center gap-1 text-sm font-semibold text-gray-900 hover:underline dark:text-black"
                   >
                     <Eye className="h-5 w-5" />
                     Voir

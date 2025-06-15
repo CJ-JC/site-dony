@@ -3,6 +3,9 @@ import { Masterclass } from "../models/Masterclass.js";
 import { Instructor } from "../models/Instructor.js";
 import { putObject } from "../util/putObject.js";
 import { deleteObject } from "../util/deleteObject.js";
+import { Category } from "../models/Category.js";
+import { Purchase } from "../models/Purchase.js";
+import { Op } from "sequelize";
 
 export const getMasterclasses = async (req, res) => {
     try {
@@ -12,6 +15,11 @@ export const getMasterclasses = async (req, res) => {
                     model: Instructor,
                     as: "instructor",
                     attributes: ["id", "name", "imageUrl", "biography"],
+                },
+                {
+                    model: Category,
+                    as: "category",
+                    attributes: ["id", "title"],
                 },
             ],
         });
@@ -23,10 +31,10 @@ export const getMasterclasses = async (req, res) => {
 
 export const createMasterclass = async (req, res) => {
     try {
-        const { title, slug, description, startDate, endDate, price, duration, maxParticipants, instructorId, link, file } = req.body;
+        const { title, slug, description, startDate, endDate, categoryId, price, duration, maxParticipants, instructorId, link, file } = req.body;
 
         // Vérifier les champs obligatoires
-        if ((!title || !description || !startDate || !endDate || !price || !duration || !maxParticipants || !instructorId, !link)) {
+        if ((!title || !description || !startDate || !endDate || !categoryId || !price || !duration || !maxParticipants || !instructorId, !link)) {
             return res.status(400).json({ message: "Tous les champs sont obligatoires" });
         }
 
@@ -41,14 +49,20 @@ export const createMasterclass = async (req, res) => {
         }
 
         // Vérifiez que la catégorie existe
+        const categoryExists = await Category.findByPk(categoryId);
+        if (!categoryExists) {
+            return res.status(400).json({ message: "La catégorie spécifiée est introuvable." });
+        }
+
+        // Vérifiez que la catégorie existe
         const instructorExists = await Instructor.findByPk(instructorId);
         if (!instructorExists) {
-            return res.status(400).json({ error: "L'instructeur spécifié n'existe pas." });
+            return res.status(400).json({ message: "L'instructeur spécifié n'existe pas." });
         }
 
         const existingMasterclass = await Masterclass.findOne({ where: { title } });
         if (existingMasterclass) {
-            return res.status(400).json({ error: "Un cours avec ce nom existe déjà." });
+            return res.status(400).json({ message: "Un cours avec ce nom existe déjà." });
         }
 
         // Upload de l'image sur S3
@@ -66,6 +80,7 @@ export const createMasterclass = async (req, res) => {
             description,
             startDate,
             endDate,
+            categoryId: parseInt(categoryId),
             price: parseFloat(price),
             duration: parseInt(duration),
             maxParticipants: parseInt(maxParticipants),
@@ -90,6 +105,11 @@ export const getMasterclassById = async (req, res) => {
                     as: "instructor",
                     attributes: ["id", "name", "imageUrl", "biography"],
                 },
+                {
+                    model: Category,
+                    as: "category",
+                    attributes: ["id", "title"],
+                },
             ],
         });
 
@@ -106,11 +126,17 @@ export const getMasterclassById = async (req, res) => {
 export const updateMasterclass = async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, description, startDate, endDate, price, duration, maxParticipants, slug, instructorId, link, file } = req.body;
+        const { title, description, startDate, endDate, price, duration, categoryId, maxParticipants, slug, instructorId, link, file } = req.body;
 
         // Vérification des champs obligatoires
-        if (!title || !description || !startDate || !endDate || !price || !duration || !maxParticipants || !instructorId || !link) {
+        if (!title || !description || !startDate || !endDate || !price || !duration || !categoryId || !maxParticipants || !instructorId || !link) {
             return res.status(400).json({ message: "Tous les champs sont obligatoires" });
+        }
+
+        // Vérifiez que la catégorie existe
+        const categoryExists = await Category.findByPk(categoryId);
+        if (!categoryExists) {
+            return res.status(400).json({ error: "La catégorie spécifiée est introuvable." });
         }
 
         // Vérifiez que l'instructeur existe
@@ -168,6 +194,7 @@ export const updateMasterclass = async (req, res) => {
             price: parseFloat(price),
             imageUrl: imagePath,
             duration: parseInt(duration),
+            categoryId: parseInt(categoryId),
             maxParticipants: parseInt(maxParticipants),
             slug: newSlug,
             instructorId: parseInt(instructorId),
@@ -193,6 +220,11 @@ export const getMasterclassBySlug = async (req, res) => {
                     as: "instructor",
                     attributes: ["id", "name", "imageUrl", "biography"],
                 },
+                {
+                    model: Category,
+                    as: "category",
+                    attributes: ["id", "title"],
+                },
             ],
         });
 
@@ -203,6 +235,52 @@ export const getMasterclassBySlug = async (req, res) => {
         res.status(200).json(masterclass);
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la récupération de la masterclass" });
+    }
+};
+
+export const getUserSubscribedMasterclasses = async (req, res) => {
+    try {
+        const userId = req.user?.id;
+
+        if (!userId) {
+            return res.status(401).json({ message: "Non autorisé. Veuillez vous connecter." });
+        }
+
+        // 1. Rechercher les achats de masterclass validés
+        const purchases = await Purchase.findAll({
+            where: {
+                userId,
+                itemType: "masterclass",
+                status: "completed",
+            },
+            attributes: ["itemId", "createdAt"],
+        });
+
+        const masterclassIds = purchases.map((p) => p.itemId);
+
+        if (masterclassIds.length === 0) {
+            return res.status(200).json({ masterclasses: [] });
+        }
+
+        // 2. Récupérer les masterclasses associées
+        const masterclasses = await Masterclass.findAll({
+            where: {
+                id: { [Op.in]: masterclassIds },
+            },
+            include: [
+                {
+                    model: Category,
+                    as: "category",
+                    attributes: ["id", "title"],
+                },
+            ],
+            order: [["startDate", "ASC"]],
+        });
+
+        return res.status(200).json({ masterclasses });
+    } catch (error) {
+        console.error("Erreur récupération masterclasses souscrites :", error);
+        return res.status(500).json({ message: "Erreur serveur" });
     }
 };
 
@@ -227,5 +305,24 @@ export const deleteMasterclass = async (req, res) => {
         res.status(200).json({ message: "Masterclass supprimé avec succès" });
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la suppression du masterclass" });
+    }
+};
+
+export const togglePublishMasterclass = async (req, res) => {
+    const { id } = req.params;
+    const { isPublished } = req.body;
+
+    try {
+        const masterclass = await Masterclass.findByPk(id);
+        if (!masterclass) {
+            return res.status(404).json({ message: "Formation introuvable" });
+        }
+
+        masterclass.isPublished = isPublished;
+        await masterclass.save();
+
+        res.status(200).json({ message: "Statut mis à jour", isPublished: masterclass.isPublished });
+    } catch (error) {
+        res.status(500).json({ message: "Erreur lors de la mise à jour" });
     }
 };

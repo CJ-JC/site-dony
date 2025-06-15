@@ -58,13 +58,8 @@ const Aside = ({ logout, isSidebarOpen, setIsSidebarOpen, user }) => {
               icon: <LayoutDashboard className="h-5 w-5" />,
             },
             {
-              path: "/administrator/courses",
-              label: "Formations",
-              icon: <Tv className="h-5 w-5" />,
-            },
-            {
               path: "/administrator/masterclass",
-              label: "Masterclass",
+              label: "Formations",
               icon: <GraduationCap className="h-5 w-5" />,
             },
             {
