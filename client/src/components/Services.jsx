@@ -93,11 +93,16 @@ const Services = () => {
     <div className="text-gray-800 dark:bg-[#020818]">
       {/* Hero */}
       <div className="relative flex h-[700px] content-center items-center justify-center pb-32 pt-16">
-        <img
-          src="/img/event-hero.png"
-          alt="Événement musical"
+        <video
           className="absolute top-0 h-full w-full object-cover"
-        />
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        >
+          <source src="/video/prestation.mp4" type="video/mp4" />
+        </video>
         <div className="absolute top-0 h-full w-full bg-black/85 bg-cover bg-center" />
         <div className="container relative mx-auto max-w-screen-xl">
           <div className="flex flex-wrap items-center">
@@ -316,15 +321,7 @@ const Services = () => {
               {/* Image responsive */}
               <div className="order-2 col-span-1 lg:order-1 lg:col-span-2">
                 <div className="group relative block h-[300px] w-full overflow-hidden rounded-lg sm:h-[400px] lg:h-full">
-                  <img
-                    src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2940&auto=format&fit=crop"
-                    alt="Wines"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
-                  <h3 className="absolute left-0 top-0 z-10 p-4 text-2xl font-bold text-white lg:text-3xl">
-                    Wines
-                  </h3>
+                  <video src="/video/presta.mp4" controls type="video/mp4" />
                 </div>
               </div>
             </div>

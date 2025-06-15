@@ -99,7 +99,7 @@ const MasterclassDetail = () => {
   }
 
   return (
-    <div className="container mx-auto h-auto max-w-screen-xl p-4 md:h-screen">
+    <div className="container mx-auto my-4 max-w-screen-xl p-4">
       {/* En-tête de la masterclass */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -119,7 +119,6 @@ const MasterclassDetail = () => {
               />
             </div>
 
-            {/* Colonne de droite avec les informations principales */}
             <div className="space-y-6 self-center">
               <Typography variant="h2" className="text-2xl font-bold">
                 {masterclass.title}
@@ -225,52 +224,48 @@ const MasterclassDetail = () => {
           </div>
 
           {/* Description détaillée */}
-          <Card className="mt-12 dark:bg-gray-800">
-            <CardBody>
-              <Typography
-                variant="h4"
-                className="px-2 font-bold text-gray-900 dark:text-white"
-              >
-                À propos de cette masterclass
-              </Typography>
-              <ReactQuill
-                value={masterclass.description}
-                readOnly={true}
-                theme="bubble"
-                className="text-gray-700 dark:text-white"
-              />
-            </CardBody>
-          </Card>
+          <div className="mt-8 border p-4 dark:bg-gray-800">
+            <Typography
+              variant="h4"
+              className="mb-4 text-gray-900 dark:text-white"
+            >
+              À propos de cette masterclass
+            </Typography>
+            <ReactQuill
+              value={masterclass.description}
+              readOnly={true}
+              theme="bubble"
+              className="text-gray-700 dark:text-white"
+            />
+          </div>
 
           {/* Instructeur */}
-          <Card className="mt-8 dark:bg-gray-800">
-            <CardBody>
-              <Typography
-                variant="h4"
-                className="mb-4 text-gray-900 dark:text-white"
-              >
-                Votre instructeur
-              </Typography>
-              <div className="grid grid-cols-[auto,1fr] items-center gap-4">
-                <img
-                  src={`${CoursesImage}${masterclass.instructor?.imageUrl}`}
-                  alt={masterclass.instructor?.name}
-                  className="h-16 w-16 rounded-full object-cover"
-                />
-                <div>
-                  <Typography
-                    variant="h6"
-                    className="text-gray-800 dark:text-white"
-                  >
-                    {masterclass.instructor?.name}
-                  </Typography>
-                  <Typography className="font-normal text-gray-800 dark:text-white">
-                    {masterclass.instructor?.biography}
-                  </Typography>
-                </div>
+          <div className="mt-8 border p-4 dark:bg-gray-800">
+            <Typography
+              variant="h4"
+              className="mb-4 text-gray-900 dark:text-white"
+            >
+              Votre instructeur
+            </Typography>
+            <div className="grid grid-cols-[auto,1fr] items-center gap-4">
+              <img
+                src={`${CoursesImage}${masterclass.instructor?.imageUrl}`}
+                alt={masterclass.instructor?.name}
+                className="h-16 w-16 rounded-full object-cover"
+              />
+              <div>
+                <Typography
+                  variant="h6"
+                  className="text-gray-800 dark:text-white"
+                >
+                  {masterclass.instructor?.name}
+                </Typography>
+                <Typography className="font-normal text-gray-800 dark:text-white">
+                  {masterclass.instructor?.biography}
+                </Typography>
               </div>
-            </CardBody>
-          </Card>
+            </div>
+          </div>
         </div>
       </motion.div>
     </div>

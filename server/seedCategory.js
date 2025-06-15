@@ -20,6 +20,10 @@ const seedCategory = async () => {
         await Category.create({
             title: "Piano",
         });
+
+        await Category.create({
+            title: "Chant",
+        });
     } catch (error) {
         console.error("Erreur lors de la création des Remises :", error);
     }

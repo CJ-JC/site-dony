@@ -19,6 +19,7 @@ import { sendEmail, sendEventEmail } from "./controllers/email.js";
 import remarkRoutes from "./routes/remarkRoutes.js";
 import replyRoutes from "./routes/replyRoutes.js";
 import noteRoutes from "./routes/noteRoutes.js";
+import replayRoutes from "./routes/replayRoutes.js";
 import resetPasswordRoutes from "./routes/resetPassword.js";
 import attachmentRoutes from "./routes/attachmentRoutes.js";
 import nodemailer from "nodemailer";
@@ -180,6 +181,8 @@ app.use("/api/remark", remarkRoutes);
 app.use("/api/reply", replyRoutes);
 
 app.use("/api/note", noteRoutes);
+
+app.use("/api/replay", replayRoutes);
 
 app.use("/api/attachment", attachmentRoutes);
 

@@ -1,11 +1,5 @@
-import {
-  Button,
-  Dialog,
-  DialogBody,
-  DialogFooter,
-  DialogHeader,
-} from "@material-tailwind/react";
-import { Edit, PlusCircle, Trash } from "lucide-react";
+import { Button } from "@material-tailwind/react";
+import { Edit, Mic, PlusCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SearchInput from "@/components/search/SearchInput";
@@ -29,9 +23,6 @@ const ShowMasterclass = () => {
   const masterclassesPerPage = 10;
   const [searchQuery, setSearchQuery] = useState("");
   const [masterclasses, setMasterclasses] = useState([]);
-  const [deleteDialog, setDeleteDialog] = useState(false);
-  const [selectedMasterclass, setMasterclass] = useState(null);
-  const [error, setError] = useState(null);
   const BASE_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -48,23 +39,6 @@ const ShowMasterclass = () => {
     };
     fetchCourses();
   }, []);
-
-  const handleDelete = async () => {
-    try {
-      await axios.delete(
-        `${BASE_URL}/api/masterclass/delete/${selectedMasterclass.id}`,
-      );
-      setDeleteDialog(false);
-      window.location.reload();
-    } catch (err) {
-      setError("Erreur lors de la suppression de l'instructeur");
-    }
-  };
-
-  const openDeleteDialog = (masterclass) => {
-    setMasterclass(masterclass);
-    setDeleteDialog(true);
-  };
 
   // Filtrer les cours en fonction de la recherche et des dates
   const filteredMasterclasses = masterclasses.filter((masterclass) => {
@@ -102,7 +76,7 @@ const ShowMasterclass = () => {
           className="mb-3 text-xl font-bold dark:text-white md:text-3xl"
           color="blue-gray"
         >
-          Liste des masterclasses
+          Liste des masterclass
         </Typography>
 
         <div className="flex-column mb-4 flex flex-wrap items-center justify-center space-y-4 sm:flex-row sm:space-y-4 md:justify-between">
@@ -143,6 +117,11 @@ const ShowMasterclass = () => {
               </th>
               <th className="border-slate-200 bg-slate-50 border-b p-4">
                 <p className="text-slate-500 text-sm font-normal leading-none">
+                  Status
+                </p>
+              </th>
+              <th className="border-slate-200 bg-slate-50 border-b p-4">
+                <p className="text-slate-500 text-sm font-normal leading-none">
                   Action
                 </p>
               </th>
@@ -172,21 +151,32 @@ const ShowMasterclass = () => {
                     {formatDateTime(masterclass.endDate)}
                   </p>
                 </td>
+                <td className="p-4 py-5">
+                  <p className="text-slate-500 text-sm">
+                    {masterclass.isPublished ? (
+                      <span className="me-2 rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300">
+                        Publié
+                      </span>
+                    ) : (
+                      <span className="me-2 rounded bg-red-400 px-2.5 py-0.5 text-xs font-medium text-white dark:bg-red-700 dark:text-red-300">
+                        Non publié
+                      </span>
+                    )}
+                  </p>
+                </td>
                 <td className="flex items-center gap-2 p-4 py-5">
                   <Link
                     to={`/administrator/edit-masterclass/${masterclass.id}`}
-                    className="flex w-min items-center gap-1 rounded-lg bg-gray-700 p-2 text-sm font-medium text-white hover:bg-gray-200 dark:text-black"
+                    className="flex w-min items-center gap-1 rounded-lg bg-gray-500 p-2 text-sm font-medium text-white hover:bg-gray-600 dark:text-black"
                   >
                     <Edit className="h-4 w-4" />
                   </Link>
-                  <Button
-                    size="sm"
-                    color="red"
-                    onClick={() => openDeleteDialog(masterclass)}
-                    className="flex items-center gap-1 rounded-lg p-2 dark:text-white"
+                  <Link
+                    to={`/administrator/masterclass/${masterclass.slug}/replay`}
+                    className="flex w-min items-center gap-1 rounded-lg bg-red-500 p-2 text-sm font-medium text-white hover:bg-red-600 dark:text-black"
                   >
-                    <Trash className="h-4 w-4" />
-                  </Button>
+                    <Mic className="h-4 w-4" />
+                  </Link>
                 </td>
               </tr>
             ))}
@@ -249,26 +239,6 @@ const ShowMasterclass = () => {
             </button>
           </div>
         </div>
-        <Dialog open={deleteDialog} handler={() => setDeleteDialog(false)}>
-          <DialogHeader>Confirmer la suppression</DialogHeader>
-          <DialogBody>
-            Êtes-vous sûr de vouloir supprimer la masterclasse{" "}
-            {selectedMasterclass?.name} ? Cette action est irréversible.
-          </DialogBody>
-          <DialogFooter>
-            <Button
-              variant="text"
-              color="gray"
-              onClick={() => setDeleteDialog(false)}
-              className="mr-1"
-            >
-              Annuler
-            </Button>
-            <Button variant="gradient" color="red" onClick={handleDelete}>
-              Confirmer
-            </Button>
-          </DialogFooter>
-        </Dialog>
       </div>
     </>
   );

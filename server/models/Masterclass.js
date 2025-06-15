@@ -2,6 +2,7 @@ import sequelize from "../config/dbMysql.js";
 import { DataTypes } from "sequelize";
 import slugify from "slugify";
 import { Instructor } from "./Instructor.js";
+import { Category } from "./Category.js";
 
 export const Masterclass = sequelize.define(
     "masterclass",
@@ -31,6 +32,16 @@ export const Masterclass = sequelize.define(
             type: DataTypes.FLOAT,
             allowNull: false,
         },
+        categoryId: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            references: {
+                model: "category",
+                key: "id",
+            },
+            onUpdate: "CASCADE",
+            onDelete: "SET NULL",
+        },
         slug: {
             type: DataTypes.STRING,
             unique: true,
@@ -45,6 +56,11 @@ export const Masterclass = sequelize.define(
             type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: 10,
+        },
+        isPublished: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+            allowNull: false,
         },
         imageUrl: {
             type: DataTypes.STRING,
@@ -106,4 +122,14 @@ Instructor.hasMany(Masterclass, {
 Masterclass.belongsTo(Instructor, {
     foreignKey: "instructorId", // Clé étrangère dans Masterclass
     as: "instructor", // Alias pour accéder à l'instructeur d'une masterclass
+});
+
+Category.hasMany(Masterclass, {
+    foreignKey: "categoryId",
+    as: "masterclasses",
+});
+
+Masterclass.belongsTo(Category, {
+    foreignKey: "categoryId",
+    as: "category",
 });

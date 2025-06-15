@@ -1,9 +1,9 @@
 import React from "react";
 import Loading from "@/widgets/utils/Loading";
-import CourseList from "@/components/CourseList";
 import { Typography } from "@material-tailwind/react";
+import MasterclassList from "@/components/MasterclassList";
 
-const Dashboard = ({ courseData, loading }) => {
+const Dashboard = ({ loading, masterclasses }) => {
   if (loading) {
     return <Loading />;
   }
@@ -16,7 +16,7 @@ const Dashboard = ({ courseData, loading }) => {
         Les formations que vous avez souscrit sont affichées ci-dessous.
       </p>
       <div className="p-0 md:p-2">
-        <CourseList courses={courseData} />
+        <MasterclassList masterclasses={masterclasses} loading={loading} />
       </div>
     </div>
   );
