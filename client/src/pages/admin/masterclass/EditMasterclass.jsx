@@ -1,10 +1,19 @@
 import AlertError from "@/widgets/utils/AlertError";
 import Editor from "@/widgets/utils/Editor";
-import { Button, Input } from "@material-tailwind/react";
+import PublishButton from "@/widgets/utils/PublishButton";
+import { Input } from "@material-tailwind/react";
 import axios from "axios";
+import { TrashIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { useNavigate, useParams } from "react-router-dom";
+import {
+  Button,
+  Dialog,
+  DialogBody,
+  DialogFooter,
+  DialogHeader,
+} from "@material-tailwind/react";
 
 const EditMasterclass = () => {
   const BASE_URL = import.meta.env.VITE_API_URL;
@@ -16,10 +25,26 @@ const EditMasterclass = () => {
   const [imageUrl, setImageUrl] = useState(null);
   const [file, setFile] = useState(null);
   const [instructors, setInstructors] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [masterclass, setMasterclasses] = useState([]);
+  const [deleteDialog, setDeleteDialog] = useState(false);
+  const [selectedMasterclass, setSelectedMasterclass] = useState(null);
 
   const CoursesImage = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${
     import.meta.env.VITE_AWS_REGION
   }.amazonaws.com/`;
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/category`);
+        setCategories(response.data);
+      } catch (error) {
+        setError("Erreur lors de la récupération des catégories");
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
@@ -61,7 +86,7 @@ const EditMasterclass = () => {
   useEffect(() => {
     const fetchMasterclass = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/masterclass/${id}`);
+        const response = await axios(`${BASE_URL}/api/masterclass/${id}`);
         const {
           title,
           description,
@@ -71,8 +96,10 @@ const EditMasterclass = () => {
           slug,
           imageUrl,
           duration,
+          isPublished,
           maxParticipants,
           instructorId,
+          categoryId,
           link,
         } = response.data;
 
@@ -85,8 +112,10 @@ const EditMasterclass = () => {
           endDate: new Date(endDate),
           imageUrl,
           duration,
+          isPublished,
           maxParticipants,
           instructorId,
+          categoryId,
           link,
         });
         setImageUrl(`${CoursesImage}${imageUrl}`);
@@ -107,6 +136,8 @@ const EditMasterclass = () => {
     imageUrl: "",
     duration: "",
     maxParticipants: "",
+    categoryId: null,
+    isPublished: false,
     slug: "",
     instructorId: null,
     link: "",
@@ -119,6 +150,21 @@ const EditMasterclass = () => {
 
   const handleDateChange = (field, date) => {
     setInputs((prev) => ({ ...prev, [field]: date }));
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`${BASE_URL}/api/masterclass/delete/${id}`);
+      setDeleteDialog(false);
+      navigate("/administrator/masterclass");
+    } catch (err) {
+      setError("Erreur lors de la suppression de l'instructeur");
+    }
+  };
+
+  const openDeleteDialog = (inputs) => {
+    setSelectedMasterclass(inputs);
+    setDeleteDialog(true);
   };
 
   const handleSubmit = async (e) => {
@@ -137,12 +183,64 @@ const EditMasterclass = () => {
     }
   };
 
+  const handleStatusChange = (masterclassId, newStatus) => {
+    setMasterclasses((prevMasterclass) =>
+      prevMasterclass.map((masterclass) =>
+        masterclass.id === masterclassId
+          ? { ...masterclass, isPublished: newStatus }
+          : masterclass,
+      ),
+    );
+  };
+
   return (
-    <div className="mx-auto max-w-screen-xl">
-      <div className="px-2">
-        <h2 className="text-xl font-medium md:text-2xl">
-          Mise en place d'une masterclasse
-        </h2>
+    <>
+      {inputs.isPublished === false && (
+        <div className="border-yellow-30 text-primary flex w-full items-center border bg-yellow-200/80 p-4 text-sm dark:bg-white/90 dark:text-black">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-triangle-alert mr-2 h-4 w-4"
+          >
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path>
+            <path d="M12 9v4"></path>
+            <path d="M12 17h.01"></path>
+          </svg>
+          Cette formation n'est pas publiée. Elle ne sera pas visible pour les
+          élèves.
+        </div>
+      )}
+      <div className="py-6">
+        <div className="flex flex-col items-center justify-between space-y-2 md:flex-row">
+          <h1 className="text-xl font-medium md:text-2xl">
+            Mise en place de la formation
+          </h1>
+          <div className="flex items-center gap-x-2">
+            <PublishButton
+              inputs={inputs}
+              masterclassId={id}
+              isPublished={inputs.isPublished}
+              onStatusChange={(newStatus) =>
+                handleStatusChange(masterclass.id, newStatus)
+              }
+            />
+            <button
+              className="rounded-lg bg-red-600 px-3 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-600 dark:focus:ring-red-800"
+              title="Supprimer la formation"
+              type="button"
+              onClick={() => openDeleteDialog(id)}
+            >
+              <TrashIcon className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
         <AlertError error={error} />
         <form onSubmit={handleSubmit}>
           <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -278,7 +376,7 @@ const EditMasterclass = () => {
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-white dark:text-black"
                 >
                   <option value="" disabled>
-                    -- Sélectionnez un instructeur --
+                    Sélectionnez un instructeur
                   </option>
                   {instructors.map((instructor) => (
                     <option key={instructor.id} value={instructor.id}>
@@ -329,6 +427,35 @@ const EditMasterclass = () => {
                     value={inputs.price}
                     onChange={handleChange}
                   />
+                </div>
+                <div className="mt-6 space-y-2 rounded-md border p-4">
+                  <label
+                    htmlFor="category"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Catégorie du cours
+                  </label>
+                  <select
+                    id="category"
+                    name="categoryId"
+                    value={inputs.categoryId || ""}
+                    onChange={(e) =>
+                      setInputs((prev) => ({
+                        ...prev,
+                        categoryId: parseInt(e.target.value),
+                      }))
+                    }
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  dark:border-gray-600 dark:bg-white dark:text-black dark:placeholder-gray-400"
+                  >
+                    <option value="" disabled>
+                      Sélectionnez une catégorie
+                    </option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.title}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
@@ -430,8 +557,29 @@ const EditMasterclass = () => {
             </Button>
           </div>
         </form>
+
+        <Dialog open={deleteDialog} handler={() => setDeleteDialog(false)}>
+          <DialogHeader>Confirmer la suppression</DialogHeader>
+          <DialogBody>
+            Êtes-vous sûr de vouloir supprimer la masterclasse{" "}
+            {masterclass.title} ? Cette action est irréversible.
+          </DialogBody>
+          <DialogFooter>
+            <Button
+              variant="text"
+              color="gray"
+              onClick={() => setDeleteDialog(false)}
+              className="mr-1"
+            >
+              Annuler
+            </Button>
+            <Button variant="gradient" color="red" onClick={handleDelete}>
+              Confirmer
+            </Button>
+          </DialogFooter>
+        </Dialog>
       </div>
-    </div>
+    </>
   );
 };
 

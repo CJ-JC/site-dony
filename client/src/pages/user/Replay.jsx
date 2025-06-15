@@ -1,9 +1,15 @@
 import React from "react";
 import Loading from "@/widgets/utils/Loading";
 import { Typography } from "@material-tailwind/react";
-import MasterclassList from "@/components/MasterclassList";
+import ReplayList from "@/components/ReplayList";
 
-const Dashboard = ({ loading, masterclasses }) => {
+const Replay = ({
+  replayData,
+  loading,
+  selectedOption,
+  setSelectedOption,
+  masterclassOptions,
+}) => {
   if (loading) {
     return <Loading />;
   }
@@ -16,9 +22,15 @@ const Dashboard = ({ loading, masterclasses }) => {
         Les formations que vous avez souscrit sont affichées ci-dessous.
       </p>
       <div className="p-0 md:p-2">
-        <MasterclassList masterclasses={masterclasses} loading={loading} />
+        <ReplayList
+          replayData={replayData}
+          loading={loading}
+          setSelectedOption={setSelectedOption}
+          selectedOption={selectedOption}
+          masterclassOptions={masterclassOptions}
+        />
       </div>
     </div>
   );
 };
-export default Dashboard;
+export default Replay;

@@ -1,16 +1,14 @@
 import React from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import qs from "qs";
 import cn from "classnames";
 
-const CategoryItem = ({ label, value, icon }) => {
+const CategoryItem = ({ label, value, icon, color }) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // Récupérer les paramètres actuels
   const currentCategoryId = searchParams.get("categoryId");
-
-  // Vérifier si cet élément est sélectionné
   const isSelected = currentCategoryId === value;
 
   const handleClick = () => {
@@ -28,12 +26,19 @@ const CategoryItem = ({ label, value, icon }) => {
       skipEmptyStrings: true,
     });
 
-    navigate(`/courses?${searchString}`);
+    // Redirige dynamiquement vers la page actuelle avec la nouvelle query
+    navigate(`${location.pathname}?${searchString}`);
   };
 
   return (
     <button
       onClick={handleClick}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = color;
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = isSelected ? color : "#D1D5DB";
+      }}
       className={cn(
         "flex min-w-max items-center gap-x-2 rounded-md border px-2 py-2 text-sm font-medium transition hover:shadow-sm dark:text-white",
         {

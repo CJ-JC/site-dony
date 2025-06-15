@@ -17,9 +17,10 @@ import {
 import Dashboard from "./Dashboard";
 import Invoice from "./Invoice";
 import Settings from "./Settings";
-import { ReceiptTextIcon } from "lucide-react";
+import { ReceiptTextIcon, VideoIcon } from "lucide-react";
 import Profile from "./Profile";
 import axios from "axios";
+import Replay from "./Replay";
 
 const Account = () => {
   const dispatch = useDispatch();
@@ -27,10 +28,14 @@ const Account = () => {
   const [authLoading, setAuthLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
-  const [courseData, setCourseData] = useState([]);
+  const [replayData, setReplayData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [purchases, setPurchases] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [masterclassOptions, setMasterclassOptions] = useState([]);
+  const [masterclasses, setMasterclasses] = useState([]);
+
   const token = localStorage.getItem("token");
 
   const BASE_URL = import.meta.env.VITE_API_URL;
@@ -199,16 +204,41 @@ const Account = () => {
   }, [authLoading, isLoggedIn, user, navigate]);
 
   useEffect(() => {
-    const fetchSubscribedCourses = async () => {
+    const fetchReplays = async () => {
       if (!token) return navigate("/sign-in");
 
       try {
-        const response = await axios.get(`${BASE_URL}/api/course/my-courses`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
+        const response = await axios.get(
+          `${BASE_URL}/api/replay/user/my-replays`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        });
-        setCourseData(response.data.courses);
+        );
+        // setReplayData(response.data.replays);
+        const replayList = response.data.replays || [];
+
+        // ✅ Filtrer uniquement les replays publiés
+        const publishedReplays = replayList.filter(
+          (replay) => replay.isPublished,
+        );
+        setReplayData(publishedReplays);
+
+        // ✅ Extraire masterclasses uniques
+        const uniqueMasterclasses = Array.from(
+          new Map(
+            publishedReplays.map((r) => [r.masterclass.id, r.masterclass]),
+          ).values(),
+        );
+
+        // Créer les options pour react-select
+        const options = uniqueMasterclasses.map((mc) => ({
+          value: mc.id,
+          label: mc.title,
+        }));
+
+        setMasterclassOptions(options);
       } catch (error) {
         if (error.response?.status === 401) {
           navigate("/sign-in");
@@ -218,7 +248,26 @@ const Account = () => {
       }
     };
 
-    fetchSubscribedCourses();
+    fetchReplays();
+  }, []);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/api/masterclass/my-courses`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        setMasterclasses(res.data.masterclasses);
+      } catch (err) {
+        console.error("Erreur chargement masterclasses :", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
   }, []);
 
   const data = [
@@ -226,7 +275,22 @@ const Account = () => {
       label: "Tableau de bord",
       value: "dashboard",
       icon: Square3Stack3DIcon,
-      component: <Dashboard courseData={courseData} loading={loading} />,
+      component: <Dashboard loading={loading} masterclasses={masterclasses} />,
+    },
+    {
+      label: "Revoir mes cours",
+      value: "replay",
+      icon: VideoIcon,
+      component: (
+        <Replay
+          replayData={replayData}
+          loading={loading}
+          masterclassOptions={masterclassOptions}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+          setMasterclassOptions={setMasterclassOptions}
+        />
+      ),
     },
     {
       label: "Historique d'achat",
@@ -270,9 +334,9 @@ const Account = () => {
   ];
 
   return (
-    <section className="mx-auto h-auto max-w-screen-xl px-4 py-5 md:h-screen">
-      <div className="container mx-auto h-auto space-y-10 md:h-screen">
-        <div className="text-center">
+    <section className="mx-auto max-w-screen-xl px-4 py-5">
+      <div className="container mx-auto space-y-10">
+        <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Mon compte
           </h1>

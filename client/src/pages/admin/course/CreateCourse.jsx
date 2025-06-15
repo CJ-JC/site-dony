@@ -352,7 +352,7 @@ const CreateCourse = () => {
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  dark:bg-white dark:text-black dark:placeholder-gray-400"
                   >
                     <option value="" disabled>
-                      -- Sélectionnez une catégorie --
+                      Sélectionnez une catégorie
                     </option>
                     {categories.map((category) => (
                       <option key={category.id} value={category.id}>

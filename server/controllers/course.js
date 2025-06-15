@@ -1,7 +1,6 @@
 import { Course } from "../models/Course.js";
 import { Chapter } from "../models/Chapter.js";
 import { Video } from "../models/Video.js";
-import fs from "fs";
 import { Category } from "../models/Category.js";
 import { Purchase } from "../models/Purchase.js";
 import { UserProgress } from "../models/UserProgress.js";

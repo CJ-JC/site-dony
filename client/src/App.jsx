@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { Footer, Navbar } from "@/widgets/layout";
 import CoursePlayer from "@/dashboard/CoursePlayer";
-import Courses from "@/pages/Courses";
 import Admin from "@/pages/admin/Admin";
 import CreateCourse from "@/pages/admin/course/CreateCourse";
 import NotFound from "@/pages/404";
@@ -14,10 +13,8 @@ import Account from "@/pages/user/Account";
 import SignIn from "@/pages/auth/SignIn";
 import SignUp from "@/pages/auth/SignUp";
 import Remise from "@/pages/admin/Remise";
-import ShowCourses from "@/pages/admin/course/ShowCourses";
 import axios from "axios";
 import Loading from "@/widgets/utils/Loading";
-import Masterclass from "@/pages/admin/masterclass/ShowMasterclass";
 import MasterClass from "@/components/Masterclass";
 import MasterclassDetail from "@/components/MasterclassDetail";
 import CreateMasterclass from "@/pages/admin/masterclass/CreateMasterclass";
@@ -40,6 +37,10 @@ import Download from "@/pages/Download";
 import UserProfile from "./pages/admin/users/UserProfile";
 import Services from "./components/Services";
 import ScrollToTop from "@/widgets/utils/ScrollToTop";
+import Replay from "./pages/admin/replay/Replay";
+import CreateReplay from "./pages/admin/replay/CreateReplay";
+import EditReplay from "./pages/admin/replay/EditReplay";
+import ShowMasterclass from "@/pages/admin/masterclass/ShowMasterclass";
 
 const Layout = ({
   globalDiscount,
@@ -212,7 +213,6 @@ function App() {
           }
         >
           <Route path="/home" element={<Home />} />
-          <Route path="courses" element={<Courses />} />
           <Route path="detail/slug/:id" element={<CourseDetail />} />
           <Route path="masterclass" element={<MasterClass />} />
           <Route path="services" element={<Services />} />
@@ -244,11 +244,20 @@ function App() {
 
           <Route path="create-course" element={<CreateCourse />} />
           <Route path="edit-course/:id" element={<EditCourse />} />
-          <Route path="courses" element={<ShowCourses />} />
 
-          <Route path="masterclass" element={<Masterclass />} />
+          <Route path="masterclass" element={<ShowMasterclass />} />
           <Route path="create-masterclass" element={<CreateMasterclass />} />
           <Route path="edit-masterclass/:id" element={<EditMasterclass />} />
+
+          <Route path="masterclass/:slug/replay" element={<Replay />} />
+          <Route
+            path="masterclass/:slug/replay/create"
+            element={<CreateReplay />}
+          />
+          <Route
+            path="/administrator/masterclass/:slug/replay/:id"
+            element={<EditReplay />}
+          />
 
           <Route path="instructors" element={<Instructors />} />
           <Route path="instructor/create" element={<CreateInstructor />} />

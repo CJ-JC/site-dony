@@ -57,7 +57,7 @@ const Admin = ({ theme, toggleTheme }) => {
           setIsSidebarOpen={setIsSidebarOpen}
           user={user}
         />
-        <div className="h-screen bg-[#f1f5f99f] dark:bg-transparent md:pl-80">
+        <div className="h-screen dark:bg-transparent md:pl-80">
           <div className="sticky inset-x-0 top-0 z-50 flex h-20 w-full items-center justify-between border-b bg-white p-4 dark:bg-[#020817]">
             <div className="flex items-center">
               <button
