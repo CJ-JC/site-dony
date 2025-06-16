@@ -25,7 +25,7 @@ const generateInvoiceEmailTemplate = ({ fullname, invoiceUrl }) => {
 
   <footer class="mt-8">
     <p><strong>Support :</strong></p>
-    <p>Si vous avez des questions ou besoin d'assistance, n'hésitez pas à nous contacter <a href="mailto:contact@donymusic.com">contact@donymusic.com</a>.</p>
+    <p>Si vous avez des questions ou besoin d'assistance, n'hésitez pas à nous contacter <a href="mailto:contact@donymusic.fr">contact@donymusic.fr</a>.</p>
 
     <p class="mt-3 text-gray-500 dark:text-gray-400">
         Nous vous souhaitons une expérience enrichissante et beaucoup de succès !
@@ -33,10 +33,10 @@ const generateInvoiceEmailTemplate = ({ fullname, invoiceUrl }) => {
     <p>Musicalement,</p>
 
     <div style="font-size:13px;color:#9ca3af;">
-         <img src="https://donymusic.fr/logo-day.svg" style="width: 200px;" alt="logo-donymusic" /><br>
+         <img src="https://donymusic.fr/img/logo-day.svg" style="width: 200px;" alt="logo-donymusic" /><br>
          123 Rue de la Musique, 75001 Paris, France<br>
          Téléphone : +33 1 23 45 67 89<br>
-         Email : contact@donymusic.com
+         Email : contact@donymusic.fr
      </div>
   </footer>
 </section>

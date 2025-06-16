@@ -8,34 +8,39 @@ const Cgv = () => {
 
         <h2>1. Préambule</h2>
         <p>
-          Les présentes Conditions Générales de Vente (CGV) s'appliquent à
-          l'ensemble des ventes de formations musicales et webinaires proposés
-          sur le site <strong>Donymusic</strong> accessible à l'adresse{" "}
-          <a href="https://www.donymusic.fr">https://www.donymusic.fr</a>. En
-          achetant un produit ou service sur notre site, vous acceptez sans
-          réserve les présentes CGV.
+          Les présentes Conditions Générales de Vente (CGV) ont pour objet de
+          définir les modalités de réservation, de paiement et de participation
+          aux formations en live proposées par <strong>Donymusic</strong>{" "}
+          (ci-après "le Site"). Toute inscription à une formation en live
+          implique l'acceptation sans réserve des présentes CGV.
         </p>
 
-        <h2>2. Produits et Services</h2>
+        <h2>2. Formations proposées</h2>
         <p>
-          <strong>Donymusic</strong> propose des formations musicales et des
-          webinaires payants sur différents instruments et thématiques
-          musicales. Les caractéristiques essentielles de chaque formation ou
-          webinaire sont détaillées sur les pages correspondantes du site.{" "}
+          Donymusic propose des formations en ligne en live, accessibles via une
+          plateforme dédiée. Les détails précis (contenu, date, heure, durée,
+          coût) sont indiqués sur le Site lors de la réservation.{" "}
           <strong>Donymusic</strong> se réserve le droit de modifier à tout
           moment l'offre proposée sans préavis.
         </p>
 
-        <h2>3. Tarifs</h2>
+        <h2>3. Réservation et paiement</h2>
         <p>
-          Les prix des formations et webinaires sont indiqués en euros toutes
-          taxes comprises (TTC). <strong>Donymusic</strong> se réserve le droit
-          de modifier ses tarifs à tout moment, mais les produits seront
-          facturés au prix en vigueur lors de la validation de la commande par
-          l'utilisateur.
+          La réservation est effectuée en confirmant le paiement via le moyen
+          sécurisé proposé (carte bancaire). La réservation est considérée comme
+          définitive après réception du paiement.
         </p>
 
-        <h2>4. Commande</h2>
+        <h2>4. Tarifs</h2>
+        <p>
+          Les prix des formations sont indiqués en euros (€) et toutes taxes
+          comprises (TTC). <strong>Donymusic</strong> se réserve le droit de
+          modifier ses tarifs à tout moment, mais les formations seront
+          facturées sur la base des tarifs en vigueur au moment de la
+          réservation.
+        </p>
+
+        <h2>5. Commande</h2>
         <p>
           Pour passer une commande, l'utilisateur doit créer un compte sur le
           site et suivre le processus d'achat. La commande est confirmée lorsque
@@ -44,64 +49,82 @@ const Cgv = () => {
           conclusion du contrat de vente.
         </p>
 
-        <h2>5. Modalités de Paiement</h2>
+        <h2>6. Accès à la formation</h2>
         <p>
-          Le paiement des formations et webinaires se fait par les moyens
-          indiqués sur le site (carte bancaire, PayPal, etc.). Le paiement est
-          exigible immédiatement à la commande. Les transactions sont sécurisées
-          par des prestataires de services de paiement tiers.
+          L'accès à la formation en live est fourni via une plateforme en ligne.
+          Un lien ou un identifiant permettant de rejoindre la session sera
+          envoyé au participant après confirmation du paiement, dans un délai
+          raisonnable avant le début de la formation.
         </p>
 
-        <h2>6. Livraison des Services</h2>
+        <h2>7. Annulation, rapport et remboursement</h2>
+        <ul>
+          <li>
+            En cas d'annulation par le participant jusqu'à 48h avant la
+            formation, un remboursement pourra être proposé.
+          </li>
+          <li>Aucun remboursement ne sera effectué si :</li>
+          <li>
+            1. Le participant ne se connecte pas à la formation sans préavis.
+          </li>
+          <li>2. Le participant a déjà participé à la formation</li>
+        </ul>
+
+        <h2>8. Participation et comportement</h2>
         <p>
-          Les formations et webinaires sont accessibles en ligne après
-          confirmation du paiement. L'utilisateur recevra un lien ou un accès
-          direct aux contenus achetés via son compte utilisateur sur{" "}
-          <strong>Donymusic</strong>. Aucun produit physique n'est expédié. Les
-          services sont disponibles immédiatement ou à la date indiquée lors de
-          l'achat.
+          Le participant s'engage à respecter les règles de conduite lors de la
+          formation. <strong>Donymusic</strong> se réserve le droit d'exclure
+          toute personne dont le comportement serait inapproprié ou
+          perturbateur, sans remboursement.
         </p>
 
-        <h2>7. Droit de Rétractation</h2>
+        <h2>9. Propriété intellectuelle</h2>
         <p>
-          Conformément à l'article L221-28 du Code de la consommation,
-          l'utilisateur reconnaît que le droit de rétractation ne peut être
-          exercé pour les contenus numériques non fournis sur un support
-          matériel dont l'exécution a commencé après accord préalable et
-          renoncement exprès au droit de rétractation. En validant votre achat
-          de formations ou webinaires, vous acceptez que le service commence
-          immédiatement et renoncez à votre droit de rétractation.
+          Les contenus diffusés lors de la formation sont la propriété exclusive
+          de <strong>Donymusic</strong>. Toute reproduction, retransmission ou
+          distribution sans autorisation est interdite.
         </p>
 
-        <h2>8. Annulation et Remboursement</h2>
+        <h2>10. Confidentialité et gestion des données personnelles</h2>
         <p>
-          Aucun remboursement ne sera accordé une fois que l'utilisateur a
-          accédé au contenu de la formation ou du webinaire. En cas de problème
-          technique empêchant l'accès au service, <strong>Donymusic</strong>{" "}
-          fera de son mieux pour résoudre le problème ou, à défaut, proposera un
-          remboursement ou un avoir au client.
+          Les données recueillies lors de l'inscription sont utilisées
+          uniquement pour la gestion de la formation. Conformément à la
+          réglementation, le participant dispose d'un droit d'accès, de
+          rectification ou de suppression de ses données.
         </p>
 
-        <h2>9. Responsabilité</h2>
+        <h2>11. Responsabilité</h2>
         <p>
-          <strong>Donymusic</strong> s'engage à fournir des formations et
-          webinaires de qualité. Cependant, nous ne pouvons être tenus
-          responsables en cas d'indisponibilité temporaire du service ou en cas
-          de dommages indirects liés à l'utilisation du site. La responsabilité
-          de <strong>Donymusic</strong> est limitée au montant de la commande
-          effectuée par l'utilisateur.
+          <strong>Donymusic</strong> ne pourra être tenu responsable en cas
+          d'incidents liés à une mauvaise connexion internet, ou d'événements
+          extérieurs correspondant à la participation à la formation.
         </p>
 
-        <h2>10. Propriété Intellectuelle</h2>
+        <h2>12. Modification des CGV</h2>
         <p>
-          Tous les contenus disponibles sur <strong>Donymusic</strong>, y
-          compris les vidéos, supports de formation et documents associés, sont
-          protégés par des droits d'auteur. L'utilisateur s'engage à ne pas
-          reproduire, distribuer ou partager ces contenus sans autorisation
-          expresse de <strong>Donymusic</strong>.
+          <strong>Donymusic</strong> se réserve le droit de modifier les
+          présentes CGV à tout moment. Les nouvelles CGV entreront en vigueur
+          dès leur publication sur le site. Il est de la responsabilité des
+          utilisateurs de consulter régulièrement les CGV pour se tenir informés
+          des éventuelles modifications.
         </p>
 
-        <h2>11. Protection des Données Personnelles</h2>
+        <h2>13. Loi applicable et litiges</h2>
+        <p>
+          Les présentes CGV sont régies par le droit français. En cas de litige,
+          les parties s'efforceront de trouver une solution amiable. Si aucune
+          solution amiable n'est trouvée, le litige sera porté devant les
+          tribunaux compétents.
+          <strong>Donymusic</strong>.
+        </p>
+
+        <h2>14. Acceptation</h2>
+        <p>
+          En réservant une formation, le participant accepte l'intégralité des
+          CGV présentes.
+        </p>
+
+        <h2>15. Protection des Données Personnelles</h2>
         <p>
           Les informations personnelles collectées lors de l'achat sont
           nécessaires à la gestion de la commande et à la relation commerciale.
@@ -114,29 +137,12 @@ const Cgv = () => {
           .
         </p>
 
-        <h2>12. Modification des CGV</h2>
-        <p>
-          <strong>Donymusic</strong> se réserve le droit de modifier les
-          présentes CGV à tout moment. Les nouvelles CGV entreront en vigueur
-          dès leur publication sur le site. Il est de la responsabilité des
-          utilisateurs de consulter régulièrement les CGV pour se tenir informés
-          des éventuelles modifications.
-        </p>
-
-        <h2>13. Droit Applicable et Litiges</h2>
-        <p>
-          Les présentes CGV sont régies par le droit français. En cas de litige,
-          les parties s'efforceront de trouver une solution amiable. Si aucune
-          solution amiable n'est trouvée, le litige sera porté devant les
-          tribunaux compétents.
-        </p>
-
-        <h2>14. Contact</h2>
+        {/* <h2>16. Contact</h2>
         <p>
           Pour toute question ou demande d'information relative aux présentes
           CGV, vous pouvez nous contacter à l'adresse suivante :{" "}
           <a href="mailto:donymusique@gmail.com">donymusique@gmail.com</a>.
-        </p>
+        </p> */}
       </div>
     </div>
   );

@@ -1,8 +1,5 @@
 import sequelize from "../config/dbMysql.js";
 import { DataTypes } from "sequelize";
-import { Course } from "./Course.js";
-import { Chapter } from "./Chapter.js";
-import { Video } from "./Video.js";
 
 export const Attachments = sequelize.define(
     "attachments",
@@ -19,36 +16,6 @@ export const Attachments = sequelize.define(
         fileUrl: {
             type: DataTypes.STRING,
             allowNull: false,
-        },
-        videoId: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            references: {
-                model: Video,
-                key: "id",
-            },
-            onUpdate: "CASCADE",
-            onDelete: "CASCADE",
-        },
-        courseId: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            references: {
-                model: Course,
-                key: "id",
-            },
-            onUpdate: "CASCADE",
-            onDelete: "CASCADE",
-        },
-        chapterId: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            references: {
-                model: Chapter,
-                key: "id",
-            },
-            onUpdate: "CASCADE",
-            onDelete: "CASCADE",
         },
         createdAt: {
             type: DataTypes.DATE,
@@ -68,13 +35,7 @@ export const Attachments = sequelize.define(
 );
 
 // Définition des relations
-Course.hasMany(Attachments, { foreignKey: "courseId", as: "attachments" });
-Attachments.belongsTo(Course, { foreignKey: "courseId", as: "course" });
-
-Chapter.hasMany(Attachments, { foreignKey: "chapterId", as: "attachments" });
-Attachments.belongsTo(Chapter, { foreignKey: "chapterId", as: "chapter" });
-
-Video.hasMany(Attachments, { foreignKey: "videoId", as: "attachments" });
-Attachments.belongsTo(Video, { foreignKey: "videoId", as: "video" });
+// Course.hasMany(Attachments, { foreignKey: "courseId", as: "attachments" });
+// Attachments.belongsTo(Course, { foreignKey: "courseId", as: "course" });
 
 export default Attachments;

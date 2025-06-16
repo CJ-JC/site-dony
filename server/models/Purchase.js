@@ -1,7 +1,6 @@
 import sequelize from "../config/dbMysql.js";
 import { DataTypes } from "sequelize";
 import { User } from "./User.js";
-import { Course } from "./Course.js";
 import { Masterclass } from "./Masterclass.js";
 
 export const Purchase = sequelize.define(
@@ -31,7 +30,7 @@ export const Purchase = sequelize.define(
             allowNull: false,
         },
         itemType: {
-            type: DataTypes.ENUM("course", "masterclass"),
+            type: DataTypes.ENUM("masterclass"),
             allowNull: false,
         },
         status: {
@@ -64,11 +63,11 @@ export const Purchase = sequelize.define(
 User.hasMany(Purchase, { foreignKey: "userId", as: "purchases" });
 Purchase.belongsTo(User, { foreignKey: "userId", as: "user" });
 
-Purchase.belongsTo(Course, {
-    foreignKey: "itemId",
-    constraints: false,
-    as: "course",
-});
+// Purchase.belongsTo(Course, {
+//     foreignKey: "itemId",
+//     constraints: false,
+//     as: "course",
+// });
 Purchase.belongsTo(Masterclass, {
     foreignKey: "itemId",
     constraints: false,

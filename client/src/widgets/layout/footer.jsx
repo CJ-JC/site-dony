@@ -10,7 +10,7 @@ export function Footer({ theme }) {
       <div className="container mx-auto">
         <div className="sm:flex sm:items-center sm:justify-between">
           <a
-            href="https://donymusic.com/"
+            href="https://donymusic.fr/"
             className="mb-4 flex items-center space-x-3 sm:mb-0 rtl:space-x-reverse"
           >
             {theme === "dark" ? (

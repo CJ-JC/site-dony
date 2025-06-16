@@ -269,7 +269,7 @@ const Services = () => {
           </Typography>
 
           <div className="mx-auto max-w-screen-xl px-4">
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
+            <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-4">
               {/* Colonne de texte */}
               <div className="order-1 col-span-1 lg:col-span-2">
                 <div className="grid grid-cols-1 sm:grid-cols-2">
@@ -325,7 +325,13 @@ const Services = () => {
               {/* Image responsive */}
               <div className="order-2 col-span-1 lg:order-1 lg:col-span-2">
                 <div className="group relative block h-[300px] w-full overflow-hidden rounded-lg sm:h-[400px] lg:h-full">
-                  <video src="/video/presta.mp4" controls type="video/mp4" />
+                  <video
+                    src="/video/presta.mp4"
+                    controls
+                    controlsList="nodownload"
+                    onContextMenu={(e) => e.preventDefault()}
+                    type="video/mp4"
+                  />
                 </div>
               </div>
             </div>
@@ -419,7 +425,7 @@ const Services = () => {
       </section>
 
       {/* contact */}
-      <section className="relative mx-auto flex items-center bg-[url('/img/devis.png')] bg-cover bg-fixed bg-center bg-no-repeat px-4 py-20">
+      <section className="relative mx-auto flex items-center bg-[url('/img/devis.jpg')] bg-cover bg-fixed bg-center bg-no-repeat px-4 py-20">
         <div className="absolute inset-0 bg-black/80" />
 
         <div className="container relative z-10 mx-auto max-w-screen-xl">
@@ -433,7 +439,7 @@ const Services = () => {
               variant="h2"
               className="mb-10 text-center text-3xl font-light text-white"
             >
-              Contact & Réservation
+              Réservation
             </Typography>
 
             <div className="grid gap-6 lg:grid-cols-3">

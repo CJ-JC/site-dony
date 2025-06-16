@@ -89,6 +89,8 @@ const Replay = () => {
                     <video
                       src={MasterclassVideo + replay.videoUrl}
                       controls
+                      controlsList="nodownload"
+                      onContextMenu={(e) => e.preventDefault()}
                       className="h-full w-full object-cover"
                     />
                   ) : (

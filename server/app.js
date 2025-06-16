@@ -2,11 +2,7 @@ import express from "express";
 import cors from "cors";
 import sequelize from "./config/dbMysql.js";
 import "./config/dotenv.js";
-import courseRoutes from "./routes/courseRoutes.js";
-import chapterRoutes from "./routes/chapterRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-import remiseRoutes from "./routes/remiseRoutes.js";
-import userProgressRoutes from "./routes/userProgressRoutes.js";
 import masterclassRoutes from "./routes/masterclassRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import crypto from "crypto";
@@ -16,9 +12,6 @@ import Stripe from "stripe";
 import { Payment } from "./models/Payment.js";
 import { Purchase } from "./models/Purchase.js";
 import { sendEmail, sendEventEmail } from "./controllers/email.js";
-import remarkRoutes from "./routes/remarkRoutes.js";
-import replyRoutes from "./routes/replyRoutes.js";
-import noteRoutes from "./routes/noteRoutes.js";
 import replayRoutes from "./routes/replayRoutes.js";
 import resetPasswordRoutes from "./routes/resetPassword.js";
 import attachmentRoutes from "./routes/attachmentRoutes.js";
@@ -109,7 +102,7 @@ const sendInvoiceEmail = async ({ email, fullname, invoiceUrl }) => {
     let transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
         port: parseInt(process.env.EMAIL_PORT || "587", 10),
-        secure: false,
+        secure: true,
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
@@ -119,7 +112,7 @@ const sendInvoiceEmail = async ({ email, fullname, invoiceUrl }) => {
     const htmlContent = generateInvoiceEmailTemplate({ fullname, invoiceUrl });
 
     const mailOptions = {
-        from: "Donymusic <donymusic@contact.com>",
+        from: `"Dony Music" <${process.env.EMAIL_FROM}>`,
         to: email,
         subject: "Votre facture d'achat",
         html: htmlContent,
@@ -127,9 +120,7 @@ const sendInvoiceEmail = async ({ email, fullname, invoiceUrl }) => {
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log("✅ Email envoyé avec succès à :", email);
     } catch (error) {
-        console.error("❌ Erreur lors de l'envoi de l'email :", error);
         throw new Error("L'email n'a pas pu être envoyé");
     }
 };
@@ -158,29 +149,13 @@ sequelize
 
 app.use("/api/user", userRoutes);
 
-app.use("/api/remise", remiseRoutes);
-
-app.use("/api/course", courseRoutes);
-
-app.use("/api/chapter", chapterRoutes);
-
-app.use("/api/user-progress", userProgressRoutes);
-
 app.use("/api/masterclass", masterclassRoutes);
-
-app.use("/api/course-player/course/:courseId/chapters/:chapterId", courseRoutes);
 
 app.use("/api/category", categoryRoutes);
 
 app.use("/api/instructor", instructorRoutes);
 
 app.use("/api/payment", paymentRoutes);
-
-app.use("/api/remark", remarkRoutes);
-
-app.use("/api/reply", replyRoutes);
-
-app.use("/api/note", noteRoutes);
 
 app.use("/api/replay", replayRoutes);
 

@@ -1,8 +1,6 @@
 import Stripe from "stripe";
-import { Course } from "../models/Course.js";
 import { Purchase } from "../models/Purchase.js";
 import { Payment } from "../models/Payment.js";
-import { Category } from "../models/Category.js";
 import dotenv from "dotenv";
 import { Masterclass } from "../models/Masterclass.js";
 import { User } from "../models/User.js";
@@ -16,18 +14,6 @@ export const getPurchases = async (req, res) => {
     try {
         const purchases = await Purchase.findAll({
             include: [
-                {
-                    model: Course,
-                    as: "course",
-                    required: false,
-                    include: [
-                        {
-                            model: Category,
-                            as: "category",
-                            attributes: ["id", "title"],
-                        },
-                    ],
-                },
                 {
                     model: Payment,
                     as: "payments",
@@ -71,11 +57,6 @@ export const getUserPurchases = async (req, res) => {
                     attributes: ["invoiceUrl"],
                 },
                 {
-                    model: Course,
-                    as: "course",
-                    attributes: ["id", "title", "description", "imageUrl"],
-                },
-                {
                     model: Masterclass,
                     as: "masterclass",
                     attributes: ["id", "title", "description", "imageUrl"],
@@ -109,11 +90,6 @@ export const checkUserPurchase = async (req, res) => {
             },
             include: [
                 {
-                    model: Course,
-                    as: "course", // Si c'est un cours
-                    required: false, // Cours optionnel, pour ne pas exiger la présence d'un cours
-                },
-                {
                     model: Masterclass,
                     as: "masterclass", // Si c'est une masterclass
                     required: false, // Masterclass optionnelle
@@ -122,10 +98,9 @@ export const checkUserPurchase = async (req, res) => {
         });
 
         // Vérification si c'est un achat de cours ou de masterclass
-        const hasPurchasedCourse = !!purchase?.course;
         const hasPurchasedMasterclass = !!purchase?.masterclass;
 
-        return res.status(200).json({ hasPurchasedCourse, hasPurchasedMasterclass });
+        return res.status(200).json({ hasPurchasedMasterclass });
     } catch (error) {
         return res.status(500).json({ error: "Erreur interne" });
     }
@@ -133,61 +108,47 @@ export const checkUserPurchase = async (req, res) => {
 
 export const createCheckoutSession = async (req, res) => {
     try {
-        const { courseId, courseName, coursePrice, courseSlug, courseImageUrl, masterclassId, masterclassName, masterclassPrice, masterclassSlug, masterclassImageUrl } = req.body;
+        const { masterclassId, masterclassName, masterclassPrice, masterclassSlug, masterclassImageUrl } = req.body;
 
         const userId = req.user.id;
 
-        // Déterminer si l'utilisateur achète un cours ou une masterclass
-        const isMasterclass = !!masterclassId;
-
-        const productName = isMasterclass ? masterclassName : courseName;
-        const productPrice = isMasterclass ? masterclassPrice : coursePrice;
-        const productSlug = isMasterclass ? masterclassSlug : courseSlug;
-        const productImageUrl = isMasterclass ? masterclassImageUrl : courseImageUrl;
-        const itemId = isMasterclass ? masterclassId : courseId;
-
-        // Vérifier s'il existe déjà une ligne "pending" pour cet utilisateur et cet item
-        let purchase = await Purchase.findOne({
+        const purchase = await Purchase.findOne({
             where: {
-                userId: userId,
-                itemId: itemId,
-                itemType: isMasterclass ? "masterclass" : "course",
+                userId,
+                itemId: masterclassId,
+                itemType: "masterclass",
                 status: "pending",
             },
         });
 
-        if (purchase) {
-            // Si une remise n'est plus applicable, mettre à jour le prix dans la ligne "pending"
-            if (purchase.amount !== productPrice / 100) {
-                purchase.amount = productPrice / 100;
-                await purchase.save();
+        let currentPurchase = purchase;
 
-                // Mettre à jour le prix dans la table Payment associée
-                await Payment.update({ amount: productPrice / 100 }, { where: { purchaseId: purchase.id } });
+        if (currentPurchase) {
+            if (currentPurchase.amount !== masterclassPrice / 100) {
+                currentPurchase.amount = masterclassPrice / 100;
+                await currentPurchase.save();
+                await Payment.update({ amount: masterclassPrice / 100 }, { where: { purchaseId: currentPurchase.id } });
             }
         } else {
-            // Créer un nouvel enregistrement d'achat en attente
-            purchase = await Purchase.create({
-                userId: userId,
-                itemId: itemId,
-                itemType: isMasterclass ? "masterclass" : "course",
+            currentPurchase = await Purchase.create({
+                userId,
+                itemId: masterclassId,
+                itemType: "masterclass",
                 status: "pending",
-                amount: productPrice / 100,
-                title: productName,
+                amount: masterclassPrice / 100,
+                title: masterclassName,
             });
 
-            // Créer un enregistrement de paiement en attente
             await Payment.create({
-                purchaseId: purchase.id,
+                purchaseId: currentPurchase.id,
                 emailSent: false,
                 paymentMethod: "credit_card",
-                transactionId: null, // La transaction sera liée lors du paiement réussi
-                amount: productPrice / 100,
+                transactionId: null,
+                amount: masterclassPrice / 100,
                 status: "pending",
             });
         }
 
-        // Créer une session de paiement Stripe
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
             customer_email: req.user.email,
@@ -196,10 +157,10 @@ export const createCheckoutSession = async (req, res) => {
                     price_data: {
                         currency: "eur",
                         product_data: {
-                            name: productName,
-                            images: ["https://donymusic.fr" + productImageUrl],
+                            name: masterclassName,
+                            images: ["https://donymusic.fr" + masterclassImageUrl],
                         },
-                        unit_amount: productPrice,
+                        unit_amount: masterclassPrice,
                     },
                     quantity: 1,
                     tax_rates: ["txr_1R9loHE9XsDumcXZ3P1DKCbp"],
@@ -208,16 +169,15 @@ export const createCheckoutSession = async (req, res) => {
             mode: "payment",
             invoice_creation: { enabled: true },
             success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${isMasterclass ? `${process.env.CLIENT_URL}/masterclass/slug/${productSlug}` : `${process.env.CLIENT_URL}/detail/slug/${productSlug}`}`,
+            cancel_url: `${process.env.CLIENT_URL}/masterclass/slug/${masterclassSlug}`,
             metadata: {
-                itemId: itemId,
-                userId: userId,
-                type: isMasterclass ? "masterclass" : "course",
+                itemId: masterclassId,
+                userId,
+                type: "masterclass",
             },
         });
 
-        // Mettre à jour la transactionId pour l'achat
-        await Payment.update({ transactionId: session.id }, { where: { purchaseId: purchase.id } });
+        await Payment.update({ transactionId: session.id }, { where: { purchaseId: currentPurchase.id } });
 
         res.json({
             id: session.id,
@@ -238,78 +198,67 @@ export const verifyPayment = async (req, res) => {
         const session = await stripe.checkout.sessions.retrieve(sessionId);
 
         if (session.payment_status === "paid") {
-            const modelAlias = session.metadata.type === "masterclass" ? "masterclass" : "course";
-
             const payment = await Payment.findOne({
                 where: { transactionId: sessionId },
                 include: [
                     {
                         model: Purchase,
                         as: "purchase",
-                        where: { userId },
+                        where: {
+                            userId,
+                            itemType: "masterclass",
+                        },
                         include: [
                             {
-                                model: session.metadata.type === "masterclass" ? Masterclass : Course,
-                                as: modelAlias,
+                                model: Masterclass,
+                                as: "masterclass",
                             },
                         ],
                     },
                 ],
             });
 
-            if (payment && payment.purchase) {
-                const item = modelAlias === "masterclass" ? payment.purchase.masterclass : payment.purchase.course;
-
-                // Vérifier si l'email a déjà été envoyé (ex : ajouter une colonne "emailSent" dans Payment)
-                if (payment.emailSent) {
-                    return res.json({ success: true, item });
-                }
-
-                // Envoi de l'email une seule fois
-                const userEmail = session.customer_email;
-                const fullname = "Cher client";
-                const subject = `Confirmation de votre achat : ${item.title}`;
-                const product = `${modelAlias === "masterclass" ? "masterclass" : "formation"}`;
-                const productTitle = `"${item.title}"`;
-
-                // Formatage des dates et heures
-                const startDate = new Date(item.startDate).toLocaleDateString("fr-FR");
-                const startTime = new Date(item.startDate).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
-
-                await sendInvoiceEmail({
-                    fullname,
-                    email: userEmail,
-                    subject,
-                    payment,
-                    item,
-                    product,
-                    productTitle,
-                    startDate,
-                    startTime,
-                    link: item.link,
-                });
-
-                // Mettre à jour la base de données pour indiquer que l'email a été envoyé
-                await payment.update({ emailSent: true });
-
-                res.json({ success: true, item });
-            } else {
-                res.status(404).json({ error: "Paiement non trouvé" });
+            if (!payment || !payment.purchase || !payment.purchase.masterclass) {
+                return res.status(404).json({ error: "Achat introuvable" });
             }
+
+            const masterclass = payment.purchase.masterclass;
+
+            if (payment.emailSent) {
+                return res.json({ success: true, masterclass });
+            }
+
+            await sendInvoiceEmail({
+                fullname: "Cher client",
+                email: session.customer_email,
+                subject: `Confirmation de votre achat : ${masterclass.title}`,
+                payment,
+                productTitle: masterclass.title,
+                startDate: new Date(masterclass.startDate).toLocaleDateString("fr-FR"),
+                startTime: new Date(masterclass.startDate).toLocaleTimeString("fr-FR", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                }),
+                link: masterclass.link,
+            });
+
+            await payment.update({ emailSent: true });
+
+            return res.json({ success: true });
         } else {
-            res.status(400).json({ error: "Le paiement n'a pas été effectué" });
+            return res.status(400).json({ error: "Le paiement n'a pas été effectué" });
         }
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Erreur lors de la vérification du paiement" });
+        console.log(error);
+        return res.status(500).json({ error: "Erreur lors de la vérification du paiement" });
     }
 };
 
-const sendInvoiceEmail = async ({ fullname, email, subject, payment, item, product, productTitle, startDate, startTime, link }) => {
+const sendInvoiceEmail = async ({ fullname, email, subject, payment, productTitle, startDate, startTime, link }) => {
     let transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
         port: parseInt(process.env.EMAIL_PORT || "587", 10),
-        secure: false,
+        secure: true,
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
@@ -318,11 +267,7 @@ const sendInvoiceEmail = async ({ fullname, email, subject, payment, item, produ
 
     const htmlContent = generatePurchaseEmailTemplate({
         fullname,
-        subject,
-        email,
         payment,
-        item,
-        product,
         productTitle,
         startDate,
         startTime,
@@ -330,7 +275,7 @@ const sendInvoiceEmail = async ({ fullname, email, subject, payment, item, produ
     });
 
     const mailOptions = {
-        from: "Donymusic <donymusic@contact.com>",
+        from: `"Dony Music" <${process.env.EMAIL_FROM}>`,
         to: email,
         subject,
         html: htmlContent,

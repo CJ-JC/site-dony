@@ -134,49 +134,13 @@ const MasterClass = () => {
                         </div>
                         <div className="w-full">
                           <div className="mb-2 flex flex-col items-center justify-between gap-2 md:flex-row">
-                            {/* <div>
-                              <div className="flex flex-col gap-2">
-                                <div className="flex items-center gap-2">
-                                  <span className="font-medium text-gray-700 dark:text-white">
-                                    Début :
-                                  </span>
-                                  <Typography className="text-md font-medium text-gray-700 dark:text-white">
-                                    {new Date(
-                                      masterclass.startDate,
-                                    ).toLocaleDateString("fr-FR", {
-                                      weekday: "long",
-                                      year: "numeric",
-                                      month: "long",
-                                      day: "numeric",
-                                      hour: "numeric",
-                                      minute: "numeric",
-                                    })}
-                                  </Typography>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <span className="font-medium text-gray-700 dark:text-white">
-                                    Fin :
-                                  </span>
-                                  <Typography className="text-md font-medium text-gray-700 dark:text-white">
-                                    {new Date(
-                                      masterclass.endDate,
-                                    ).toLocaleDateString("fr-FR", {
-                                      weekday: "long",
-                                      year: "numeric",
-                                      month: "long",
-                                      day: "numeric",
-                                    })}
-                                  </Typography>
-                                </div>
-                              </div>
-                            </div> */}
                             <div>
                               <span
                                 className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-white"
                                 style={{
                                   backgroundColor:
                                     colorMap[masterclass.category.title] ||
-                                    "#E5E7EB", // fallback gris clair
+                                    "#E5E7EB",
                                 }}
                               >
                                 {masterclass.category.title}
@@ -244,7 +208,7 @@ const MasterClass = () => {
                                 size="md"
                                 className="mt-4 px-6 py-3 text-white dark:bg-white dark:text-black dark:hover:bg-gray-300"
                               >
-                                Voir plus
+                                En savoir plus
                               </Button>
                             </Link>
                           </div>

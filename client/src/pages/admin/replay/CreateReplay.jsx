@@ -239,6 +239,8 @@ const CreateReplay = () => {
                 <video
                   src={videoUrl}
                   controls
+                  controlsList="nodownload"
+                  onContextMenu={(e) => e.preventDefault()}
                   className="mt-2 h-56 w-full rounded object-cover"
                 />
               </div>

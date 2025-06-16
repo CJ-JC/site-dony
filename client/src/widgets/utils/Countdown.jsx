@@ -57,25 +57,25 @@ function Countdown({ targetDate, startDate, endDate }) {
     return (
       <div className="flex space-x-4">
         <div className="flex flex-col items-center">
-          <div className="text-2xl font-bold text-gray-600 dark:text-white">
+          <div className="text-2xl font-bold text-gray-700 dark:text-white">
             {timeLeft.days}
           </div>
           <span className="text-sm text-gray-500 dark:text-white">Jours</span>
         </div>
         <div className="flex flex-col items-center">
-          <div className="text-2xl font-bold text-gray-600 dark:text-white">
+          <div className="text-2xl font-bold text-gray-700 dark:text-white">
             {timeLeft.hours}
           </div>
           <span className="text-sm text-gray-500 dark:text-white">Heures</span>
         </div>
         <div className="flex flex-col items-center">
-          <div className="text-2xl font-bold text-gray-600 dark:text-white">
+          <div className="text-2xl font-bold text-gray-700 dark:text-white">
             {timeLeft.minutes}
           </div>
           <span className="text-sm text-gray-500 dark:text-white">Minutes</span>
         </div>
         <div className="flex flex-col items-center">
-          <div className="text-2xl font-bold text-gray-600 dark:text-white">
+          <div className="text-2xl font-bold text-gray-700 dark:text-white">
             {timeLeft.seconds}
           </div>
           <span className="text-sm text-gray-500 dark:text-white">

@@ -4,16 +4,10 @@ import { PageTitle } from "@/widgets/layout";
 import Countdown from "@/widgets/utils/Countdown";
 import Loading from "@/widgets/utils/Loading";
 import axios from "axios";
-import ReactQuill from "react-quill";
 import { motion } from "framer-motion";
 import { Monitor, Rocket, UsersRound } from "lucide-react";
 import Contact from "@/components/Contact";
 import { Button, Typography } from "@material-tailwind/react";
-import {
-  VerticalTimeline,
-  VerticalTimelineElement,
-} from "react-vertical-timeline-component";
-import "react-vertical-timeline-component/style.min.css";
 import Categories from "@/components/search/Categories";
 import { useSearchParams } from "react-router-dom";
 import Faq from "@/widgets/layout/faq";
@@ -81,12 +75,27 @@ export function Home() {
   const categoryIdInt = parseInt(selectedCategoryId);
 
   const filteredMasterclasses = !isNaN(categoryIdInt)
-    ? masterclasses.filter((mc) => mc.categoryId === categoryIdInt).slice(0, 4)
-    : masterclasses.slice(0, 4);
+    ? masterclasses.filter((mc) => mc.categoryId === categoryIdInt).slice(0, 3)
+    : masterclasses.slice(0, 3);
 
   if (isLoading) {
     return <Loading />;
   }
+
+  const colorMap = {
+    Piano: "#DC143D",
+    Guitare: "#023047",
+    Batterie: "#2D6A50",
+    Basse: "#FF7703",
+    Chant: "#000000",
+  };
+
+  const transparentColorMap = {
+    Piano: "rgba(220, 20, 61, 0.2)",
+    Guitare: "rgba(2, 48, 71, 0.2)",
+    Batterie: "rgba(45, 106, 80, 0.2)",
+    Basse: "rgba(255, 119, 3, 0.2)",
+  };
 
   return (
     <>
@@ -209,7 +218,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="mx-auto py-20">
+      <section className="mx-auto bg-[#FEF7E7] py-20 dark:bg-transparent">
         <div className="container mx-auto max-w-screen-xl px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -283,7 +292,7 @@ export function Home() {
                 name: "Chant",
                 description:
                   "Explorez votre voix, améliorez votre technique et exprimez-vous avec assurance et émotion.",
-                image: "/img/chant-2.jpg",
+                image: "/img/chant.jpg",
                 color: "white",
               },
             ].map(({ name, description, image, color }) => (
@@ -309,7 +318,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="mx-auto bg-[#F9FAFB] px-4 py-20 dark:bg-transparent">
+      <section className="mx-auto px-4 py-20 dark:bg-transparent">
         <div className="container mx-auto max-w-screen-xl">
           <motion.div
             initial={{ opacity: 0 }}
@@ -447,7 +456,7 @@ export function Home() {
       </section>
 
       <section
-        className="relative mx-auto flex items-center px-4 py-20"
+        className="relative mx-auto flex items-center bg-[#F9FAFB] px-4 py-20 dark:bg-transparent"
         id="formations"
       >
         <div className="container relative z-10 mx-auto max-w-screen-xl">
@@ -478,77 +487,71 @@ export function Home() {
                 <Categories items={categories} />
               </div>
               {filteredMasterclasses.length !== 0 ? (
-                <VerticalTimeline className="w-full">
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {filteredMasterclasses.map((mc) => (
-                    <VerticalTimelineElement
-                      date={new Date(mc.startDate).toLocaleDateString("fr-FR", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                        hour: "numeric",
-                        minute: "numeric",
-                      })}
+                    <div
                       key={mc.id}
-                      contentStyle={{
-                        background: "white",
-                        backgroundImage: `url(${MasterclassImage}${mc.imageUrl})`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-                        borderColor: "#ccc",
-                        borderWidth: "1px",
-                      }}
-                      iconStyle={{
-                        background: "white",
-                        color: "#000",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontWeight: "bold",
-                        fontSize: "14px",
-                      }}
-                      contentArrowStyle={{ borderRight: "7px solid #000" }}
+                      className="relative flex flex-col overflow-hidden rounded-xl border bg-white shadow-md dark:bg-gray-800"
                     >
-                      <div className="absolute inset-0 z-0 bg-black/70" />
-                      <div className="relative z-10">
-                        <h3 className="text-xl font-semibold text-white">
-                          {mc.title}
-                        </h3>
-                        <ReactQuill
-                          value={
-                            mc.description.length > 150
-                              ? mc.description.substring(
-                                  0,
-                                  mc.description.lastIndexOf(" ", 150),
-                                ) + "..."
-                              : mc.description
-                          }
-                          readOnly={true}
-                          theme="bubble"
-                          className="text-white"
-                        />
-                        <div className="mt-4 flex justify-center">
+                      {/* Image de fond */}
+                      <div
+                        className="relative h-48 bg-cover bg-center"
+                        style={{
+                          backgroundImage: `url(${MasterclassImage}${mc.imageUrl})`,
+                        }}
+                      >
+                        <div className="absolute inset-0 bg-black/60" />
+
+                        <div className="absolute bottom-2 left-2 z-10 flex w-full justify-between px-2 text-sm font-semibold text-white">
+                          {new Date(mc.startDate).toLocaleDateString("fr-FR", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                            hour: "numeric",
+                            minute: "numeric",
+                          })}
+                        </div>
+                      </div>
+                      {/* Contenu */}
+                      <div className="flex flex-1 flex-col space-y-3 p-4">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-semibold text-gray-700 dark:text-white">
+                            {mc.title}
+                          </h3>
+                          <span
+                            className=" right-0 z-30 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-white"
+                            style={{
+                              backgroundColor:
+                                transparentColorMap[mc.category.title] ||
+                                "rgba(0,0,0,0.1)",
+                              color: colorMap[mc.category.title] || "#000",
+                            }}
+                          >
+                            {mc.category.title}
+                          </span>
+                        </div>
+
+                        <div className="mt-2 flex justify-center">
                           <Countdown
-                            targetDate={mc?.startDate}
-                            startDate={mc?.startDate}
-                            endDate={mc?.endDate}
+                            targetDate={mc.startDate}
+                            startDate={mc.startDate}
+                            endDate={mc.endDate}
                           />
                         </div>
-                        <div className="mt-4 flex justify-center">
+                        <div className="mt-auto flex justify-center">
                           <Link to={`/masterclass/slug/${mc.slug}`}>
                             <Button
                               size="md"
-                              color="white"
-                              className="px-6 py-3"
+                              className="dark:bg-white dark:text-black dark:hover:bg-gray-300"
                             >
                               En savoir plus
                             </Button>
                           </Link>
                         </div>
                       </div>
-                    </VerticalTimelineElement>
+                    </div>
                   ))}
-                </VerticalTimeline>
+                </div>
               ) : (
                 <section className="mb-12 flex flex-col items-center justify-center">
                   <p className="dark:text-white">
@@ -567,124 +570,6 @@ export function Home() {
           </div>
         </div>
       </section>
-
-      {/* About */}
-      {/* <section className="-mt-28 "> */}
-      {/* <div className="mx-auto -mt-28 max-w-screen-xl px-4 py-20">
-        <div className="container mx-auto">
-          <PageTitle heading="Découvrez votre formateur">
-            Apprenez à connaître votre formateur
-          </PageTitle>
-
-          <div className="mt-12 grid items-center gap-2 md:grid-cols-2 md:gap-12">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="mt-4 flex items-center space-x-6">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                    Dony Paul
-                  </h3>
-                  <div className="space-y-2 text-justify text-gray-800 dark:text-white">
-                    <p>
-                      Musicien professionnel et formateur depuis plus de 10 ans,
-                      j’ai suivi une formation au conservatoire puis dans une
-                      école privée, me spécialisant en interprétation,
-                      composition et arrangement. <br /> Passionné par la
-                      transmission, j’ai accompagné de nombreux élèves grâce à
-                      des cours alliant rigueur pédagogique, approche ludique et
-                      interactivité.{" "}
-                    </p>
-                    <p>
-                      <strong>Mon objectif :</strong> offrir un cadre stimulant
-                      où chacun développe ses compétences techniques tout en
-                      cultivant sa passion pour la musique, pour progresser
-                      pleinement en tant qu’artiste.
-                    </p>
-                  </div>
-
-                  <div className="mt-2 flex space-x-2">
-                    <motion.i
-                      whileHover={{ scale: 1.2 }}
-                      className="w-10 text-black"
-                    >
-                      <a
-                        href="https://www.tiktok.com/@donymusic0"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <img src={"./img/tiktok.svg"} alt="" />
-                      </a>
-                    </motion.i>
-                    <motion.i
-                      whileHover={{ scale: 1.2 }}
-                      className="w-10 text-black"
-                    >
-                      <a
-                        href="https://www.youtube.com/@donymusic0"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <img src={"./img/youtube.svg"} alt="" />
-                      </a>
-                    </motion.i>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <Vimeo
-                video={"https://vimeo.com/1073164199/d2ed6421f4"}
-                responsive={true}
-                autoplay={false}
-                className="h-full w-full rounded-lg"
-              />
-            </motion.div>
-          </div>
-          <div className="mt-12 grid items-center gap-2 md:grid-cols-2 md:gap-12">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="order-2 md:order-1"
-            >
-              <Vimeo
-                video={"https://vimeo.com/1073168976/462d142889"}
-                responsive={true}
-                autoplay={false}
-                className="h-full w-full rounded-lg"
-              />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative order-1 md:order-2"
-            >
-              <Vimeo
-                video="https://vimeo.com/1073167180/08212f0c03?ts=0&share=copy"
-                responsive={true}
-                autoplay={false}
-                className="h-full w-full rounded-lg"
-              />
-            </motion.div>
-          </div>
-        </div>
-      </div> */}
-      {/* </section> */}
 
       {/* services */}
       <section className="relative mx-auto flex items-center bg-[url('/img/bg-home-2.jpg')] bg-cover bg-fixed bg-center bg-no-repeat px-4 py-20">

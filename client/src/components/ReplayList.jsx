@@ -89,6 +89,9 @@ const ReplayList = ({
                       src={MasterclassVideo + replay.videoUrl}
                       controls
                       className="h-full w-full object-cover"
+                      controlsList="nodownload"
+                      onContextMenu={(e) => e.preventDefault()}
+                      type="video/mp4"
                     />
                   </div>
                   <div className="flex flex-1 flex-col space-y-2 p-4">

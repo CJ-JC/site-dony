@@ -27,11 +27,11 @@ const Politique = () => {
         Le présent site web est hébergé par&nbsp;:
         <br />
         <br />
-        OVH&nbsp;
+        IONOS&nbsp;
         <br />
-        Siège social : 2 rue Kellermann – 59100 Roubaix, France&nbsp;
+        Siège social : 7 PLACE DE LA GARE – 57200 SARREGUEMINES, France&nbsp;
         <br />
-        Tél. +33 (0)8 99 70 17 61
+        Tél. +33 (0) 9 70 80 89 11
         <br />
         <br />
         <hr />

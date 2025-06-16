@@ -11,6 +11,7 @@ const UserProfile = () => {
   const BASE_URL = import.meta.env.VITE_API_URL;
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
+  const [selectedPurchaseId, setSelectedPurchaseId] = useState(null);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -40,6 +41,7 @@ const UserProfile = () => {
         (p) => p.id !== purchaseId,
       );
       setUserData({ ...userData, purchases: updatedPurchases });
+      setOpen(false); // Ferme le modal
     } catch (err) {
       setError("Erreur lors de la suppression de l'achat.");
     }
@@ -107,28 +109,16 @@ const UserProfile = () => {
                       <li key={purchase.id} className="mb-2 border p-1">
                         <div className="flex items-center justify-between">
                           <div>
-                            {purchase.itemType === "course" && (
-                              <>
-                                <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-800 ring-1 ring-inset ring-green-600/20">
-                                  Cours
-                                </span>{" "}
-                                {purchase.course?.title}
-                              </>
-                            )}
-                            {purchase.itemType === "masterclass" && (
-                              <>
-                                <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-800 ring-1 ring-inset ring-blue-700/10">
-                                  Masterclass
-                                </span>{" "}
-                                {purchase.masterclass?.title}
-                              </>
-                            )}
+                            <>{purchase.masterclass?.title}</>
                           </div>
                           <Button
                             size="sm"
                             variant="gradient"
                             color="red"
-                            onClick={() => setOpen(true)}
+                            onClick={() => {
+                              setSelectedPurchaseId(purchase.id);
+                              setOpen(true);
+                            }}
                           >
                             Supprimer
                           </Button>
@@ -178,10 +168,11 @@ const UserProfile = () => {
                 variant="gradient"
                 color="red"
                 size="sm"
-                onClick={() => handleDeletePurchase(userData.id)}
+                onClick={() => handleDeletePurchase(selectedPurchaseId)}
               >
-                Supprimer les achats
+                Supprimer l'achat
               </Button>
+
               <Button
                 variant="outlined"
                 size="sm"

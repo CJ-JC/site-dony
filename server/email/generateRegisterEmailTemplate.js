@@ -9,7 +9,7 @@ const generateRegisterEmailTemplate = ({ fullname }) => {
     </p>
 
     <p style="margin-top: 20px; line-height: 1.6;">
-      Si vous avez des questions ou besoin d'aide, n'hésitez pas à nous contacter à l'adresse suivante : <a href="mailto:contact@donymusic.com" style="color: #2563eb;">contact@donymusic.com</a>.
+      Si vous avez des questions ou besoin d'aide, n'hésitez pas à nous contacter à l'adresse suivante : <a href="mailto:contact@donymusic.fr" style="color: #2563eb;">contact@donymusic.fr</a>.
     </p>
   </main>
 
@@ -19,12 +19,12 @@ const generateRegisterEmailTemplate = ({ fullname }) => {
     <p style="margin-top: 20px;">
         <a href="https://donymusic.fr" style="color: #2563eb;">www.donymusic.fr</a><br />
         <div style="margin: 5px 0;">
-            <img src="https://donymusic.fr/logo-day.svg" alt="logo-donymusic" style="width: 150px;" />
+            <img src="https://donymusic.fr/img/logo-day.svg" alt="logo-donymusic" style="width: 150px;" />
         </div>
         <br />
         123 Rue de la Musique, 75001 Paris, France <br />
         Téléphone : +33 1 23 45 67 89 <br />
-        Email : <a href="mailto:contact@donymusic.com" style="color: #2563eb;">contact@donymusic.com</a>
+        Email : <a href="mailto:contact@donymusic.fr" style="color: #2563eb;">contact@donymusic.fr</a>
     </p>
   </footer>
 </section>

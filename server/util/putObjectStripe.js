@@ -20,7 +20,6 @@ export const putObjectStripe = async (fileUrl, fileName) => {
             Key: fileName,
             Body: fileBuffer, // Envoyer le Buffer et non l'URL
             ContentType: contentType,
-            ACL: "public-read",
         };
 
         try {

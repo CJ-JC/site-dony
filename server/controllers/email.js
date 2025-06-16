@@ -26,7 +26,7 @@ function sendEmail({ email, fullname, subject, message }) {
         let transporter = nodemailer.createTransport({
             host: process.env.EMAIL_HOST,
             port: parseInt(process.env.EMAIL_PORT || "587", 10),
-            secure: false,
+            secure: true,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS,
@@ -42,9 +42,9 @@ function sendEmail({ email, fullname, subject, message }) {
         });
 
         const mail_configs = {
-            from: email,
-            to: process.env.EMAIL_FROM,
-            replyTo: email,
+            from: process.env.EMAIL_FROM, // expéditeur = toi
+            to: process.env.EMAIL_FROM, // destinataire = toi aussi (contact form)
+            replyTo: email, // pour que tu puisses répondre à l'utilisateur
             subject: subject,
             text: message,
             html: emailHTML,
@@ -52,7 +52,6 @@ function sendEmail({ email, fullname, subject, message }) {
 
         transporter.sendMail(mail_configs, function (error, info) {
             if (error) {
-                console.error("❌ Erreur lors de l'envoi de l'email :", error);
                 return reject({ message: "Erreur lors de l'envoi de l'email" });
             }
             return resolve({ message: "Votre message a été envoyé avec succès" });
@@ -84,7 +83,7 @@ function sendEventEmail({ email, firstName, lastName, eventType, message }) {
         let transporter = nodemailer.createTransport({
             host: process.env.EMAIL_HOST,
             port: parseInt(process.env.EMAIL_PORT || "587", 10),
-            secure: false,
+            secure: true,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS,
@@ -101,7 +100,7 @@ function sendEventEmail({ email, firstName, lastName, eventType, message }) {
         });
 
         const mail_configs = {
-            from: email, // Ton email vérifié
+            from: process.env.EMAIL_FROM, // Ton email vérifié
             to: process.env.EMAIL_FROM, // Là où tu veux recevoir les demandes (peut être le même que FROM)
             replyTo: email,
             subject: `Demande de devis pour un événement`,
@@ -111,7 +110,6 @@ function sendEventEmail({ email, firstName, lastName, eventType, message }) {
 
         transporter.sendMail(mail_configs, function (error, info) {
             if (error) {
-                console.error("❌ Erreur lors de l'envoi de l'email :", error);
                 return reject({ message: "Erreur lors de l'envoi de l'email" });
             }
             return resolve({ message: "Votre message a été envoyé avec succès" });

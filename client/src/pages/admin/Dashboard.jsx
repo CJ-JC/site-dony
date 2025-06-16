@@ -3,7 +3,6 @@ import { Typography } from "@material-tailwind/react";
 import axios from "axios";
 import { Eye } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
@@ -11,7 +10,6 @@ const Dashboard = () => {
   const [error, setError] = useState("");
   const [totalBenefits, setTotalBenefits] = useState(0);
   const [courses, setCourses] = useState([]);
-  const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -50,23 +48,6 @@ const Dashboard = () => {
 
     fetchPurchases();
   }, []);
-
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}/api/course`);
-        setCourses(response.data);
-      } catch (error) {
-        setError("Erreur lors de la récupération des cours :", error);
-      }
-    };
-
-    fetchCourses();
-  }, []);
-
-  const viewInvoice = (purchase) => {
-    navigate("/invoice-pdf", { state: { purchase } });
-  };
 
   return (
     <>
@@ -143,9 +124,7 @@ const Dashboard = () => {
                     <p className="text-slate-800 block text-sm">
                       <span className="font-semibold">
                         {" "}
-                        {purchase.itemType === "course"
-                          ? purchase.course?.title
-                          : purchase.masterclass?.title}
+                        {purchase.itemType}
                       </span>
                     </p>
                   </td>

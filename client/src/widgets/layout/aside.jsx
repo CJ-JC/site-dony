@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom"; // Import de useLocation
 import {
-  BadgeEuro,
   GraduationCap,
   LayoutDashboard,
   LogOut,
@@ -59,7 +58,7 @@ const Aside = ({ logout, isSidebarOpen, setIsSidebarOpen, user }) => {
             },
             {
               path: "/administrator/masterclass",
-              label: "Formations",
+              label: "Masterclass",
               icon: <GraduationCap className="h-5 w-5" />,
             },
             {
@@ -71,11 +70,6 @@ const Aside = ({ logout, isSidebarOpen, setIsSidebarOpen, user }) => {
               path: "/administrator/users",
               label: "Utilisateurs",
               icon: <User className="h-5 w-5" />,
-            },
-            {
-              path: "/administrator/remise",
-              label: "Remise",
-              icon: <BadgeEuro className="h-5 w-5" />,
             },
             {
               path: "/administrator/profile",

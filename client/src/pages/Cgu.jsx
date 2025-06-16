@@ -9,9 +9,9 @@ const Cgu = () => {
         <h2>1. Introduction</h2>
         <p>
           Bienvenue sur <strong>Donymusic</strong>, un site dédié à la vente de
-          formations musicales et de webinaires payants. Notre objectif est
-          d'offrir des ressources de qualité pour apprendre la musique en ligne.
-          En accédant à notre site, vous acceptez sans réserve les présentes
+          formations musicales en direct payants. Notre objectif est d'offrir
+          des ressources de qualité pour apprendre la musique en ligne. En
+          accédant à notre site, vous acceptez sans réserve les présentes
           Conditions Générales d'Utilisation (CGU). Si vous ne souhaitez pas
           accepter ces CGU, vous êtes prié de ne pas utiliser nos services.
         </p>
@@ -28,11 +28,11 @@ const Cgu = () => {
         <h2>3. Inscription et Compte Utilisateur</h2>
         <p>
           L'accès à certaines fonctionnalités de <strong>Donymusic</strong>,
-          notamment l'achat de formations ou la participation aux webinaires,
-          nécessite une inscription préalable. Lors de cette inscription, vous
-          devrez fournir des informations exactes et à jour. Vous êtes
-          responsable de la confidentialité de vos identifiants de connexion,
-          ainsi que de toutes les activités effectuées sous votre compte.
+          notamment l'achat de formations, nécessite une inscription préalable.
+          Lors de cette inscription, vous devrez fournir des informations
+          exactes et à jour. Vous êtes responsable de la confidentialité de vos
+          identifiants de connexion, ainsi que de toutes les activités
+          effectuées sous votre compte.
         </p>
 
         <h2>4. Utilisation des Services</h2>
@@ -40,11 +40,10 @@ const Cgu = () => {
           Le site <strong>Donymusic</strong> permet aux utilisateurs de :
         </p>
         <ul>
-          <li>Acheter et suivre des formations musicales (instruments).</li>
-          <li>Participer à des webinaires musicaux.</li>
+          <li>1. Acheter et suivre des formations musicales en direct.</li>
           <li>
-            Accéder à des contenus pédagogiques variés pour apprendre la musique
-            en ligne.
+            2. Accéder à des contenus pédagogiques variés pour apprendre la
+            musique en ligne.
           </li>
         </ul>
         <p>
@@ -65,12 +64,12 @@ const Cgu = () => {
 
         <h2>6. Paiement et Conditions d'Achat</h2>
         <p>
-          Les formations et webinaires proposés sur <strong>Donymusic</strong>{" "}
-          sont payants. Les modalités de paiement, les prix, ainsi que les
-          conditions d’accès aux produits achetés sont spécifiés au moment de la
-          commande. L’utilisateur s’engage à régler le montant dû pour accéder
-          aux formations et services choisis. Les conditions de vente sont
-          régies par les Conditions Générales de Vente (CGV).
+          Les formations proposées sur <strong>Donymusic</strong> sont payants.
+          Les modalités de paiement, les prix, ainsi que les conditions d’accès
+          aux produits achetés sont spécifiés au moment de la commande.
+          L’utilisateur s’engage à régler le montant dû pour accéder aux
+          formations et services choisis. Les conditions de vente sont régies
+          par les Conditions Générales de Vente (CGV).
         </p>
 
         <h2>7. Propriété Intellectuelle</h2>

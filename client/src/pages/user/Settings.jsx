@@ -140,11 +140,6 @@ const Settings = ({
               </li>
               <li className="flex items-center">
                 <CheckCircle className="mr-2 text-green-500" />
-                Inclusion d'au moins un caractère spécial, par exemple, (! @ #
-                ?)
-              </li>
-              <li className="flex items-center">
-                <CheckCircle className="mr-2 text-green-500" />
                 être significativement différent de vos mots de passe précédents
               </li>
             </ul>

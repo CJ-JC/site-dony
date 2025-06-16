@@ -8,21 +8,20 @@ const Success = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [item, setItem] = useState(null);
-  const [itemType, setItemType] = useState(null);
+  const [masterclass, setMasterclass] = useState(null);
+
   const BASE_URL = import.meta.env.VITE_API_URL;
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     const verifyPayment = async () => {
       const sessionId = searchParams.get("session_id");
-
       if (!sessionId) {
         setError("Session ID manquant");
         return;
       }
 
-      // Vérifier si l'utilisateur a déjà accédé à la page après paiement
+      // Évite la double vérification
       if (sessionStorage.getItem(`payment_verified_${sessionId}`)) {
         navigate("/user/account");
         return;
@@ -32,17 +31,13 @@ const Success = () => {
         const response = await axios.get(
           `${BASE_URL}/api/payment/verify?sessionId=${sessionId}`,
           {
+            headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
           },
         );
-        if (response.data.success) {
-          setItem(response.data.item);
-          setItemType(response.data.item.startDate ? "masterclass" : "course");
 
-          // Marquer le paiement comme vérifié
+        if (response.data.success) {
+          setMasterclass(response.data);
           sessionStorage.setItem(`payment_verified_${sessionId}`, "true");
         }
       } catch (error) {
@@ -56,6 +51,7 @@ const Success = () => {
   }, [searchParams, navigate]);
 
   useEffect(() => {
+    // Nettoie l'URL
     window.history.replaceState(null, "", "/user/account");
   }, []);
 
@@ -80,11 +76,9 @@ const Success = () => {
           <Button
             color="gray"
             variant="outlined"
-            onClick={() =>
-              navigate(itemType === "masterclass" ? "/masterclass" : "/courses")
-            }
+            onClick={() => navigate("/masterclass")}
           >
-            Retour aux {itemType === "masterclass" ? "masterclass" : "cours"}
+            Retour aux masterclass
           </Button>
         </div>
       </div>
@@ -100,16 +94,17 @@ const Success = () => {
             Paiement réussi !
           </h1>
           <p className="text-gray-600">
-            Merci pour votre achat. Vous avez maintenant accès à votre{" "}
-            {itemType === "masterclass" ? "masterclass" : "cours"}.
+            Merci pour votre achat. Vous avez maintenant accès à votre
+            masterclass.
           </p>
         </div>
 
-        {item && (
+        {masterclass && (
           <div className="mb-6 rounded-lg bg-gray-50 p-4">
-            {/* <h2 className="font-semibold text-gray-800">Détails :</h2> */}
-            <p className="text-gray-600">{item.title}</p>
-            <p className="text-gray-600">{item.price} €</p>
+            <p className="font-semibold text-gray-800">
+              {masterclass.masterclass?.title}
+            </p>
+            <p className="text-gray-600">{masterclass.masterclass?.price} €</p>
           </div>
         )}
 
@@ -117,23 +112,17 @@ const Success = () => {
           <Button
             variant="gradient"
             onClick={() =>
-              navigate(
-                itemType === "masterclass"
-                  ? `/masterclass/slug/${item.slug}`
-                  : `/detail/slug/${item.slug}`,
-              )
+              navigate(`/masterclass/slug/${masterclass.masterclass?.slug}`)
             }
           >
-            Votre {itemType === "masterclass" ? "masterclass" : "cours"}
+            Accéder à la masterclass
           </Button>
           <Button
             color="gray"
             variant="outlined"
-            onClick={() =>
-              navigate(itemType === "masterclass" ? "/masterclass" : "/courses")
-            }
+            onClick={() => navigate("/masterclass")}
           >
-            Tous les {itemType === "masterclass" ? "masterclass" : "cours"}
+            Voir toutes les masterclass
           </Button>
         </div>
       </div>

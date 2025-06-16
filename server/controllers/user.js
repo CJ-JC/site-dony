@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import generateRegisterEmailTemplate from "../email/generateRegisterEmailTemplate.js";
 import { Purchase } from "../models/Purchase.js";
-import { Course } from "../models/Course.js";
 import { Masterclass } from "../models/Masterclass.js";
 dotenv.config();
 
@@ -30,7 +29,7 @@ export const registerUser = async (req, res) => {
     const isValidEmail = emailRegexp.test(email);
 
     // Regex pour valider le mot de passe
-    const passwordRegexp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegexp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
     // Vérification des champs requis
     if (!firstName || !lastName || !email || !password) {
@@ -182,7 +181,7 @@ export const updateUser = async (req, res) => {
 };
 
 export const updateUserPassword = async (req, res) => {
-    const passwordRegexp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegexp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
     try {
         const { id } = req.params;
@@ -257,11 +256,6 @@ export const getUserById = async (req, res) => {
                     required: false, // pour inclure les users même s'ils n'ont aucun achat
                     include: [
                         {
-                            model: Course,
-                            as: "course",
-                            required: false,
-                        },
-                        {
                             model: Masterclass,
                             as: "masterclass",
                             required: false,
@@ -320,7 +314,7 @@ const sendInvoiceEmail = async ({ fullname, email, subject }) => {
     let transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
         port: parseInt(process.env.EMAIL_PORT || "587", 10),
-        secure: false,
+        secure: true,
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
@@ -332,7 +326,7 @@ const sendInvoiceEmail = async ({ fullname, email, subject }) => {
     });
 
     const mailOptions = {
-        from: "Donymusic <donymusic@contact.com>",
+        from: `"Dony Music" <${process.env.EMAIL_FROM}>`,
         to: email,
         subject,
         html: htmlContent,
