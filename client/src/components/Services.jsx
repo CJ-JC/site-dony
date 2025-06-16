@@ -154,7 +154,7 @@ const Services = () => {
       </div>
 
       {/* Gallery / Services */}
-      <section className="w-full bg-[#FEF7E7] dark:bg-transparent dark:text-white">
+      <section className="w-full dark:bg-transparent dark:text-white">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -172,7 +172,7 @@ const Services = () => {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {/* Mariage */}
               <motion.div
-                className="overflow-hidden rounded-xl bg-white shadow-md dark:bg-gray-800"
+                className="relative h-64 overflow-hidden rounded-xl shadow-md"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -182,22 +182,24 @@ const Services = () => {
                 <img
                   src="/img/wedding.jpg"
                   alt="Mariages"
-                  className="h-50 w-full object-cover"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
-                <div className="p-4">
+                <div className="absolute inset-0 bg-black/70" />
+                <div className="relative z-10 flex h-full flex-col justify-end p-4 text-white">
                   <h3 className="text-xl font-semibold">Mariages</h3>
-                  <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                    Animation musicale complète pour votre grand jour :
-                    cérémonie émouvante, ambiance raffinée pour le cocktail, et
-                    soirée dansante endiablée. Chaque moment est soigneusement
-                    orchestré pour sublimer votre célébration.
+                  <p className="mt-2 text-sm text-gray-100">
+                    Une animation musicale complète pour sublimer chaque instant
+                    de votre mariage : cérémonie émouvante, cocktail élégant et
+                    soirée dansante festive, le tout orchestré pour sublimer
+                    votre célébration.
                   </p>
                 </div>
               </motion.div>
 
               {/* Anniversaire */}
+
               <motion.div
-                className="overflow-hidden rounded-xl bg-white shadow-md dark:bg-gray-800"
+                className="relative h-64 overflow-hidden rounded-xl shadow-md"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -207,11 +209,12 @@ const Services = () => {
                 <img
                   src="/img/birthday.jpg"
                   alt="Anniversaires"
-                  className="h-50 w-full object-cover"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
-                <div className="p-4">
+                <div className="absolute inset-0 bg-black/70" />
+                <div className="relative z-10 flex h-full flex-col justify-end p-4 text-white">
                   <h3 className="text-xl font-semibold">Anniversaires</h3>
-                  <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                  <p className="mt-2 text-sm text-gray-100">
                     Créez un événement mémorable avec une musique qui reflète
                     vos goûts. Du jazz intimiste à la playlist festive, je
                     m'adapte à l'atmosphère souhaitée pour faire de votre
@@ -221,8 +224,9 @@ const Services = () => {
               </motion.div>
 
               {/* Soirée privée */}
+
               <motion.div
-                className="overflow-hidden rounded-xl bg-white shadow-md dark:bg-gray-800"
+                className="relative h-64 overflow-hidden rounded-xl shadow-md"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -232,15 +236,15 @@ const Services = () => {
                 <img
                   src="/img/party.jpg"
                   alt="Soirées Privées"
-                  className="h-50 w-full object-cover"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
-                <div className="p-4">
+                <div className="absolute inset-0 bg-black/70" />
+                <div className="relative z-10 flex h-full flex-col justify-end p-4 text-white">
                   <h3 className="text-xl font-semibold">Soirées Privées</h3>
-                  <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                    Que ce soit pour une garden-party élégante ou une soirée à
-                    thème originale, je propose un répertoire varié allant du
-                    classique au contemporain, en version acoustique ou
-                    amplifiée selon vos préférences.
+                  <p className="mt-2 text-sm text-gray-100">
+                    Un répertoire éclectique, du classique au contemporain,
+                    adapté à vos événements (garden-party ou soirées à thème),
+                    en version acoustique ou amplifiée selon vos envies.
                   </p>
                 </div>
               </motion.div>
@@ -250,7 +254,7 @@ const Services = () => {
       </section>
 
       {/* About */}
-      <section className="mx-auto max-w-screen-xl px-4 py-20 dark:text-white">
+      <section className="mx-auto  bg-[#F9FAFB] px-4 py-20 dark:text-white">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -330,7 +334,7 @@ const Services = () => {
       </section>
 
       {/* Offers */}
-      <section className="w-full bg-[#f7f3fd] dark:bg-transparent dark:text-white">
+      <section className="w-full dark:bg-transparent dark:text-white">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
