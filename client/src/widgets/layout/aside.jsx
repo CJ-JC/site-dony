@@ -59,7 +59,7 @@ const Aside = ({ logout, isSidebarOpen, setIsSidebarOpen, user }) => {
             },
             {
               path: "/administrator/masterclass",
-              label: "Masterclass",
+              label: "Formations",
               icon: <GraduationCap className="h-5 w-5" />,
             },
             {

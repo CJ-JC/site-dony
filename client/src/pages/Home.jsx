@@ -136,6 +136,7 @@ export function Home() {
                 </Typography>
               </motion.div>
 
+
               <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -207,6 +208,185 @@ export function Home() {
             </motion.div>
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto py-20">
+        <div className="container mx-auto max-w-screen-xl px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="mb-12 text-center"
+          >
+            <PageTitle heading="Nos disciplines musicales">
+              Des cours en direct pour explorer, maîtriser et vivre pleinement
+              votre pratique instrumentale.
+            </PageTitle>
+          </motion.div>
+
+          {/* Première ligne : 3 premiers éléments */}
+          <div className="mb-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                name: "Piano",
+                description:
+                  "Maîtrisez le clavier et développez votre technique à travers un répertoire varié, du classique au contemporain.",
+                image: "/img/piano-2.jpg",
+                color: "#40CBB4",
+              },
+              {
+                name: "Guitare",
+                description:
+                  "Apprenez les accords, la rythmique et les solos pour jouer vos morceaux préférés en toute confiance.",
+                image: "/img/guitare-2.jpg",
+                color: "#4C36A9",
+              },
+              {
+                name: "Basse",
+                description:
+                  "Découvrez les fondamentaux de la basse et construisez des lignes qui grooveront avec n'importe quelle section rythmique.",
+                image: "/img/basse.jpg",
+                color: "#E6275A",
+              },
+            ].map(({ name, description, image, color }) => (
+              <div
+                key={name}
+                className="group relative h-48 overflow-hidden rounded-2xl border border-white shadow-md transition hover:shadow-xl"
+              >
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <a href="#formations">
+                  <Button
+                    className="mt-4 bg-white text-black hover:bg-gray-200 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
+                    size="lg"
+                  >
+                    Nos formations
+                  </Button>
+                </a>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section className="mx-auto max-w-screen-xl px-4 pb-20">
+        {/* <div className="container mx-auto"> */}
+        {/* {firstMasterclass?.id && (
+            <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1">
+              <Card className="rounded-lg shadow-lg shadow-gray-500/10 dark:bg-gray-800">
+                <CardBody className="px-4 py-6">
+                  <div className="flex flex-col items-center justify-between gap-x-10 md:flex-row">
+                    <div>
+                      <Typography
+                        variant="h5"
+                        className="px-2 font-bold text-gray-900 dark:text-white"
+                      >
+                        {firstMasterclass?.title}
+                      </Typography>
+                      <div className="text-sm text-gray-800 dark:text-white">
+                        <ReactQuill
+                          value={
+                            firstMasterclass?.description?.length > 200
+                              ? firstMasterclass?.description.substring(
+                                  0,
+                                  firstMasterclass?.description.lastIndexOf(
+                                    " ",
+                                    200,
+                                  ),
+                                ) + "..."
+                              : firstMasterclass?.description
+                          }
+                          readOnly={true}
+                          theme="bubble"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <Typography
+                        variant="h6"
+                        className="text-gray-800 dark:text-white"
+                      >
+                        Début dans :
+                      </Typography>
+                      <Countdown
+                        targetDate={firstMasterclass?.startDate}
+                        startDate={firstMasterclass?.startDate}
+                        endDate={firstMasterclass?.endDate}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex w-full justify-center">
+                    <Link to="/masterclass">
+                      <Button
+                        size="md"
+                        className="mt-4 px-6 py-3 dark:bg-white dark:text-black dark:hover:bg-gray-300"
+                      >
+                        En savoir plus
+                      </Button>
+                    </Link>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+          )} */}
+
+        <div className="mt-20 flex flex-wrap items-center">
+          <div className="container mx-auto dark:text-white">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <PageTitle heading="Comment fonctionnent nos formations ?">
+                Nos formations en direct sont conçues pour vous offrir une
+                expérience d'apprentissage immersive et interactive.
+              </PageTitle>
+
+              <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+                {[
+                  {
+                    title: "Rythme régulier",
+                    desc: "1h de live chaque semaine pendant 3 mois pour une progression constante et mesurable.",
+                    icon: "🎯",
+                  },
+                  {
+                    title: "100% en direct",
+                    desc: "Posez vos questions en temps réel et recevez des retours personnalisés de musiciens professionnels.",
+                    icon: "🎤",
+                  },
+                  {
+                    title: "Apprentissage en petit groupe",
+                    desc: "Groupes de 15 participants max, répartis par niveau pour garantir une dynamique de classe optimale.",
+                    icon: "👥",
+                  },
+                ].map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    className="rounded-xl border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-900"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: idx * 0.2 }}
+                  >
+                    <div className="mb-4 text-3xl">{item.icon}</div>
+                    <h3 className="mb-2 text-xl font-semibold">{item.title}</h3>
+                    <p className="text-gray-700 dark:text-gray-300">
+                      {item.desc}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+        {/* </div> */}
       </section>
 
       <section className="mx-auto py-20">
@@ -342,6 +522,7 @@ export function Home() {
                 </p>
               </div>
 
+
               {/* Mois 2 */}
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-900">
                 <h3 className="text-xl font-bold text-[#4C36A9]">
@@ -384,6 +565,49 @@ export function Home() {
                 <li className="flex items-center justify-center space-x-3 rtl:space-x-reverse">
                   <svg
                     className="h-3.5 w-3.5 shrink-0 text-green-500 dark:text-green-400"
+
+              {/* Mois 2 */}
+              <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-900">
+                <h3 className="text-xl font-bold text-[#4C36A9]">
+                  Mois 2 : Développement
+                </h3>
+                <p className="mt-4 text-gray-700 dark:text-white">
+                  Approfondissez vos connaissances théoriques et votre
+                  dextérité. Abordez des morceaux plus complexes et découvrez
+                  les nuances d'interprétation qui font toute la différence.
+                </p>
+              </div>
+
+              {/* Mois 3 */}
+              <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-900">
+                <h3 className="text-xl font-bold text-orange-500">
+                  Mois 3 : Pratique Collective
+                </h3>
+                <p className="mt-4 text-gray-700 dark:text-white">
+                  Mettez en application vos acquis dans un contexte de groupe.
+                  Apprenez à jouer avec d'autres musiciens, à vous écouter
+                  mutuellement et à créer une cohésion musicale.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            {/* Ressources pédagogiques */}
+            <div className="mt-10 rounded-xl border border-gray-200 bg-white p-6 text-center text-gray-800 shadow-md dark:border-gray-700 dark:bg-gray-900">
+              <p className="text-lg font-medium dark:text-white">
+                🎓 Chaque participant reçoit un support pédagogique numérique
+                complet :
+              </p>
+
+              <ul class=" mt-2 list-inside list-disc text-gray-700 dark:text-white">
+                <li class="flex items-center justify-center space-x-3 rtl:space-x-reverse">
+                  <svg
+                    class="h-3.5 w-3.5 shrink-0 text-green-500 dark:text-green-400"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -399,6 +623,7 @@ export function Home() {
                   </svg>
                   <span>Partitions</span>
                 </li>
+
                 <li className="flex items-center justify-center space-x-3 rtl:space-x-reverse">
                   <svg
                     className="h-3.5 w-3.5 shrink-0 text-green-500 dark:text-green-400"
@@ -417,6 +642,7 @@ export function Home() {
                   </svg>
                   <span>Exercices pratiques</span>
                 </li>
+
                 <li className="flex items-center justify-center space-x-3 rtl:space-x-reverse">
                   <svg
                     className="h-3.5 w-3.5 shrink-0 text-green-500 dark:text-green-400"

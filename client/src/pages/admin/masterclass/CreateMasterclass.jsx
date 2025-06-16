@@ -40,6 +40,18 @@ const CreateMasterclass = () => {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/category`);
+        setCategories(response.data);
+      } catch (error) {
+        setError("Erreur lors de la récupération des catégories");
+      }
+    };
+    fetchCategories();
+  }, []);
+
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     setFile(file);
@@ -373,27 +385,7 @@ const CreateMasterclass = () => {
                   >
                     Catégorie du cours
                   </label>
-                  {/* <select
-                    id="category"
-                    name="categoryId"
-                    value={inputs.categoryId || ""}
-                    onChange={(e) =>
-                      setInputs((prev) => ({
-                        ...prev,
-                        categoryId: parseInt(e.target.value),
-                      }))
-                    }
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  dark:bg-white dark:text-black dark:placeholder-gray-400"
-                  >
-                    <option value="" disabled>
-                      Sélectionnez une catégorie
-                    </option>
-                    {categories.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.title}
-                      </option>
-                    ))}
-                  </select> */}
+
                   <Select
                     id="category"
                     options={categoryOptions}
@@ -409,6 +401,7 @@ const CreateMasterclass = () => {
                     isClearable
                     styles={customStyles}
                   />
+
                 </div>
               </div>
 

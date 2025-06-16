@@ -16,6 +16,7 @@ import {
 } from "@material-tailwind/react";
 import Select from "react-select";
 
+
 const EditMasterclass = () => {
   const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -25,6 +26,7 @@ const EditMasterclass = () => {
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState(null);
   const [file, setFile] = useState(null);
+
   const [masterclass, setMasterclasses] = useState([]);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [selectedMasterclass, setSelectedMasterclass] = useState(null);
@@ -39,11 +41,13 @@ const EditMasterclass = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/api/category`);
+
         const categoryOptions = response.data.map((category) => ({
           value: category.id,
           label: category.title,
         }));
         setCategoryOptions(categoryOptions);
+
       } catch (error) {
         setError("Erreur lors de la récupération des catégories");
       }
@@ -161,6 +165,7 @@ const EditMasterclass = () => {
     setInputs((prev) => ({ ...prev, [field]: date }));
   };
 
+
   const handleInstructorChange = (selectedOption) => {
     setInputs((prev) => ({
       ...prev,
@@ -225,6 +230,7 @@ const EditMasterclass = () => {
       ),
     );
   };
+
 
   const customStyles = {
     control: (base, state) => ({

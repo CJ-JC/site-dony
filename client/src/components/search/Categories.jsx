@@ -19,6 +19,14 @@ const Categories = ({ items }) => {
     Chant: "#000000",
   };
 
+  const colorMap = {
+    Basse: "#FF7703",
+    Batterie: "#2D6A50",
+    Guitare: "#023047",
+    Piano: "#DC143D",
+    Chant: "#000000",
+  };
+
   return (
     <div className="flex items-center gap-x-4 overflow-x-auto lg:justify-center">
       {items.map((item) => (

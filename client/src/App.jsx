@@ -213,7 +213,7 @@ function App() {
           }
         >
           <Route path="/home" element={<Home />} />
-          {/* <Route path="detail/slug/:id" element={<CourseDetail />} /> */}
+
           <Route path="masterclass" element={<MasterClass />} />
           <Route path="services" element={<Services />} />
           <Route
@@ -242,8 +242,6 @@ function App() {
             element={<EditChapter />}
           /> */}
 
-          {/* <Route path="create-course" element={<CreateCourse />} />
-          <Route path="edit-course/:id" element={<EditCourse />} /> */}
 
           <Route path="masterclass" element={<ShowMasterclass />} />
           <Route path="create-masterclass" element={<CreateMasterclass />} />
