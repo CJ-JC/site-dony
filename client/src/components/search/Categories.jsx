@@ -4,11 +4,19 @@ import CategoryItem from "./CategoryItem";
 const Categories = ({ items }) => {
   // Map des icônes associées aux catégories
   const iconMap = {
-    Basse: "/img/basse.svg",
-    Batterie: "/img/batterie.svg",
-    Chant: "/img/mic.svg",
-    Guitare: "/img/guitare.svg",
     Piano: "/img/piano.svg",
+    Guitare: "/img/guitare.svg",
+    Batterie: "/img/batterie.svg",
+    Basse: "/img/basse.svg",
+    Chant: "/img/mic.svg",
+  };
+
+  const colorMap = {
+    Piano: "#DC143D",
+    Guitare: "#023047",
+    Batterie: "#2D6A50",
+    Basse: "#FF7703",
+    Chant: "#000000",
   };
 
   const colorMap = {

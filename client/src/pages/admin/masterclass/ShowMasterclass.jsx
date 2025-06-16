@@ -1,11 +1,5 @@
-import {
-  Button,
-  Dialog,
-  DialogBody,
-  DialogFooter,
-  DialogHeader,
-} from "@material-tailwind/react";
-import { Edit, Mic, PlusCircle, Trash } from "lucide-react";
+import { Button } from "@material-tailwind/react";
+import { Edit, Mic, PlusCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SearchInput from "@/components/search/SearchInput";
@@ -29,9 +23,6 @@ const ShowMasterclass = () => {
   const masterclassesPerPage = 10;
   const [searchQuery, setSearchQuery] = useState("");
   const [masterclasses, setMasterclasses] = useState([]);
-  const [deleteDialog, setDeleteDialog] = useState(false);
-  const [selectedMasterclass, setMasterclass] = useState(null);
-  const [error, setError] = useState(null);
   const BASE_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -85,7 +76,7 @@ const ShowMasterclass = () => {
           className="mb-3 text-xl font-bold dark:text-white md:text-3xl"
           color="blue-gray"
         >
-          Liste des formations
+          Liste des masterclass
         </Typography>
 
         <div className="flex-column mb-4 flex flex-wrap items-center justify-center space-y-4 sm:flex-row sm:space-y-4 md:justify-between">
@@ -126,6 +117,11 @@ const ShowMasterclass = () => {
               </th>
               <th className="border-slate-200 bg-slate-50 border-b p-4">
                 <p className="text-slate-500 text-sm font-normal leading-none">
+                  Status
+                </p>
+              </th>
+              <th className="border-slate-200 bg-slate-50 border-b p-4">
+                <p className="text-slate-500 text-sm font-normal leading-none">
                   Action
                 </p>
               </th>
@@ -153,6 +149,19 @@ const ShowMasterclass = () => {
                 <td className="p-4 py-5">
                   <p className="text-slate-500 text-sm">
                     {formatDateTime(masterclass.endDate)}
+                  </p>
+                </td>
+                <td className="p-4 py-5">
+                  <p className="text-slate-500 text-sm">
+                    {masterclass.isPublished ? (
+                      <span className="me-2 rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300">
+                        Publié
+                      </span>
+                    ) : (
+                      <span className="me-2 rounded bg-red-400 px-2.5 py-0.5 text-xs font-medium text-white dark:bg-red-700 dark:text-red-300">
+                        Non publié
+                      </span>
+                    )}
                   </p>
                 </td>
                 <td className="flex items-center gap-2 p-4 py-5">

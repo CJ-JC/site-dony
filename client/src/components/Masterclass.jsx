@@ -63,11 +63,11 @@ const MasterClass = () => {
   };
 
   const categories = [
-    { id: "1", name: "Basse", icon: "/img/basse.svg" },
-    { id: "2", name: "Batterie", icon: "/img/batterie.svg" },
-    { id: "3", name: "Guitare", icon: "/img/guitare.svg" },
-    { id: "4", name: "Piano", icon: "/img/piano.svg" },
-    { id: "5", name: "Chant", icon: "/img/piano.svg" },
+    { id: "1", name: "Piano", icon: "/img/piano.svg" },
+    { id: "2", name: "Guitare", icon: "/img/guitare.svg" },
+    { id: "3", name: "Batterie", icon: "/img/batterie.svg" },
+    { id: "4", name: "Basse", icon: "/img/basse.svg" },
+    { id: "5", name: "Chant", icon: "/img/mic.svg" },
   ];
 
   if (isLoading) {
@@ -89,7 +89,7 @@ const MasterClass = () => {
             color="blue-gray"
             className=" text-3xl font-light dark:text-white"
           >
-            Inscrivez-vous à nos Masterclasses
+            Inscrivez-vous à nos Massterclass
           </Typography>
           <Typography className="text-gray-800 dark:text-white">
             Découvrez des cours intensifs dispensés par des professionnels de la

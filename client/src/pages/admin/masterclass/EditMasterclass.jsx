@@ -14,6 +14,8 @@ import {
   DialogFooter,
   DialogHeader,
 } from "@material-tailwind/react";
+import Select from "react-select";
+
 
 const EditMasterclass = () => {
   const BASE_URL = import.meta.env.VITE_API_URL;
@@ -24,11 +26,12 @@ const EditMasterclass = () => {
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState(null);
   const [file, setFile] = useState(null);
-  const [instructors, setInstructors] = useState([]);
-  const [categories, setCategories] = useState([]);
+
   const [masterclass, setMasterclasses] = useState([]);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [selectedMasterclass, setSelectedMasterclass] = useState(null);
+  const [instructorOptions, setInstructorOptions] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
 
   const CoursesImage = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${
     import.meta.env.VITE_AWS_REGION
@@ -38,7 +41,13 @@ const EditMasterclass = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/api/category`);
-        setCategories(response.data);
+
+        const categoryOptions = response.data.map((category) => ({
+          value: category.id,
+          label: category.title,
+        }));
+        setCategoryOptions(categoryOptions);
+
       } catch (error) {
         setError("Erreur lors de la récupération des catégories");
       }
@@ -71,7 +80,11 @@ const EditMasterclass = () => {
       try {
         const response = await axios.get(`${BASE_URL}/api/instructor`);
         const instructors = response.data;
-        setInstructors(instructors);
+        const instructorOptions = instructors.map((instructor) => ({
+          value: instructor.id,
+          label: instructor.name,
+        }));
+        setInstructorOptions(instructorOptions);
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des instructeurs :",
@@ -102,7 +115,7 @@ const EditMasterclass = () => {
           categoryId,
           link,
         } = response.data;
-
+        const now = new Date();
         setInputs({
           title,
           description,
@@ -112,7 +125,7 @@ const EditMasterclass = () => {
           endDate: new Date(endDate),
           imageUrl,
           duration,
-          isPublished,
+          isPublished: new Date(endDate) < now ? false : isPublished,
           maxParticipants,
           instructorId,
           categoryId,
@@ -152,6 +165,21 @@ const EditMasterclass = () => {
     setInputs((prev) => ({ ...prev, [field]: date }));
   };
 
+
+  const handleInstructorChange = (selectedOption) => {
+    setInputs((prev) => ({
+      ...prev,
+      instructorId: selectedOption ? selectedOption.value : null,
+    }));
+  };
+
+  const handleCategoryChange = (selectedOption) => {
+    setInputs((prev) => ({
+      ...prev,
+      categoryId: selectedOption ? selectedOption.value : null,
+    }));
+  };
+
   const handleDelete = async () => {
     try {
       await axios.delete(`${BASE_URL}/api/masterclass/delete/${id}`);
@@ -175,6 +203,16 @@ const EditMasterclass = () => {
       return;
     }
 
+    const now = new Date();
+    const isExpired = new Date(inputs.endDate) < now;
+
+    if (isExpired) {
+      setError(
+        "La date de fin est dépassée. Vous ne pouvez pas publier cette formation.",
+      );
+      return;
+    }
+
     try {
       await axios.put(`${BASE_URL}/api/masterclass/update/${id}`, inputs);
       navigate("/administrator/masterclass");
@@ -191,6 +229,40 @@ const EditMasterclass = () => {
           : masterclass,
       ),
     );
+  };
+
+
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      borderColor: "#B0BEC5",
+      boxShadow: state.isFocused ? "0 0 0 1px black" : "none",
+      "&:hover": {
+        borderColor: "#B0BEC5",
+      },
+      backgroundColor: "transparent",
+      color: "black",
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: "gray",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "gray",
+    }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+      color: "black",
+      "&:hover": {
+        backgroundColor: "#e6e6e6",
+      },
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "white",
+    }),
   };
 
   return (
@@ -335,6 +407,7 @@ const EditMasterclass = () => {
                     </span>
                     <input
                       type="file"
+                      accept="image/*"
                       className="hidden"
                       id="image"
                       name="image"
@@ -363,27 +436,22 @@ const EditMasterclass = () => {
                 >
                   Instructeur
                 </label>
-                <select
+                <Select
                   id="instructor"
-                  name="instructorId"
-                  value={inputs.instructorId || ""}
-                  onChange={(e) =>
-                    setInputs((prev) => ({
-                      ...prev,
-                      instructorId: parseInt(e.target.value),
-                    }))
+                  options={instructorOptions}
+                  onChange={handleInstructorChange}
+                  value={
+                    inputs.instructorId
+                      ? instructorOptions.find(
+                          (opt) => opt.value === inputs.instructorId,
+                        )
+                      : null
                   }
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-white dark:text-black"
-                >
-                  <option value="" disabled>
-                    Sélectionnez un instructeur
-                  </option>
-                  {instructors.map((instructor) => (
-                    <option key={instructor.id} value={instructor.id}>
-                      {instructor.name}
-                    </option>
-                  ))}
-                </select>
+                  placeholder="Sélectionnez un instructeur"
+                  isClearable
+                  className="text-black dark:text-white"
+                  styles={customStyles}
+                />
               </div>
             </div>
 
@@ -435,61 +503,77 @@ const EditMasterclass = () => {
                   >
                     Catégorie du cours
                   </label>
-                  <select
+                  <Select
                     id="category"
-                    name="categoryId"
-                    value={inputs.categoryId || ""}
-                    onChange={(e) =>
-                      setInputs((prev) => ({
-                        ...prev,
-                        categoryId: parseInt(e.target.value),
-                      }))
+                    options={categoryOptions}
+                    onChange={handleCategoryChange}
+                    value={
+                      inputs.categoryId
+                        ? categoryOptions.find(
+                            (opt) => opt.value === inputs.categoryId,
+                          )
+                        : null
                     }
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  dark:border-gray-600 dark:bg-white dark:text-black dark:placeholder-gray-400"
-                  >
-                    <option value="" disabled>
-                      Sélectionnez une catégorie
-                    </option>
-                    {categories.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.title}
-                      </option>
-                    ))}
-                  </select>
+                    placeholder="Sélectionner une catégorie"
+                    isClearable
+                    className="text-black dark:text-white"
+                    styles={customStyles}
+                  />
                 </div>
               </div>
 
               <div>
-                <h2 className="text-xl">Choisissez les dates et heures</h2>
-                <div>
-                  <label className="text-sm font-medium text-gray-900 dark:text-white">
-                    Date et heure de début
-                  </label>
-                  <DatePicker
-                    selected={inputs.startDate}
-                    onChange={(date) => handleDateChange("startDate", date)}
-                    dateFormat="dd MMMM yyyy, HH:mm"
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    locale="fr"
-                    className="ml-6 mt-2 w-full rounded-md border border-gray-300 px-2 py-2 dark:text-black"
-                  />
+                <div className="flex items-center gap-x-2">
+                  <div className="flex items-center justify-center rounded-full bg-blue-100 p-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-clock-icon lucide-clock h-8 w-8 text-green-700"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                  </div>
+                  <h2 className="text-xl">Choisissez les dates et heures</h2>
                 </div>
-                <div>
-                  <label className="darl:text-white text-sm font-medium text-gray-900 dark:text-white">
-                    Date et heure de fin
-                  </label>
-                  <DatePicker
-                    selected={inputs.endDate}
-                    onChange={(date) => handleDateChange("endDate", date)}
-                    dateFormat="dd MMMM yyyy, HH:mm"
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    locale="fr"
-                    className="ml-6 mt-2 w-full rounded-md border border-gray-300 px-2 py-2 dark:text-black"
-                  />
+                <div className="mt-6 grid grid-cols-1 gap-x-2 md:grid-cols-2">
+                  <div className="flex flex-col items-start gap-x-2">
+                    <label className="text-sm font-medium text-gray-900 dark:text-white">
+                      Date et heure de début
+                    </label>
+                    <DatePicker
+                      selected={inputs.startDate}
+                      onChange={(date) => handleDateChange("startDate", date)}
+                      dateFormat="dd MMMM yyyy, HH:mm"
+                      showTimeSelect
+                      timeFormat="HH:mm"
+                      timeIntervals={15}
+                      locale="fr"
+                      className="mb-4 w-full rounded-md border border-gray-300 px-2 py-2 dark:text-black"
+                    />
+                  </div>
+                  <div className="flex flex-col items-start gap-x-2">
+                    <label className="darl:text-white text-sm font-medium text-gray-900 dark:text-white">
+                      Date et heure de fin
+                    </label>
+                    <DatePicker
+                      selected={inputs.endDate}
+                      onChange={(date) => handleDateChange("endDate", date)}
+                      dateFormat="dd MMMM yyyy, HH:mm"
+                      showTimeSelect
+                      timeFormat="HH:mm"
+                      timeIntervals={15}
+                      locale="fr"
+                      className="mb-4 mr-4 w-full rounded-md border border-gray-300 p-6 px-2 py-2 dark:text-black"
+                    />
+                  </div>
                 </div>
               </div>
               <div className="mt-6 space-y-2 rounded-md border p-4">

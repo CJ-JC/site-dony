@@ -79,7 +79,7 @@ export function Navbar({ toggleTheme, theme }) {
           }`
         }
       >
-        Nos formations
+        Nos masterclass
       </NavLink>
 
       <NavLink
