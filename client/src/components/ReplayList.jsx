@@ -88,10 +88,11 @@ const ReplayList = ({
                     <video
                       src={MasterclassVideo + replay.videoUrl}
                       controls
-                      className="h-full w-full object-cover"
+                      poster={MasterclassVideo + replay.masterclass?.imageUrl}
                       controlsList="nodownload"
                       onContextMenu={(e) => e.preventDefault()}
                       type="video/mp4"
+                      className="aspect-video w-full object-cover shadow-md"
                     />
                   </div>
                   <div className="flex flex-1 flex-col space-y-2 p-4">

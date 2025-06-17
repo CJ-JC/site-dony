@@ -108,14 +108,14 @@ const MasterclassDetail = () => {
         transition={{ duration: 0.8, delay: 0.2 }}
       >
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            <div className="overflow-hidden rounded-md border p-2">
+          <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-2">
+            <div className="overflow-hidden rounded-md p-2">
               <img
                 src={
                   masterclass.image || `${CoursesImage}${masterclass.imageUrl}`
                 }
                 alt={masterclass.title}
-                className="h-[200px] w-full object-cover md:h-[400px]"
+                className="h-[200px] w-full md:h-[350px]"
               />
             </div>
 
@@ -140,31 +140,31 @@ const MasterclassDetail = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center space-x-2 text-gray-800">
                   <Calendar className="h-5 w-5 dark:text-gray-400" />
-                  <Typography className="dark:text-white">
+                  <Typography className="font-semibold dark:text-white">
                     {new Date(masterclass.startDate).toLocaleDateString()}
                   </Typography>
                 </div>
                 <div className="flex items-center space-x-2 text-gray-800">
                   <Clock className="h-5 w-5 dark:text-gray-400" />
-                  <Typography className="dark:text-white">
+                  <Typography className="font-semibold dark:text-white">
                     <FormatHour masterclass={masterclass} />
                   </Typography>
                 </div>
                 <div className="flex items-center space-x-2 text-gray-800">
                   <Users className="h-5 w-5 dark:text-gray-400" />
-                  <Typography className="dark:text-white">
+                  <Typography className="font-semibold dark:text-white">
                     {masterclass.maxParticipants} participants max
                   </Typography>
                 </div>
                 <div className="flex items-center space-x-2 text-gray-800">
                   <Euro className="h-5 w-5 dark:text-gray-400" />
-                  <Typography className="dark:text-white">
+                  <Typography className="font-semibold dark:text-white">
                     {masterclass.price}
                   </Typography>
                 </div>
                 <div className="flex items-center space-x-2 text-gray-800">
                   <Hourglass className="h-5 w-5 dark:text-gray-400" />
-                  <Typography className="dark:text-white">
+                  <Typography className="font-semibold dark:text-white">
                     Durée totale :{" "}
                     <CalculateDuration
                       startDate={masterclass.startDate}
@@ -174,7 +174,7 @@ const MasterclassDetail = () => {
                 </div>
                 <div className="flex items-center space-x-2 text-gray-800">
                   <CalendarClock className="h-5 w-5 dark:text-gray-400" />
-                  <Typography className="dark:text-white">
+                  <Typography className="font-semibold dark:text-white">
                     Durée de chaque réunion : {masterclass.duration}h
                   </Typography>
                 </div>
@@ -187,7 +187,7 @@ const MasterclassDetail = () => {
                     <p className="text-lg font-bold text-green-700">
                       Félicitations ! 🎉
                     </p>
-                    <p className="text-gray-700">
+                    <p className="text-gray-700 dark:text-white">
                       Vous êtes déjà inscrit(e) à cette masterclass. <br />{" "}
                       Rendez-vous le{" "}
                       <span className="font-semibold text-green-700">
@@ -247,11 +247,11 @@ const MasterclassDetail = () => {
             >
               Votre instructeur
             </Typography>
-            <div className="grid grid-cols-[auto,1fr] items-center gap-4">
+            <div className="flex flex-col gap-4 sm:grid sm:grid-cols-[auto,1fr] sm:items-center">
               <img
                 src={`${CoursesImage}${masterclass.instructor?.imageUrl}`}
                 alt={masterclass.instructor?.name}
-                className="h-16 w-16 rounded-full object-cover"
+                className="mx-auto h-16 w-16 rounded-full object-cover sm:mx-0"
               />
               <div>
                 <Typography
@@ -260,9 +260,12 @@ const MasterclassDetail = () => {
                 >
                   {masterclass.instructor?.name}
                 </Typography>
-                <Typography className="font-normal text-gray-800 dark:text-white">
-                  {masterclass.instructor?.biography}
-                </Typography>
+                <ReactQuill
+                  value={masterclass.instructor?.biography}
+                  readOnly={true}
+                  theme="bubble"
+                  className="text-gray-700 dark:text-white"
+                />
               </div>
             </div>
           </div>

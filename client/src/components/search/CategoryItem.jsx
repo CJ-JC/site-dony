@@ -50,7 +50,7 @@ const CategoryItem = ({ label, value, icon, color }) => {
       )}
       type="button"
     >
-      {icon && <img src={icon} alt={label} className="h-6 w-6" />}
+      {icon && <img src={icon} alt="" aria-hidden="true" className="h-6 w-6" />}
       <span className="truncate">{label}</span>
     </button>
   );

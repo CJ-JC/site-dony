@@ -35,6 +35,7 @@ const Account = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [masterclassOptions, setMasterclassOptions] = useState([]);
   const [masterclasses, setMasterclasses] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const token = localStorage.getItem("token");
 
@@ -129,6 +130,8 @@ const Account = () => {
         content:
           error.response?.data?.message || "Erreur lors de la mise à jour.",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -165,6 +168,8 @@ const Account = () => {
         content:
           error.response?.data?.message || "Erreur lors de la mise à jour.",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -310,6 +315,7 @@ const Account = () => {
           profileMessage={profileMessage}
           isEditing={isEditing}
           handleProfileSubmit={handleProfileSubmit}
+          isSubmitting={isSubmitting}
         />
       ),
     },
@@ -328,6 +334,7 @@ const Account = () => {
           togglePasswordVisibility={togglePasswordVisibility}
           showPassword={showPassword}
           setFormData={setFormData}
+          isSubmitting={isSubmitting}
         />
       ),
     },

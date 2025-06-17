@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { useNavigate, useParams } from "react-router-dom";
+import Editor from "@/widgets/utils/Editor";
 
 export default function EditInstructor() {
   const navigate = useNavigate();
@@ -37,8 +38,8 @@ export default function EditInstructor() {
         const response = await axios.get(`${BASE_URL}/api/instructor/${id}`);
         const instructor = response.data;
         setInputs({
-          name: instructor.name,
-          biography: instructor.biography,
+          name: instructor.name || "",
+          biography: instructor.biography || "",
           image: null,
           file: null,
         });
@@ -54,6 +55,10 @@ export default function EditInstructor() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
+  };
+
+  const handleChange = (e) => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleImageChange = async (e) => {
@@ -83,8 +88,13 @@ export default function EditInstructor() {
 
     try {
       // Validation des champs
-      if (!inputs.name || !inputs.biography || !inputs.file) {
-        setError("Tous les champs sont obligatoires");
+      if (!inputs.name || !inputs.biography) {
+        setError("Nom et biographie sont obligatoires");
+        return;
+      }
+
+      if (!inputs.file && !currentImage) {
+        setError("Veuillez ajouter une image");
         return;
       }
 
@@ -107,7 +117,7 @@ export default function EditInstructor() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Card className="mx-auto max-w-3xl p-6 dark:bg-[#25303F]">
+      <Card className="mx-auto max-w-3xl border p-6 dark:bg-transparent">
         <Typography variant="h4" color="blue-gray" className="dark:text-white">
           Modifier l'instructeur
         </Typography>
@@ -120,7 +130,11 @@ export default function EditInstructor() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Typography variant="h6" color="blue-gray" className="mb-2">
+            <Typography
+              variant="h6"
+              color="blue-gray"
+              className="mb-2 dark:text-white"
+            >
               Nom
             </Typography>
             <Input
@@ -135,22 +149,27 @@ export default function EditInstructor() {
           </div>
 
           <div>
-            <Typography variant="h6" color="blue-gray" className="mb-2">
+            <Typography
+              variant="h6"
+              color="blue-gray"
+              className="mb-2 dark:text-white"
+            >
               Biographie
             </Typography>
-            <Textarea
+            <Editor
               name="biography"
               value={inputs.biography}
-              onChange={handleInputChange}
-              required
-              placeholder="Biographie de l'instructeur"
-              className="bg-gray-50 dark:text-white"
-              rows={6}
+              onChange={handleChange}
+              className="dark:text-white"
             />
           </div>
 
           <div>
-            <Typography variant="h6" color="blue-gray" className="mb-2">
+            <Typography
+              variant="h6"
+              color="blue-gray"
+              className="mb-2 dark:text-white"
+            >
               Photo
             </Typography>
             <Input

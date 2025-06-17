@@ -29,6 +29,7 @@ const AccountAdmin = () => {
   const [message, setMessage] = useState({ type: "", content: "" });
   const dispatch = useDispatch();
   const [authLoading, setAuthLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { isLoggedIn, user } = useSelector((state) => state.auth);
   const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -75,6 +76,7 @@ const AccountAdmin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     if (formData.password && formData.password !== formData.confirmPassword) {
       setMessage({
@@ -106,6 +108,8 @@ const AccountAdmin = () => {
         content:
           error.response?.data?.message || "Erreur lors de la mise à jour",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -117,7 +121,7 @@ const AccountAdmin = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Card className="mx-auto max-w-2xl border p-6 dark:bg-[#25303F]">
+      <Card className="mx-auto max-w-2xl border p-6 dark:bg-gray-800">
         <div className="mb-6 flex items-center justify-between">
           <Typography
             variant="h4"
@@ -272,8 +276,17 @@ const AccountAdmin = () => {
           )}
 
           {isEditing && (
-            <Button type="submit" className="mt-6" fullWidth>
-              Mettre à jour le profil
+            <Button
+              type="submit"
+              fullWidth
+              disabled={isSubmitting}
+              className={`mt-6 dark:bg-white dark:text-black dark:hover:bg-gray-400 ${
+                isSubmitting ? "cursor-not-allowed opacity-50" : ""
+              }`}
+            >
+              {isSubmitting
+                ? "Mise à jour en cours..."
+                : "Mettre à jour le profil"}
             </Button>
           )}
         </form>

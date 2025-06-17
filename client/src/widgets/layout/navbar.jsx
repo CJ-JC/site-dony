@@ -106,9 +106,14 @@ export function Navbar({ toggleTheme, theme }) {
       <div className="container mx-auto flex items-center justify-between text-black">
         <Link to="/" onClick={handleLinkClick}>
           {theme === "dark" ? (
-            <img src={logoNight} width={200} alt="logo donymusic" />
+            <img
+              src={logoNight}
+              width={200}
+              height={200}
+              alt="logo donymusic"
+            />
           ) : (
-            <img src={logoDay} width={200} alt="logo donymusic" />
+            <img src={logoDay} width={200} height={200} alt="logo donymusic" />
           )}
         </Link>
         <div className="hidden lg:block">{navList}</div>
@@ -165,10 +170,15 @@ export function Navbar({ toggleTheme, theme }) {
           )}
           <button
             onClick={toggleTheme}
-            className="theme-toggle rounded-md hover:bg-gray-300"
+            className="theme-toggle rounded-md hover:bg-gray-200"
+            aria-label={
+              theme === "dark"
+                ? "Activer le thème clair"
+                : "Activer le thème sombre"
+            }
           >
             {theme === "dark" ? (
-              <SunIcon className="h-8 w-8 p-1 text-white dark:hover:text-black" />
+              <SunIcon className="h-8 w-8 p-1 text-white" />
             ) : (
               <MoonIcon className="h-8 w-8 p-1" />
             )}
@@ -179,6 +189,11 @@ export function Navbar({ toggleTheme, theme }) {
           <button
             onClick={toggleTheme}
             className="theme-toggle rounded-md hover:bg-gray-200"
+            aria-label={
+              theme === "dark"
+                ? "Activer le thème clair"
+                : "Activer le thème sombre"
+            }
           >
             {theme === "dark" ? (
               <SunIcon className="h-8 w-8 p-1 text-white" />
@@ -186,6 +201,7 @@ export function Navbar({ toggleTheme, theme }) {
               <MoonIcon className="h-8 w-8 p-1" />
             )}
           </button>
+
           <IconButton
             variant="text"
             size="sm"

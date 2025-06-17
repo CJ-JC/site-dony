@@ -254,7 +254,7 @@ const Services = () => {
       </section>
 
       {/* About */}
-      <section className="mx-auto  bg-[#F9FAFB] px-4 py-20 dark:text-white">
+      <section className="mx-auto  bg-[#F9FAFB] px-4 py-20 dark:bg-transparent dark:text-white">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -282,9 +282,9 @@ const Services = () => {
                       <h3 className="text-lg font-semibold">
                         Excellence garantie
                       </h3>
-                      <p className="text-md text-gray-700">
-                        100% de clients satisfaits (enquête 2024), je m'engage à
-                        créer une expérience musicale parfaite.
+                      <p className="text-md text-gray-700 dark:text-white">
+                        Votre satisfaction est ma priorité. On s'engage à vous
+                        offrir une expérience musicale exceptionnelle.
                       </p>
                     </div>
                   </div>
@@ -298,7 +298,7 @@ const Services = () => {
                       <h3 className="text-lg font-semibold">
                         Personnalisation totale
                       </h3>
-                      <p className="text-md text-gray-700">
+                      <p className="text-md text-gray-700 dark:text-white">
                         Chaque programme musical est élaboré sur mesure avec
                         vous, en tenant compte de vos préférences et du rythme
                         souhaité pour votre événement.
@@ -313,7 +313,7 @@ const Services = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold">Service complet</h3>
-                    <p className="text-md text-gray-700">
+                    <p className="text-md text-gray-700 dark:text-white">
                       Équipement professionnel de qualité, installation discrète
                       et rapide, disponibilité en Île-de-France et régions
                       limitrophes.
@@ -327,10 +327,11 @@ const Services = () => {
                 <div className="group relative block h-[300px] w-full overflow-hidden rounded-lg sm:h-[400px] lg:h-full">
                   <video
                     src="/video/presta.mp4"
+                    poster="/img/fete.jpg"
                     controls
                     controlsList="nodownload"
                     onContextMenu={(e) => e.preventDefault()}
-                    type="video/mp4"
+                    className="aspect-video w-full rounded-xl object-cover shadow-md"
                   />
                 </div>
               </div>
@@ -356,29 +357,38 @@ const Services = () => {
             </Typography>
 
             <div className="mx-auto max-w-7xl px-4 pt-0 sm:px-6 lg:px-8 lg:pt-20">
-              <ul className="relative mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-16 px-4 sm:grid-cols-1 lg:grid-cols-3 lg:gap-10">
+              <ul className="relative mx-auto mt-28 grid max-w-5xl grid-cols-1 gap-16 px-4 sm:grid-cols-1 lg:grid-cols-3 lg:gap-10">
                 {/* Trait horizontal (desktop) */}
                 <div className="absolute left-1/2 top-6 hidden h-0.5 w-[100%] -translate-x-1/2 bg-gray-300 lg:block"></div>
 
                 {/* Mariage - texte en haut sur desktop, normal sur mobile */}
                 <li className="relative flex flex-col items-center text-center">
-                  <div className="hidden lg:absolute lg:-top-32 lg:block lg:w-[22rem]">
-                    <h3 className="text-xl font-semibold">Mariage Complet</h3>
+                  <div className="hidden lg:absolute lg:-top-36 lg:block lg:w-[30rem]">
+                    <h3 className="text-xl font-semibold">
+                      💍 Mariage Complet
+                    </h3>
                     <p className="mt-1 text-base text-gray-700 dark:text-white">
-                      À partir de 600 € pour 3h incluant cérémonie et vin
-                      d'honneur. Options : ouverture de bal, animation soirée
-                      dansante.
+                      Une prestation musicale sur mesure pour votre cérémonie,
+                      vin d’honneur, ou soirée dansante.{" "}
+                      <strong>Options disponibles : </strong>
+                      ouverture de bal, animation live, duo de musiciens, etc.{" "}
+                      <br />
+                      💬 Tarif personnalisé sur demande de devis.
                     </p>
                   </div>
                   <div className="z-10 inline-flex h-12 w-12 items-center justify-center rounded-full border border-gray-300 bg-gray-50 transition-all duration-200 dark:text-black">
                     <FaRing />
                   </div>
-                  <div className="mt-6 w-[22rem] lg:hidden">
-                    <h3 className="text-xl font-semibold">Mariage Complet</h3>
+                  <div className="mt-6 w-[30rem] lg:hidden">
+                    <h3 className="text-xl font-semibold">
+                      💍 Mariage Complet
+                    </h3>
                     <p className="mt-1 text-base text-gray-700 dark:text-white">
-                      À partir de 600 € pour 3h incluant cérémonie et vin
-                      d'honneur. Options : ouverture de bal, animation soirée
-                      dansante.
+                      Une prestation musicale sur mesure pour votre cérémonie,
+                      vin d’honneur, ou soirée dansante. Options disponibles :
+                      ouverture de bal, animation live, duo de musiciens, etc.{" "}
+                      <br />
+                      💬 Tarif personnalisé sur demande de devis.
                     </p>
                   </div>
                 </li>
@@ -388,33 +398,45 @@ const Services = () => {
                   <div className="z-10 inline-flex h-12 w-12 items-center justify-center rounded-full border border-gray-300 bg-gray-50 transition-all duration-200 dark:text-black">
                     <Cake />
                   </div>
-                  <div className="mt-6 w-[22rem]">
-                    <h3 className="text-xl font-semibold">Anniversaire</h3>
+                  <div className="mt-6 w-[30rem]">
+                    <h3 className="text-xl font-semibold">
+                      🎉 Anniversaire & Événements Privés
+                    </h3>
                     <p className="mt-1 text-base text-gray-700 dark:text-white">
-                      À partir de 350 € pour 2h de prestation. Heures sup et
-                      formule duo avec second musicien disponibles.
+                      Ambiance festive, concert live ou DJ set selon vos envies.
+                      Possibilité de duo musical ou animations spécifiques.{" "}
+                      <br />
+                      💬 Tarif sur mesure en fonction des options choisies lors
+                      de la demande de devis.
                     </p>
                   </div>
                 </li>
 
                 {/* Soirée privée - texte en haut sur desktop, normal sur mobile */}
                 <li className="relative flex flex-col items-center text-center">
-                  <div className="hidden lg:absolute lg:-top-32 lg:block lg:w-[22rem]">
-                    <h3 className="text-xl font-semibold">Soirée Privée</h3>
+                  <div className="hidden lg:absolute lg:-top-32 lg:block lg:w-[30rem]">
+                    <h3 className="text-xl font-semibold">
+                      🌙 Soirée Privée / Corporate
+                    </h3>
                     <p className="mt-1 text-base text-gray-700 dark:text-white">
-                      Tarif sur mesure selon la durée et les options choisies.
-                      Set DJ, accompagnement live, styles musicaux spécifiques,
-                      tout est personnalisable.
+                      Musique live ou DJ set adapté à votre événement. <br />{" "}
+                      Style musical, durée et équipe entièrement
+                      personnalisables. <br />
+                      💬 Tarif établi après échange via demande de devis.
                     </p>
                   </div>
                   <div className="z-10 inline-flex h-12 w-12 items-center justify-center rounded-full border border-gray-300 bg-gray-50 transition-all duration-200 dark:text-black">
                     <PartyPopperIcon />
                   </div>
-                  <div className="mt-6 w-[22rem] lg:hidden">
-                    <h3 className="text-xl font-semibold">Soirée Privée</h3>
+                  <div className="mt-6 w-[30rem] lg:hidden">
+                    <h3 className="text-xl font-semibold">
+                      🌙 Soirée Privée / Corporate
+                    </h3>
                     <p className="mt-1 text-base text-gray-700 dark:text-white">
-                      Tarif sur mesure selon la durée et les options choisies.
-                      DJ, live, ambiance personnalisée.
+                      Musique live ou DJ set adapté à votre événement. Style
+                      musical, durée et équipe entièrement personnalisables.{" "}
+                      <br />
+                      💬 Tarif établi après échange via demande de devis.
                     </p>
                   </div>
                 </li>
@@ -446,12 +468,13 @@ const Services = () => {
               <div>
                 <div className="space-y-6 lg:mt-24">
                   <div className="rounded-xl bg-orange-500/50 p-4 text-white">
-                    <h3 className="text-xl font-semibold">Demande de Devis</h3>
+                    <h3 className="text-xl font-semibold">
+                      📝 Demande de Devis
+                    </h3>
                     <p className="text-base font-light">
-                      Remplissez le formulaire en ligne avec les détails de
-                      votre événement (date, lieu, type de célébration, nombre
-                      d'invités) pour recevoir une proposition personnalisée
-                      sous 24h.
+                      Remplissez le formulaire en ligne avec les infos clés
+                      (date, lieu, type d’événement, ambiance souhaitée). <br />{" "}
+                      → Vous recevez une proposition personnalisée sous 24h.
                     </p>
                   </div>
                 </div>
@@ -461,12 +484,12 @@ const Services = () => {
                 <div className="space-y-6 lg:mt-12">
                   <div className="rounded-xl bg-purple-500/40 p-4 text-white">
                     <h3 className="text-xl font-semibold">
-                      Consultation Personnalisée
+                      🎵Consultation Musicale
                     </h3>
                     <p className="font-light">
-                      Échangeons sur vos attentes et préférences musicales.
-                      Cette étape est essentielle pour créer un programme sur
-                      mesure qui correspondra parfaitement à votre vision.
+                      Un échange rapide pour cerner vos goûts, préférences et
+                      objectifs. <br /> → On construit ensemble l’ambiance
+                      parfaite pour votre événement.
                     </p>
                   </div>
                 </div>
@@ -474,11 +497,13 @@ const Services = () => {
               <div>
                 <div className="space-y-6 lg:mt-0">
                   <div className="rounded-xl bg-green-500/40 p-4 text-white">
-                    <h3 className="text-xl font-semibold">Confirmation</h3>
+                    <h3 className="text-xl font-semibold">
+                      ✅ Confirmation de Réservation
+                    </h3>
                     <p className="font-light">
-                      Une fois les détails finalisés, un acompte de 30% confirme
-                      votre réservation. Le solde est à régler une semaine avant
-                      l'événement.
+                      Une fois les détails validés, un acompte permet de bloquer
+                      la date. <br />→ Le solde est à régler une semaine avant
+                      l’événement.
                     </p>
                   </div>
                 </div>

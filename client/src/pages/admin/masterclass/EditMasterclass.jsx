@@ -16,7 +16,6 @@ import {
 } from "@material-tailwind/react";
 import Select from "react-select";
 
-
 const EditMasterclass = () => {
   const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -47,7 +46,6 @@ const EditMasterclass = () => {
           label: category.title,
         }));
         setCategoryOptions(categoryOptions);
-
       } catch (error) {
         setError("Erreur lors de la récupération des catégories");
       }
@@ -165,7 +163,6 @@ const EditMasterclass = () => {
     setInputs((prev) => ({ ...prev, [field]: date }));
   };
 
-
   const handleInstructorChange = (selectedOption) => {
     setInputs((prev) => ({
       ...prev,
@@ -230,7 +227,6 @@ const EditMasterclass = () => {
       ),
     );
   };
-
 
   const customStyles = {
     control: (base, state) => ({
@@ -423,7 +419,7 @@ const EditMasterclass = () => {
                             : `${imageUrl}`
                         }
                         alt="Aperçu de la masterclasse"
-                        className="mt-2 h-32 w-32 rounded object-cover"
+                        className="mt-2 h-32 w-40 rounded"
                       />
                     </div>
                   )}

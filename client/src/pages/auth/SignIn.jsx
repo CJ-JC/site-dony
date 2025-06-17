@@ -8,6 +8,7 @@ export function SignIn() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -28,6 +29,7 @@ export function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     try {
       const response = await axios.post(`${BASE_URL}/api/user/signin`, inputs);
@@ -44,6 +46,8 @@ export function SignIn() {
       }
     } catch (error) {
       setError(error.response?.data.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -95,12 +99,15 @@ export function SignIn() {
           </div>
 
           <Button
-            className="mt-6 dark:bg-white dark:text-black dark:hover:bg-gray-400"
             type="submit"
             fullWidth
             onClick={handleSubmit}
+            disabled={isSubmitting}
+            className={`mt-6 dark:bg-white dark:text-black dark:hover:bg-gray-400 ${
+              isSubmitting ? "cursor-not-allowed opacity-50" : ""
+            }`}
           >
-            Connexion
+            {isSubmitting ? "Connexion en cours..." : "Connexion"}
           </Button>
 
           <div className="mt-4 flex flex-col items-center justify-between gap-2 md:flex-row">

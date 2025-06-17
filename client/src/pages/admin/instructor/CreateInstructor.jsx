@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
+import Editor from "@/widgets/utils/Editor";
 
 export default function CreateInstructor() {
   const navigate = useNavigate();
@@ -28,6 +29,10 @@ export default function CreateInstructor() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
+  };
+
+  const handleChange = (e) => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleImageChange = async (e) => {
@@ -78,7 +83,7 @@ export default function CreateInstructor() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Card className="mx-auto max-w-3xl p-6 dark:bg-[#25303F]">
+      <Card className="mx-auto max-w-3xl border p-6 dark:bg-transparent">
         <Typography variant="h4" color="blue-gray" className="dark:text-white">
           Créer un nouvel instructeur
         </Typography>
@@ -117,7 +122,7 @@ export default function CreateInstructor() {
             >
               Biographie
             </Typography>
-            <Textarea
+            {/* <Textarea
               name="biography"
               value={inputs.biography}
               onChange={handleInputChange}
@@ -125,11 +130,21 @@ export default function CreateInstructor() {
               placeholder="Biographie de l'instructeur"
               className="bg-gray-50 dark:text-white"
               rows={6}
+            /> */}
+            <Editor
+              name="biography"
+              value={inputs.biography}
+              onChange={handleChange}
+              className="dark:text-white"
             />
           </div>
 
           <div>
-            <Typography variant="h6" color="blue-gray" className="mb-2">
+            <Typography
+              variant="h6"
+              color="blue-gray"
+              className="mb-2 dark:text-white"
+            >
               Photo
             </Typography>
             <Input

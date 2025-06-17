@@ -131,18 +131,15 @@ const Cgv = () => {
           Conformément à la loi Informatique et Libertés, vous disposez d'un
           droit d'accès, de rectification et de suppression de vos données. Pour
           plus d'informations, consultez notre{" "}
-          <a href="[URL de votre Politique de Confidentialité]">
-            Politique de Confidentialité
-          </a>
-          .
+          <a href="/politique">Politique de Confidentialité</a>.
         </p>
 
-        {/* <h2>16. Contact</h2>
+        <h2>16. Contact</h2>
         <p>
           Pour toute question ou demande d'information relative aux présentes
           CGV, vous pouvez nous contacter à l'adresse suivante :{" "}
-          <a href="mailto:donymusique@gmail.com">donymusique@gmail.com</a>.
-        </p> */}
+          <a href="mailto:contact@donymusic.fr">contact@donymusic.fr</a>.
+        </p>
       </div>
     </div>
   );

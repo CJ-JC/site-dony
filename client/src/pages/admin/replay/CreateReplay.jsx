@@ -118,12 +118,12 @@ const CreateReplay = () => {
   };
 
   return (
-    <div className="mx-auto max-w-3xl rounded-lg bg-white p-6 shadow-lg">
+    <div className="mx-auto max-w-3xl rounded-lg border bg-white p-6 shadow-lg dark:bg-transparent">
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-2xl font-semibold">Uploader un Replay</h2>
 
         <Link to={`/administrator/masterclass/${slug}/replay`}>
-          <Button variant="outlined" className="p-2">
+          <Button variant="outlined" className="p-2 dark:text-white">
             <ArrowBack className="mr-2" /> Retour
           </Button>
         </Link>
@@ -150,7 +150,7 @@ const CreateReplay = () => {
           onChange={(e) =>
             setForm({ ...form, recordedAt: new Date(e.target.value) })
           }
-          className="mt-1 block w-full rounded-md border p-2"
+          className="mt-1 block w-full rounded-md border p-2 dark:bg-transparent"
           required
         >
           <option value="">Sélectionnez une date</option>
@@ -180,7 +180,7 @@ const CreateReplay = () => {
             value={form.title}
             onChange={handleChange}
             placeholder="Ex: Cours #1 - Introduction"
-            className="mt-1 block w-full rounded-md border p-2"
+            className="mt-1 block w-full rounded-md border p-2 dark:text-white"
             required
           />
         </div>
@@ -208,7 +208,7 @@ const CreateReplay = () => {
               onChange={(date) => setForm({ ...form, recordedAt: date })}
               dateFormat="dd MMMM yyyy"
               locale={"fr"}
-              className="mt-1 w-full rounded-md border px-2 py-2"
+              className="mt-1 w-full rounded-md border px-2 py-2 dark:bg-transparent"
               required
             />
           </div>

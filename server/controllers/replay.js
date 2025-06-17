@@ -26,7 +26,7 @@ export const getReplaysByMasterclass = async (req, res) => {
                 {
                     model: Masterclass,
                     as: "masterclass",
-                    attributes: ["id", "title", "slug"],
+                    attributes: ["id", "title", "slug", "imageUrl"],
                 },
             ],
             order: [["createdAt", "DESC"]],
@@ -84,7 +84,7 @@ export const getReplay = async (req, res) => {
                 {
                     model: Masterclass,
                     as: "masterclass",
-                    attributes: ["id", "title", "slug"],
+                    attributes: ["id", "title", "slug", "imageUrl"],
                 },
             ],
         });
@@ -135,7 +135,7 @@ export const getUserReplays = async (req, res) => {
                 {
                     model: Masterclass,
                     as: "masterclass",
-                    attributes: ["id", "title", "slug"],
+                    attributes: ["id", "title", "slug", "imageUrl"],
                 },
             ],
             order: [["recordedAt", "ASC"]],
