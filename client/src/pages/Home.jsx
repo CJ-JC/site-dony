@@ -37,29 +37,15 @@ export function Home() {
     const fetchMasterclass = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/api/masterclass`);
-        setMasterclasses(response.data);
-      } catch (error) {
-        setError("Erreur lors de la récupération de la masterclass");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchMasterclass();
-  }, []);
-
-  useEffect(() => {
-    const fetchMasterclass = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}/api/masterclass`);
 
         // Filtrer uniquement les cours publiés
         const publishedMasterclasses = response.data.filter(
           (masterclass) => masterclass.isPublished,
         );
 
-        // Trier les cours publiés par date de création
+        // Trier les cours publiés par date de de début
         const sortedMasterclass = publishedMasterclasses.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+          (a, b) => new Date(a.startDate) - new Date(b.startDate),
         );
 
         setMasterclasses(sortedMasterclass);

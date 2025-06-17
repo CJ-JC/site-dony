@@ -33,9 +33,9 @@ const MasterClass = () => {
           (masterclass) => masterclass.isPublished,
         );
 
-        // Trier les cours publiés par date de création
+        // Trier les cours publiés par date de de début
         const sortedMasterclass = publishedMasterclasses.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+          (a, b) => new Date(a.startDate) - new Date(b.startDate),
         );
 
         setMasterclasses(sortedMasterclass);
@@ -89,7 +89,7 @@ const MasterClass = () => {
             color="blue-gray"
             className=" text-3xl font-light dark:text-white"
           >
-            Inscrivez-vous à nos Massterclass
+            Inscrivez-vous à nos Masterclass
           </Typography>
           <Typography className="text-gray-800 dark:text-white">
             Découvrez des cours intensifs dispensés par des professionnels de la
@@ -124,15 +124,16 @@ const MasterClass = () => {
                     </div>
 
                     <Card className="flex-1 rounded-3xl border text-white shadow dark:bg-gray-800">
-                      <CardBody className="flex flex-col items-center gap-6 p-4 md:flex-row">
-                        <div className="overflow-hidden rounded-md">
+                      <CardBody className="flex flex-col p-2 md:flex-row">
+                        <div className="h-auto w-full md:w-1/4">
                           <img
                             src={`${CoursesImage}${masterclass.imageUrl}`}
                             alt={`${masterclass.title}`}
-                            className="h-[250px] w-[350px] rounded-lg object-cover"
+                            className="h-full w-full rounded-3xl object-cover md:rounded-3xl"
                           />
                         </div>
-                        <div className="w-full">
+
+                        <div className="w-full px-4 md:w-3/4">
                           <div className="mb-2 flex flex-col items-center justify-between gap-2 md:flex-row">
                             <div>
                               <span
@@ -157,19 +158,19 @@ const MasterClass = () => {
                           </div>
                           <Typography
                             variant="h5"
-                            className="mb-2 font-medium text-gray-900 dark:text-white"
+                            className="pl-1 font-medium text-gray-900 dark:text-white"
                           >
                             {masterclass.title}
                           </Typography>
 
                           <ReactQuill
                             value={
-                              masterclass.description.length > 150
+                              masterclass.description.length > 300
                                 ? masterclass.description.substring(
                                     0,
                                     masterclass.description.lastIndexOf(
                                       " ",
-                                      150,
+                                      300,
                                     ),
                                   ) + "..."
                                 : masterclass.description
@@ -178,7 +179,7 @@ const MasterClass = () => {
                             theme="bubble"
                             className="text-gray-700 dark:text-white"
                           />
-                          <hr className="my-4 dark:border-gray-700" />
+                          <hr className="my-2 dark:border-gray-700" />
                           <div className="flex items-center justify-between gap-2">
                             <div className="flex items-center gap-2">
                               <div className="relative">

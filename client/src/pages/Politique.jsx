@@ -27,11 +27,11 @@ const Politique = () => {
         Le présent site web est hébergé par&nbsp;:
         <br />
         <br />
-        IONOS&nbsp;
+        LWS&nbsp;
         <br />
-        Siège social : 7 PLACE DE LA GARE – 57200 SARREGUEMINES, France&nbsp;
+        Siège social : 2, Rue Jules Ferry – 88190 Golbey, France&nbsp;
         <br />
-        Tél. +33 (0) 9 70 80 89 11
+        Tél. +33 (0) 1 77 62 30 03
         <br />
         <br />
         <hr />

@@ -16,6 +16,7 @@ const Settings = ({
   handlePasswordSubmit,
   togglePasswordVisibility,
   showPassword,
+  isSubmitting,
 }) => {
   return (
     <div className="container mx-auto h-auto md:h-screen">
@@ -28,9 +29,13 @@ const Settings = ({
       </p>
 
       <div className="mx-auto my-4 grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <Card className="p-6 dark:bg-white/90">
+        <Card className="p-6 dark:bg-gray-800">
           <div className="mb-6 flex items-center justify-between">
-            <Typography variant="h4" color="blue-gray">
+            <Typography
+              variant="h4"
+              color="blue-gray"
+              className="dark:text-white"
+            >
               Mot de passe
             </Typography>
           </div>
@@ -49,7 +54,7 @@ const Settings = ({
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="mb-2 font-medium"
+                className="mb-2 font-medium dark:text-white"
               >
                 Mot de passe actuel
               </Typography>
@@ -59,6 +64,7 @@ const Settings = ({
                 value={formData.passwordCurrent || ""}
                 onChange={handleChange}
                 placeholder="Mot de passe actuel"
+                className="dark:text-white"
               />
             </div>
 
@@ -66,7 +72,7 @@ const Settings = ({
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="mb-2 font-medium"
+                className="mb-2 font-medium dark:text-white"
               >
                 Nouveau mot de passe
               </Typography>
@@ -75,7 +81,7 @@ const Settings = ({
                 name="password"
                 value={formData.password || ""}
                 onChange={handleChange}
-                className="pr-10"
+                className="pr-10 dark:text-white"
                 placeholder="Nouveau mot de passe"
               />
               <button
@@ -95,7 +101,7 @@ const Settings = ({
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="mb-2 font-medium"
+                className="mb-2 font-medium dark:text-white"
               >
                 Confirmer le mot de passe
               </Typography>
@@ -105,11 +111,21 @@ const Settings = ({
                 value={formData.confirmPassword || ""}
                 onChange={handleChange}
                 placeholder="Confirmer le mot de passe"
+                className="dark:text-white"
               />
             </div>
 
-            <Button type="submit" className="mt-6" fullWidth>
-              Mettre à jour le profil
+            <Button
+              type="submit"
+              fullWidth
+              disabled={isSubmitting}
+              className={`mt-6 dark:bg-white dark:text-black dark:hover:bg-gray-400 ${
+                isSubmitting ? "cursor-not-allowed opacity-50" : ""
+              }`}
+            >
+              {isSubmitting
+                ? "Mise à jour en cours..."
+                : "Mettre à jour le profil"}
             </Button>
           </form>
         </Card>

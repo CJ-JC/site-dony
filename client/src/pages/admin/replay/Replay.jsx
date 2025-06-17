@@ -81,7 +81,7 @@ const Replay = () => {
             {replays.map((replay) => (
               <div
                 key={replay.id}
-                className="flex flex-col overflow-hidden rounded-xl border bg-white shadow-sm"
+                className="flex flex-col overflow-hidden rounded-xl border shadow-sm dark:bg-gray-800"
               >
                 {/* Aperçu vidéo ou image */}
                 <div className="relative aspect-video bg-gray-100">
@@ -89,9 +89,10 @@ const Replay = () => {
                     <video
                       src={MasterclassVideo + replay.videoUrl}
                       controls
+                      poster={MasterclassVideo + replay.masterclass?.imageUrl}
                       controlsList="nodownload"
                       onContextMenu={(e) => e.preventDefault()}
-                      className="h-full w-full object-cover"
+                      className="aspect-video w-full object-cover shadow-md"
                     />
                   ) : (
                     <div className="flex h-full items-center justify-center text-sm text-gray-400">
@@ -103,10 +104,12 @@ const Replay = () => {
                 {/* Contenu */}
                 <div className="flex flex-1 flex-col space-y-2 p-4">
                   <div>
-                    <h3 className="text-lg font-semibold">{replay.title}</h3>
+                    <h3 className="text-lg font-semibold dark:text-white">
+                      {replay.title}
+                    </h3>
                   </div>
                   <div>
-                    <p className="mb-2 text-sm text-gray-500">
+                    <p className="mb-2 text-sm text-gray-500 dark:text-white">
                       📅{" "}
                       {new Date(replay.recordedAt).toLocaleDateString("fr-FR", {
                         weekday: "long",
@@ -121,7 +124,7 @@ const Replay = () => {
                       value={replay.description}
                       readOnly={true}
                       theme="bubble"
-                      className="text-gray-700"
+                      className="text-gray-700 dark:text-white"
                     />
                   </div>
 

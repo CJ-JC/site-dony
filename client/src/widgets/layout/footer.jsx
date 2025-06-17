@@ -14,9 +14,19 @@ export function Footer({ theme }) {
             className="mb-4 flex items-center space-x-3 sm:mb-0 rtl:space-x-reverse"
           >
             {theme === "dark" ? (
-              <img src={logoNight} width={200} alt="logo donymusic" />
+              <img
+                src={logoNight}
+                width={200}
+                height={200}
+                alt="logo donymusic"
+              />
             ) : (
-              <img src={logoDay} width={200} alt="logo donymusic" />
+              <img
+                src={logoDay}
+                width={200}
+                height={200}
+                alt="logo donymusic"
+              />
             )}
           </a>
           <ul className="mb-6 flex flex-wrap items-center justify-center text-sm text-gray-800 dark:text-white sm:mb-0">

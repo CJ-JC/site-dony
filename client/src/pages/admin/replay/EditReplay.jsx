@@ -116,7 +116,7 @@ const EditReplay = () => {
   };
 
   return (
-    <div className="mx-auto max-w-3xl rounded-lg bg-white p-6 shadow-lg">
+    <div className="mx-auto max-w-3xl rounded-lg border bg-white p-6 shadow-lg dark:bg-transparent">
       {form.isPublished === false && (
         <div className="border-yellow-30 text-primary mb-4 flex w-full items-center border bg-yellow-200/80 p-4 text-sm dark:bg-white/90 dark:text-black">
           <svg
@@ -172,7 +172,7 @@ const EditReplay = () => {
             onChange={(e) =>
               setForm({ ...form, recordedAt: new Date(e.target.value) })
             }
-            className="mt-1 block w-full rounded-md border p-2"
+            className="mt-1 block w-full rounded-md border p-2 dark:bg-transparent"
             required
           >
             <option value="">Sélectionnez une date</option>
@@ -199,6 +199,7 @@ const EditReplay = () => {
             value={form.title}
             onChange={handleChange}
             required
+            className="dark:text-white"
           />
         </div>
 
@@ -224,7 +225,7 @@ const EditReplay = () => {
               onChange={(date) => setForm({ ...form, recordedAt: date })}
               dateFormat="dd MMMM yyyy"
               locale="fr"
-              className="mt-1 w-full rounded-md border px-2 py-2"
+              className="dark: mt-1 w-full rounded-md border px-2 py-2 dark:bg-transparent"
               required
             />
           </div>
@@ -266,8 +267,8 @@ const EditReplay = () => {
 
         <div className="flex justify-center space-x-4">
           <Link to={`/administrator/masterclass/${slug}/replay`}>
-            <Button variant="outlined" className="p-2">
-              <ArrowBack className="mr-2" /> Retour
+            <Button variant="outlined" className="p-2  dark:text-white">
+              <ArrowBack className="mr-2 " /> Retour
             </Button>
           </Link>
           <Button type="submit" disabled={loading}>

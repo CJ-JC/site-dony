@@ -10,6 +10,7 @@ import {
 } from "@material-tailwind/react";
 import { Link, useNavigate } from "react-router-dom";
 import { Edit, PlusCircle, Trash, User2 } from "lucide-react";
+import ReactQuill from "react-quill";
 
 export default function Instructors() {
   const navigate = useNavigate();
@@ -132,14 +133,19 @@ export default function Instructors() {
                 </p>
               </td>
               <td className="p-4 py-5">
-                <p className="text-slate-500 text-sm">
-                  {instructor.biography.length > 120
-                    ? instructor.biography.substring(
-                        0,
-                        instructor.biography.lastIndexOf(" ", 120),
-                      ) + "..."
-                    : instructor.biography}
-                </p>
+                <ReactQuill
+                  value={
+                    instructor.biography.length > 120
+                      ? instructor.biography.substring(
+                          0,
+                          instructor.biography.lastIndexOf(" ", 120),
+                        ) + "..."
+                      : instructor.biography
+                  }
+                  readOnly={true}
+                  theme="bubble"
+                  className="text-gray-700 dark:text-white"
+                />
               </td>
               <td className="flex items-center gap-2 p-4 py-5">
                 <Button

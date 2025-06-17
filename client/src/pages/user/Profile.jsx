@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Alert,
   Button,
@@ -15,6 +15,7 @@ const Profile = ({
   profileMessage,
   handleProfileSubmit,
   isEditing,
+  isSubmitting,
 }) => {
   return (
     <div className="container mx-auto">
@@ -26,9 +27,13 @@ const Profile = ({
       </p>
 
       <div className="my-4">
-        <Card className="mx-auto max-w-2xl p-6 dark:bg-white/90">
+        <Card className="mx-auto max-w-2xl p-6 dark:bg-gray-800">
           <div className="mb-6 flex items-center justify-between">
-            <Typography variant="h4" color="blue-gray">
+            <Typography
+              variant="h4"
+              color="blue-gray"
+              className="dark:text-white"
+            >
               Mon Profil
             </Typography>
             <IconButton variant="text" onClick={() => setIsEditing(!isEditing)}>
@@ -47,7 +52,11 @@ const Profile = ({
 
           <form onSubmit={handleProfileSubmit} className="space-y-4">
             <div>
-              <Typography variant="small" color="blue-gray" className="mb-2">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="mb-2 dark:text-white"
+              >
                 Prénom
               </Typography>
               <Input
@@ -56,12 +65,18 @@ const Profile = ({
                 value={formData.firstName}
                 onChange={handleChange}
                 readOnly={!isEditing}
-                className={!isEditing ? "bg-gray-50" : ""}
+                className={
+                  !isEditing ? "bg-gray-50 dark:text-white" : "dark:text-white"
+                }
               />
             </div>
 
             <div>
-              <Typography variant="small" color="blue-gray" className="mb-2">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="mb-2 dark:text-white"
+              >
                 Nom
               </Typography>
               <Input
@@ -70,12 +85,18 @@ const Profile = ({
                 value={formData.lastName}
                 onChange={handleChange}
                 readOnly={!isEditing}
-                className={!isEditing ? "bg-gray-50" : ""}
+                className={
+                  !isEditing ? "bg-gray-50 dark:text-white" : "dark:text-white"
+                }
               />
             </div>
 
             <div>
-              <Typography variant="small" color="blue-gray" className="mb-2">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="mb-2 dark:text-white"
+              >
                 Email
               </Typography>
               <Input
@@ -84,13 +105,24 @@ const Profile = ({
                 value={formData.email}
                 onChange={handleChange}
                 readOnly={!isEditing}
-                className={!isEditing ? "bg-gray-50" : ""}
+                className={
+                  !isEditing ? "bg-gray-50 dark:text-white" : "dark:text-white"
+                }
               />
             </div>
 
             {isEditing && (
-              <Button type="submit" className="mt-6" fullWidth>
-                Mettre à jour le profil
+              <Button
+                type="submit"
+                fullWidth
+                disabled={isSubmitting}
+                className={`mt-6 dark:bg-white dark:text-black dark:hover:bg-gray-400 ${
+                  isSubmitting ? "cursor-not-allowed opacity-50" : ""
+                }`}
+              >
+                {isSubmitting
+                  ? "Mise à jour en cours..."
+                  : "Mettre à jour le profil"}
               </Button>
             )}
           </form>

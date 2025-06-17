@@ -305,7 +305,7 @@ const CreateMasterclass = () => {
                             : `${imageUrl}`
                         }
                         alt="Aperçu du cours"
-                        className="mt-2 h-32 w-32 rounded object-cover"
+                        className="mt-2 h-32 w-40 rounded"
                       />
                     </div>
                   )}
@@ -401,7 +401,6 @@ const CreateMasterclass = () => {
                     isClearable
                     styles={customStyles}
                   />
-
                 </div>
               </div>
 
