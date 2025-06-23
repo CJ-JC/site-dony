@@ -18,7 +18,7 @@ const MasterClass = () => {
   const [searchParams] = useSearchParams();
   const selectedCategoryId = searchParams.get("categoryId");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 6;
 
   const CoursesImage = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${
     import.meta.env.VITE_AWS_REGION
@@ -85,12 +85,19 @@ const MasterClass = () => {
     { id: "5", name: "Chant", icon: "/img/mic.svg" },
   ];
 
+  const transparentColorMap = {
+    Piano: "rgba(220, 20, 61, 0.2)",
+    Guitare: "rgba(2, 48, 71, 0.2)",
+    Batterie: "rgba(45, 106, 80, 0.2)",
+    Basse: "rgba(255, 119, 3, 0.2)",
+  };
+
   if (isLoading) {
     return <Loading />;
   }
 
   return (
-    <div className="container mx-auto h-auto max-w-screen-xl p-4 py-4">
+    <div className="container mx-auto h-auto max-w-screen-xl p-4">
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -98,7 +105,7 @@ const MasterClass = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <section className="mb-10 text-center">
+        <section className="text-center">
           <Typography
             variant="h2"
             color="blue-gray"
@@ -113,7 +120,7 @@ const MasterClass = () => {
           </Typography>
         </section>
 
-        <div className="mb-5 flex justify-center">
+        <div className="my-10 flex justify-center">
           <Categories items={categories} />
         </div>
 
@@ -121,116 +128,68 @@ const MasterClass = () => {
           <>
             {/* Upcoming Sessions */}
             <section className="mb-12">
-              <Typography
-                variant="h3"
-                color="blue-gray"
-                className="mb-6 text-2xl font-bold dark:text-white"
-              >
-                Prochaines Sessions
-              </Typography>
-              <div className="grid gap-6 lg:grid-cols-1">
-                {currentMasterclasses.map((masterclass, index) => (
-                  <div className="flex items-start gap-4" key={index}>
-                    <div className="hidden flex-col items-center md:flex">
-                      <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-blue-gray-900 text-2xl text-white">
-                        {index + 1}
-                      </div>
-                      <div className="mt-2 h-56 w-1 bg-gray-500"></div>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {currentMasterclasses.map((mc) => (
+                  <div
+                    key={mc.id}
+                    className="relative flex flex-col overflow-hidden rounded-xl border bg-white shadow-md dark:bg-gray-800"
+                  >
+                    {/* Image de fond */}
+                    <div
+                      className="relative h-48 bg-cover bg-center"
+                      style={{
+                        backgroundImage: `url(${CoursesImage}${mc.imageUrl})`,
+                      }}
+                    >
+                      {/* <div className="absolute inset-0 bg-black/60" /> */}
                     </div>
-
-                    <Card className="flex-1 rounded-3xl border text-white shadow dark:bg-gray-800">
-                      <CardBody className="flex flex-col p-2 md:flex-row">
-                        <div className="h-auto w-full md:w-1/4">
-                          <img
-                            src={`${CoursesImage}${masterclass.imageUrl}`}
-                            alt={`${masterclass.title}`}
-                            className="h-full w-full rounded-3xl object-cover md:rounded-3xl"
-                          />
+                    {/* Contenu */}
+                    <div className="flex flex-1 flex-col space-y-3 p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="z-10 flex w-full text-sm font-semibold dark:text-white">
+                          {new Date(mc.startDate).toLocaleDateString("fr-FR", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                            hour: "numeric",
+                            minute: "numeric",
+                          })}
                         </div>
+                        <span
+                          className=" right-0 z-30 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-white"
+                          style={{
+                            backgroundColor:
+                              transparentColorMap[mc.category.title] ||
+                              "rgba(0,0,0,0.1)",
+                            color: colorMap[mc.category.title] || "#000",
+                          }}
+                        >
+                          {mc.category.title}
+                        </span>
+                      </div>
 
-                        <div className="w-full px-4 md:w-3/4">
-                          <div className="mb-2 flex flex-col items-center justify-between gap-2 md:flex-row">
-                            <div>
-                              <span
-                                className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-white"
-                                style={{
-                                  backgroundColor:
-                                    colorMap[masterclass.category.title] ||
-                                    "#E5E7EB",
-                                }}
-                              >
-                                {masterclass.category.title}
-                              </span>
-                            </div>
+                      <h3 className="font-medium text-gray-700 dark:text-white">
+                        {mc.title}
+                      </h3>
 
-                            <div>
-                              <Countdown
-                                targetDate={masterclass.startDate}
-                                startDate={masterclass.startDate}
-                                endDate={masterclass.endDate}
-                              />
-                            </div>
-                          </div>
-                          <Typography
-                            variant="h5"
-                            className="pl-1 font-medium text-gray-900 dark:text-white"
+                      <div className="mt-2 flex justify-center">
+                        <Countdown
+                          targetDate={mc.startDate}
+                          startDate={mc.startDate}
+                          endDate={mc.endDate}
+                        />
+                      </div>
+                      <div className="mt-auto flex justify-center">
+                        <Link to={`/masterclass/slug/${mc.slug}`}>
+                          <Button
+                            size="md"
+                            className="dark:bg-white dark:text-black dark:hover:bg-gray-300"
                           >
-                            {masterclass.title}
-                          </Typography>
-
-                          <ReactQuill
-                            value={
-                              masterclass.description.length > 300
-                                ? masterclass.description.substring(
-                                    0,
-                                    masterclass.description.lastIndexOf(
-                                      " ",
-                                      300,
-                                    ),
-                                  ) + "..."
-                                : masterclass.description
-                            }
-                            readOnly={true}
-                            theme="bubble"
-                            className="text-gray-700 dark:text-white"
-                          />
-                          <hr className="my-2 dark:border-gray-700" />
-                          <div className="flex items-center justify-between gap-2">
-                            <div className="flex items-center gap-2">
-                              <div className="relative">
-                                {masterclass.instructor?.imageUrl ? (
-                                  <img
-                                    src={`${CoursesImage}${masterclass.instructor?.imageUrl}`}
-                                    alt={masterclass.instructor?.name}
-                                    className="h-14 w-14 rounded-full object-cover"
-                                  />
-                                ) : (
-                                  <div className="rounded-full bg-gray-400">
-                                    <User className="h-14 w-14" />
-                                  </div>
-                                )}
-
-                                <Mic className="absolute bottom-0 right-0 h-6 w-6 rounded-full border-2 border-white bg-red-400" />
-                              </div>
-                              <Typography
-                                variant="h6"
-                                className="text-gray-700 dark:text-white"
-                              >
-                                {masterclass.instructor?.name}
-                              </Typography>
-                            </div>
-                            <Link to={`/masterclass/slug/${masterclass.slug}`}>
-                              <Button
-                                size="md"
-                                className="mt-4 px-6 py-3 text-white dark:bg-white dark:text-black dark:hover:bg-gray-300"
-                              >
-                                En savoir plus
-                              </Button>
-                            </Link>
-                          </div>
-                        </div>
-                      </CardBody>
-                    </Card>
+                            En savoir plus
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -241,7 +200,7 @@ const MasterClass = () => {
                   key={index}
                   onClick={() => setCurrentPage(index + 1)}
                   variant={currentPage === index + 1 ? "filled" : "outlined"}
-                  className="rounded-full px-4 py-3"
+                  className="h-10 w-10 rounded-full px-4 py-3 dark:text-white dark:hover:bg-gray-700"
                 >
                   {index + 1}
                 </Button>

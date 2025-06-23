@@ -451,7 +451,7 @@ export function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="mb-12 text-center"
+            className="text-center"
           >
             <div className="relative inline-block">
               <Typography
@@ -462,7 +462,7 @@ export function Home() {
               </Typography>
             </div>
           </motion.div>
-          <div className="mt-12">
+          <div>
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -486,7 +486,7 @@ export function Home() {
                           backgroundImage: `url(${MasterclassImage}${mc.imageUrl})`,
                         }}
                       >
-                        <div className="absolute inset-0 bg-black/60" />
+                        {/* <div className="absolute inset-0 bg-black/60" />
 
                         <div className="absolute bottom-2 left-2 z-10 flex w-full justify-between px-2 text-sm font-semibold text-white">
                           {new Date(mc.startDate).toLocaleDateString("fr-FR", {
@@ -496,14 +496,23 @@ export function Home() {
                             hour: "numeric",
                             minute: "numeric",
                           })}
-                        </div>
+                        </div> */}
                       </div>
                       {/* Contenu */}
                       <div className="flex flex-1 flex-col space-y-3 p-4">
                         <div className="flex items-center justify-between">
-                          <h3 className="text-lg font-semibold text-gray-700 dark:text-white">
-                            {mc.title}
-                          </h3>
+                          <div className="z-10 flex w-full text-sm font-semibold dark:text-white">
+                            {new Date(mc.startDate).toLocaleDateString(
+                              "fr-FR",
+                              {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                                hour: "numeric",
+                                minute: "numeric",
+                              },
+                            )}
+                          </div>
                           <span
                             className=" right-0 z-30 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-white"
                             style={{
@@ -516,6 +525,9 @@ export function Home() {
                             {mc.category.title}
                           </span>
                         </div>
+                        <h3 className="font-medium text-gray-700 dark:text-white">
+                          {mc.title}
+                        </h3>
 
                         <div className="mt-2 flex justify-center">
                           <Countdown
