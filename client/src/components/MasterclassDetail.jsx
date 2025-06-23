@@ -251,7 +251,7 @@ const MasterclassDetail = () => {
               <img
                 src={`${CoursesImage}${masterclass.instructor?.imageUrl}`}
                 alt={masterclass.instructor?.name}
-                className="w-h-40 mx-auto h-40 rounded-3xl object-cover md:mx-0"
+                className="w-h-40 mx-auto h-40 rounded-xl object-cover md:mx-0"
               />
               <div>
                 <Typography

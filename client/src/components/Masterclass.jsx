@@ -17,6 +17,8 @@ const MasterClass = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchParams] = useSearchParams();
   const selectedCategoryId = searchParams.get("categoryId");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const CoursesImage = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${
     import.meta.env.VITE_AWS_REGION
@@ -53,6 +55,19 @@ const MasterClass = () => {
         (mc) => mc.categoryId?.toString() === selectedCategoryId,
       )
     : masterclasses;
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentMasterclasses = filteredMasterclasses.slice(
+    indexOfFirstItem,
+    indexOfLastItem,
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategoryId]);
+
+  const totalPages = Math.ceil(filteredMasterclasses.length / itemsPerPage);
 
   const colorMap = {
     Basse: "#FF7703",
@@ -102,7 +117,7 @@ const MasterClass = () => {
           <Categories items={categories} />
         </div>
 
-        {filteredMasterclasses.length !== 0 ? (
+        {currentMasterclasses.length !== 0 ? (
           <>
             {/* Upcoming Sessions */}
             <section className="mb-12">
@@ -114,7 +129,7 @@ const MasterClass = () => {
                 Prochaines Sessions
               </Typography>
               <div className="grid gap-6 lg:grid-cols-1">
-                {filteredMasterclasses.map((masterclass, index) => (
+                {currentMasterclasses.map((masterclass, index) => (
                   <div className="flex items-start gap-4" key={index}>
                     <div className="hidden flex-col items-center md:flex">
                       <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-blue-gray-900 text-2xl text-white">
@@ -220,6 +235,18 @@ const MasterClass = () => {
                 ))}
               </div>
             </section>
+            <div className="mt-6 flex justify-center gap-2">
+              {Array.from({ length: totalPages }, (_, index) => (
+                <Button
+                  key={index}
+                  onClick={() => setCurrentPage(index + 1)}
+                  variant={currentPage === index + 1 ? "filled" : "outlined"}
+                  className="rounded-full px-4 py-3"
+                >
+                  {index + 1}
+                </Button>
+              ))}
+            </div>
           </>
         ) : (
           <section className="mb-12 flex h-screen flex-col items-center justify-center">
