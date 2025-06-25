@@ -22,12 +22,6 @@ const MasterclassList = ({ masterclasses, loading }) => {
               <div className="p-4">
                 <h2 className="pl-2 text-lg">{mc.title}</h2>
 
-                <ReactQuill
-                  value={mc.description}
-                  readOnly={true}
-                  theme="bubble"
-                  className="line-clamp-3 text-sm text-gray-700"
-                />
                 <p className="pl-2 text-xs italic text-gray-700">
                   Catégorie : {mc.category?.title}
                 </p>
