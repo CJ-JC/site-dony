@@ -4,19 +4,13 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react()],
+  build: {
+    target: "es2015", // <== important pour Safari
+  },
   optimizeDeps: {
     include: ["dompurify"],
   },
   resolve: {
     alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
   },
-  // AJoute un proxy pour les requêtes API
-  // server: {
-  //   proxy: {
-  //     "/api": {
-  //       target: "http://localhost:8001",
-  //       changeOrigin: true,
-  //     },
-  //   },
-  // },
 });

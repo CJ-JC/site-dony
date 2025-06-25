@@ -31,6 +31,7 @@ const EditMasterclass = () => {
   const [selectedMasterclass, setSelectedMasterclass] = useState(null);
   const [instructorOptions, setInstructorOptions] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const CoursesImage = `https://${import.meta.env.VITE_AWS_S3_BUCKET}.s3.${
     import.meta.env.VITE_AWS_REGION
@@ -209,12 +210,14 @@ const EditMasterclass = () => {
       );
       return;
     }
-
+    setLoading(true);
     try {
       await axios.put(`${BASE_URL}/api/masterclass/update/${id}`, inputs);
       navigate("/administrator/masterclass");
     } catch (error) {
       setError(error.response?.data.message || "Une erreur est survenue");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -630,10 +633,13 @@ const EditMasterclass = () => {
           <div className="flex justify-center">
             <Button
               type="submit"
-              className="mt-6 dark:bg-white dark:text-black dark:hover:bg-gray-400"
+              className="mt-6"
+              disabled={loading}
               onClick={handleSubmit}
             >
-              Modifier la masterclasse
+              {loading
+                ? "Modification en cours..."
+                : "Modifier la masterclasse"}
             </Button>
           </div>
         </form>

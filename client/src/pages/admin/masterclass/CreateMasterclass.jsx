@@ -517,7 +517,7 @@ const CreateMasterclass = () => {
           </div>
           <div className="flex justify-center">
             <Button type="submit" className="mt-6" disabled={loading}>
-              {loading ? "Création..." : "Créer le cours"}
+              {loading ? "Création en cours..." : "Créer le cours"}
             </Button>
           </div>
         </form>

@@ -485,19 +485,7 @@ export function Home() {
                         style={{
                           backgroundImage: `url(${MasterclassImage}${mc.imageUrl})`,
                         }}
-                      >
-                        {/* <div className="absolute inset-0 bg-black/60" />
-
-                        <div className="absolute bottom-2 left-2 z-10 flex w-full justify-between px-2 text-sm font-semibold text-white">
-                          {new Date(mc.startDate).toLocaleDateString("fr-FR", {
-                            day: "numeric",
-                            month: "long",
-                            year: "numeric",
-                            hour: "numeric",
-                            minute: "numeric",
-                          })}
-                        </div> */}
-                      </div>
+                      ></div>
                       {/* Contenu */}
                       <div className="flex flex-1 flex-col space-y-3 p-4">
                         <div className="flex items-center justify-between">

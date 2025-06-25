@@ -251,7 +251,9 @@ const CreateReplay = () => {
         {/* Submit */}
         <div className="mx-auto flex justify-center">
           <div>
-            <Button type="submit">Uploader le Replay</Button>
+            <Button type="submit" className="mt-6" disabled={loading}>
+              {loading ? "Téléchargement en cours..." : "Télécharger le Replay"}
+            </Button>
           </div>
         </div>
       </form>
